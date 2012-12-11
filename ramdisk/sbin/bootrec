@@ -87,6 +87,7 @@ elif [ -e /cache/defaultboot_2 ]
 then
     boot2
 elif [ -e /cache/defaultboot_3 ]
+then
     boot3
 else
     boot1
@@ -191,11 +192,8 @@ ln -s /data/dalvik-cache /cache/dalvik-cache
     chown system:system /cache/dalvik-cache
     chmod 0771 /cache/dalvik-cache
 
-if [ ! -e /system/etc/turbo_patched_ics ]
-then
-    # restore framebuffer for JB
-    echo 1 > /sys/module/msm_fb/parameters/align_buffer
-fi
+# restore framebuffer for JB
+echo 1 > /sys/module/msm_fb/parameters/align_buffer
     
 #continue booting
 
