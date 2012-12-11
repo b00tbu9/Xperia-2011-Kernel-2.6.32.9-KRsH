@@ -16,7 +16,7 @@ stop adbd
 # fix framebuffer for recovery
 echo 0 > /sys/module/msm_fb/parameters/align_buffer
 
-if [ -s /dev/keycheck ]
+if [ -e /cache/recovery/boot -o -s /dev/keycheck ]
 then
   mount -o remount,rw rootfs /
   umount -l /system
@@ -37,7 +37,7 @@ then
   #touch /tmp/bootrec
 fi
 
-if [ -e /cache/recovery/boot -o -e /tmp/bootrec ]
+if [ -e /tmp/bootrec ]
 then
   rm /cache/recovery/boot
   rm /tmp/bootrec
