@@ -47,4 +47,55 @@ copyimage()
     fi
 }
 
+boot1()
+{
+    mount -t yaffs2 -o rw                            /dev/block/mtdblock0        /system
+    mount -t yaffs2 -o ro,remount                    /dev/block/mtdblock0        /system
+    mount -t yaffs2 -o rw,noatime,nosuid,nodev       /dev/block/mtdblock1        /data
+}
+
+boot2()
+{
+    umount /system
+    umount /data
+    mount -t ext2   -o rw,loop                       /sdcard/system2.ext2.img    /system
+    mount -t ext2   -o ro,loop,remount               /sdcard/system2.ext2.img    /system
+    mount -t ext2   -o rw,loop,noatime,nosuid,nodev  /sdcard/userdata2.ext2.img  /data
+}
+
+boot3()
+{
+    umount /system
+    umount /data
+    mount -t ext2   -o rw,loop                       /sdcard/system3.ext2.img    /system
+    mount -t ext2   -o ro,loop,remount               /sdcard/system3.ext2.img    /system
+    mount -t ext2   -o rw,loop,noatime,nosuid,nodev  /sdcard/userdata3.ext2.img  /data
+}
+
+mountproc()
+{
+    mount /dev/block/mmcblk0p1 /sdcard
+    if   [ -e /cache/multiboot1 ]
+        then
+            rm /cache/multiboot1
+            boot1
+        elif [ -e /cache/multiboot2 ]
+        then
+            rm /cache/multiboot2
+            boot2
+        elif [ -e /cache/multiboot3 ]
+        then
+            rm /cache/multiboot3
+            boot3
+        elif [ -e /cache/defaultboot_2 ]
+        then
+            boot2
+        elif [ -e /cache/defaultboot_3 ]
+        then
+            boot3
+        else
+            boot1
+    fi
+}
+
 $1 $1 $2 $3
