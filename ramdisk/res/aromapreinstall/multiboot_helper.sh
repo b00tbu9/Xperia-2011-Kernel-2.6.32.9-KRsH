@@ -47,13 +47,6 @@ copyimage()
     fi
 }
 
-boot1()
-{
-    mount -t yaffs2 -o rw                            /dev/block/mtdblock0        /system
-    mount -t yaffs2 -o ro,remount                    /dev/block/mtdblock0        /system
-    mount -t yaffs2 -o rw,noatime,nosuid,nodev       /dev/block/mtdblock1        /data
-}
-
 boot2()
 {
     umount /system
@@ -78,30 +71,22 @@ mountproc()
     if   [ -e /cache/multiboot1 ]
     then
         rm /cache/multiboot1
-        boot1
     elif [ -e /cache/multiboot2 ]
     then
         rm /cache/multiboot2
         boot2
-        multifix
     elif [ -e /cache/multiboot3 ]
     then
         rm /cache/multiboot3
         boot3
-        multifix
     elif [ -e /cache/defaultboot_2 ]
     then
         boot2
-        multifix
     elif [ -e /cache/defaultboot_3 ]
     then
         boot3
-        multifix
-    else
-        boot1
     fi
-    
-    setprop vold.post_fs_data_done 1
+    multifix
 }
 
 multifix()
@@ -203,6 +188,8 @@ multifix()
     # the following directory.
     mkdir -p -m 0770 /data/drm
     chown drm:drm /data/drm
+    
+    setprop vold.post_fs_data_done 1
     
 }
 
