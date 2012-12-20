@@ -17,8 +17,7 @@ on post-fs-data
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     chown dhcp dhcp /data/misc/dhcp
 
-    # Let multiboot_helper do this instead
-    #setprop vold.post_fs_data_done 1
+    setprop vold.post_fs_data_done 1
 
 on fs
    #mount_all /fstab.semc
