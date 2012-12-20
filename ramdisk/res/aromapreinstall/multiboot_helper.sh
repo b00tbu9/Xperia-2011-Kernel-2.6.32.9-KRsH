@@ -75,18 +75,21 @@ mountproc()
     then
         rm /cache/multiboot2
         boot2
+        multifix
     elif [ -e /cache/multiboot3 ]
     then
         rm /cache/multiboot3
         boot3
+        multifix
     elif [ -e /cache/defaultboot_2 ]
     then
         boot2
+        multifix
     elif [ -e /cache/defaultboot_3 ]
     then
         boot3
+        multifix
     fi
-    multifix
 }
 
 multifix()
