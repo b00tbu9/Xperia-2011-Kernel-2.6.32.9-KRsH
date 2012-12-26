@@ -31,6 +31,11 @@ then
   mkdir /etc
   #umount -l /cache
   mount /dev/block/mmcblk0p1 /sdcard
+  if [ -e /cache/turbo_repair.ready2copy ]
+  then
+    rm /cache/turbo_repair.ready2copy
+    mv /cache/turbo_repair.log /sdcard/turbo_repair.log
+  fi
   chmod 755 /res/aromapreinstall/aroma-installer
   chmod 755 /res/aromapreinstall/*.sh
   /res/aromapreinstall/aroma-installer 1 0 "/res/aromapreinstall/aroma-installer-res.zip"
