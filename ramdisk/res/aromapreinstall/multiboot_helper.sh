@@ -90,6 +90,13 @@ mountproc()
         boot3
         multifix
     fi
+    
+    # App2SD Fix (thanks to LSS4181)
+    mount -o remount,rw /
+    rm -r /mnt/secure/asec
+    ln -s /sdcard/.android_secure /mnt/secure
+    mv /mnt/secure/.android_secure /mnt/secure/asec
+    mount -o remount,ro /
 }
 
 multifix()
