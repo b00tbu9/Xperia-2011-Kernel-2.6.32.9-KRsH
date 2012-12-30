@@ -40,13 +40,15 @@ fixpermissions()
     if [ "$2" == "1" ]; then
         echo "### About to repair permissions for Internal system... " >> /cache/turbo_repair.log
         echo "###" >> /cache/turbo_repair.log
-        mount -o rw /dev/block/mtdblock1 /data >> /cache/turbo_repair.log
+        mount -t yaffs2 -o rw /dev/block/mtdblock0 /system >> /cache/turbo_repair.log
+        mount -t yaffs2 -o rw /dev/block/mtdblock1 /data >> /cache/turbo_repair.log
         /sbin/fix_permissions >> /cache/turbo_repair.log
     else
         if [ -e /sdcard/userdata$2.ext2.img ]; then
             echo "### About to repair permissions for Slot $2... " >> /cache/turbo_repair.log
             echo "###" >> /cache/turbo_repair.log
-            mount -t ext2   -o rw,loop,noatime,nosuid,nodev  /sdcard/userdata$2.ext2.img  /data >> /cache/turbo_repair.log
+            mount -t ext2 -o rw,loop,noatime,nosuid,nodev  /sdcard/system$2.ext2.img  /system >> /cache/turbo_repair.log
+            mount -t ext2 -o rw,loop,noatime,nosuid,nodev  /sdcard/userdata$2.ext2.img  /data >> /cache/turbo_repair.log
             /sbin/fix_permissions >> /cache/turbo_repair.log
         else
             echo "### Slot $2 has no userdata image, fix permissions skipped. " >> /cache/turbo_repair.log
