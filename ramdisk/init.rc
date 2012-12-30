@@ -120,13 +120,6 @@ on fs
     mount yaffs2 mtd@system /system ro remount
     mount yaffs2 mtd@userdata /data nosuid nodev
     mount yaffs2 mtd@cache /cache nosuid nodev
-    export EXTERNAL_STORAGE /storage/sdcard0
-    mkdir /storage 0050 system sdcard_r
-    mkdir /storage/sdcard0 0000 system system
-    # for backwards compatibility
-    symlink /storage/sdcard0 /sdcard
-    symlink /storage/sdcard0 /mnt/sdcard
-    
 
 on post-fs
     # once everything is setup, no need to modify /
