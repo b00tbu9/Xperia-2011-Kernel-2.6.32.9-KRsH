@@ -3,7 +3,7 @@ echo "  bcm4329.ko added to ramdisk"
 cd ramdisk
 find . | cpio -o -H newc | gzip > ../ramdisk.img
 cd ..
-#./mkbootimg --base 0x00200000 --kernel ./arch/arm/boot/zImage --ramdisk ramdisk.img -o boot.img
-./mkbootimg --base 0x00200000 --kernel ./arch/arm/boot/Image --ramdisk ramdisk.img -o boot.img
+./mkbootimg --base 0x00200000 --kernel ./arch/arm/boot/zImage --ramdisk ramdisk.img -o boot.img
+#./mkbootimg --base 0x00200000 --kernel ./arch/arm/boot/Image --ramdisk ramdisk.img -o boot.img
 rm ramdisk.img
 echo "  boot.img ready"
