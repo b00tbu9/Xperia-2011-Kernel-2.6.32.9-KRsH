@@ -254,12 +254,9 @@
 /*
  * Configuration information
  */
-//#define INPUT_POOL_WORDS 128
-#define INPUT_POOL_WORDS 512
-//#define OUTPUT_POOL_WORDS 32
-#define OUTPUT_POOL_WORDS 128
-//#define SEC_XFER_SIZE 512
-#define SEC_XFER_SIZE 1024
+#define INPUT_POOL_WORDS 128
+#define OUTPUT_POOL_WORDS 32
+#define SEC_XFER_SIZE 512
 
 /*
  * The minimum number of bits of entropy before we wake up a read on
