@@ -60,7 +60,7 @@ boot3()
 {
     umount /system
     umount /data
-    mount -t ext2   -o ro,loop,remount               /sdcard/system3.ext2.img    /system
+    mount -t ext2   -o ro,loop                       /sdcard/system3.ext2.img    /system
     mount -t ext2   -o rw,loop,noatime,nosuid,nodev  /sdcard/userdata3.ext2.img  /data
 }
 
