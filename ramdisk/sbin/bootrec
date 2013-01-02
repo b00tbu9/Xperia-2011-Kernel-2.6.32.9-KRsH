@@ -1,17 +1,9 @@
 #!/sbin/sh
-setprop service.adb.root 1
+#setprop service.adb.root 1
 if [ -e /sbin/bootrec-device ]
 then
   /sbin/bootrec-device
 fi
-
-# let's force adb mode on startup, because AOSP/CM10 are stupid and disable it by default
-echo 0 > /sys/class/android_usb/android0/enable
-echo 0fce > /sys/class/android_usb/android0/idVendor 
-echo 614f > /sys/class/android_usb/android0/idProduct
-echo "mass_storage,adb" > /sys/class/android_usb/android0/functions
-echo 1 > /sys/class/android_usb/android0/enable
-stop adbd
 
 # fix framebuffer for recovery
 echo 0 > /sys/module/msm_fb/parameters/align_buffer
@@ -48,7 +40,7 @@ then
   rm /tmp/bootrec
   umount -l /cache
   mount /dev/block/mmcblk0p1 /sdcard
-  /sbin/recovery&/sbin/adbd
+  /sbin/adbd&/sbin/recovery
 fi
     
 # Couldn't be bothered doing this in init syntax (I'm ignorant) so we'll link dalvik here instead
