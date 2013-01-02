@@ -4,7 +4,7 @@ on early-boot
     #Run pre_hw_config.sh before entering charge only mode.
     exec /sbin/sh /system/etc/pre_hw_config.sh
     #offline charing
-    #exec /system/bin/chargemon
+    exec /system/bin/chargemon
     # Boot into recovery
     exec /sbin/bootrec
 
