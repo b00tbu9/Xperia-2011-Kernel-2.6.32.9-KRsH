@@ -1,5 +1,16 @@
 #!/sbin/sh
 
+checkfresh()
+{
+    if [ ! -e /sdcard/turbo/version.prop ]; then
+        echo "1";
+        mkdir /sdcard/turbo
+        uname -r > /sdcard/turbo/version.prop;
+    else
+        echo "0";
+    fi     
+}
+
 checkslot()
 {
     if [ ! -e /sdcard/system$2.ext2.img -o ! -e /sdcard/userdata$2.ext2.img ]; then 
@@ -81,11 +92,11 @@ mountproc()
         rm /cache/multiboot3
         boot3
         multifix
-    elif [ -e /cache/defaultboot_2 ]
+    elif [ -e /sdcard/turbo/defaultboot_2 ]
     then
         boot2
         multifix
-    elif [ -e /cache/defaultboot_3 ]
+    elif [ -e /sdcard/turbo/defaultboot_3 ]
     then
         boot3
         multifix

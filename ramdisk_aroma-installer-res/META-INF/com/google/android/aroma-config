@@ -37,32 +37,43 @@ theme("cosmicui");
 fontresload( "0", "ttf/Comfortaa.ttf", "14" ); #-- small
 fontresload( "1", "ttf/Comfortaa.ttf", "20" ); #-- big
 
+exec("/res/aromapreinstall/multiboot_helper.sh", "checkfresh");
+if getvar("exec_buffer") == "1\n"
+then
+    textbox(
+        "Welcome to Turbo Kernel",
+        "This message will only appear once - be sure to read it!",
+        "@about",
+        resread("fresh.txt")
+    );
+endif;
+
 #####
 ##### CUSTOMIZATION
 #####
 
 # slot1
-if file_getprop("/cache/slot1.prop","currentslot")=="turbo" then
+if file_getprop("/sdcard/turbo/slot1.prop","currentslot")=="turbo" then
     setvar("slot1custom", "true");
     setvar("slot1icon", "@turbo");
     setvar("slot1text", "Boot Turbo UI in Slot 1");
 endif;
-if file_getprop("/cache/slot1.prop","currentslot")=="slimbean" then
+if file_getprop("/sdcard/turbo/slot1.prop","currentslot")=="slimbean" then
     setvar("slot1custom", "true");
     setvar("slot1icon", "@slimbean");
     setvar("slot1text", "Boot SlimBean in Slot 1");
 endif;
-if file_getprop("/cache/slot1.prop","currentslot")=="pac" then
+if file_getprop("/sdcard/turbo/slot1.prop","currentslot")=="pac" then
     setvar("slot1custom", "true");
     setvar("slot1icon", "@pac");
     setvar("slot1text", "Boot P.A.C. Man in Slot 1");
 endif;
-if file_getprop("/cache/slot1.prop","currentslot")=="jellyzeus" then
+if file_getprop("/sdcard/turbo/slot1.prop","currentslot")=="jellyzeus" then
     setvar("slot1custom", "true");
     setvar("slot1icon", "@jellyzeus");
     setvar("slot1text", "Boot Jellyzeus in Slot 1");
 endif;
-if file_getprop("/cache/slot1.prop","currentslot")=="cm10" then
+if file_getprop("/sdcard/turbo/slot1.prop","currentslot")=="cm10" then
     setvar("slot1custom", "true");
     setvar("slot1icon", "@cm10");
     setvar("slot1text", "Boot CyanogenMod 10 in Slot 1");
@@ -73,27 +84,27 @@ if getvar("slot1custom")!="true" then
 endif;
 
 # slot2
-if file_getprop("/cache/slot2.prop","currentslot")=="turbo" then
+if file_getprop("/sdcard/turbo/slot2.prop","currentslot")=="turbo" then
     setvar("slot2custom", "true");
     setvar("slot2icon", "@turbo");
     setvar("slot2text", "Boot Turbo UI in Slot 2");
 endif;
-if file_getprop("/cache/slot2.prop","currentslot")=="slimbean" then
+if file_getprop("/sdcard/turbo/slot2.prop","currentslot")=="slimbean" then
     setvar("slot2custom", "true");
     setvar("slot2icon", "@slimbean");
     setvar("slot2text", "Boot SlimBean in Slot 2");
 endif;
-if file_getprop("/cache/slot2.prop","currentslot")=="pac" then
+if file_getprop("/sdcard/turbo/slot2.prop","currentslot")=="pac" then
     setvar("slot2custom", "true");
     setvar("slot2icon", "@pac");
     setvar("slot2text", "Boot P.A.C. Man in Slot 2");
 endif;
-if file_getprop("/cache/slot2.prop","currentslot")=="jellyzeus" then
+if file_getprop("/sdcard/turbo/slot2.prop","currentslot")=="jellyzeus" then
     setvar("slot2custom", "true");
     setvar("slot2icon", "@jellyzeus");
     setvar("slot2text", "Boot Jellyzeus in Slot 2");
 endif;
-if file_getprop("/cache/slot2.prop","currentslot")=="cm10" then
+if file_getprop("/sdcard/turbo/slot2.prop","currentslot")=="cm10" then
     setvar("slot2custom", "true");
     setvar("slot2icon", "@cm10");
     setvar("slot2text", "Boot CyanogenMod 10 in Slot 2");
@@ -104,27 +115,27 @@ if getvar("slot2custom")!="true" then
 endif;
 
 # slot3
-if file_getprop("/cache/slot3.prop","currentslot")=="turbo" then
+if file_getprop("/sdcard/turbo/slot3.prop","currentslot")=="turbo" then
     setvar("slot3custom", "true");
     setvar("slot3icon", "@turbo");
     setvar("slot3text", "Boot Turbo UI in Slot 3");
 endif;
-if file_getprop("/cache/slot3.prop","currentslot")=="slimbean" then
+if file_getprop("/sdcard/turbo/slot3.prop","currentslot")=="slimbean" then
     setvar("slot3custom", "true");
     setvar("slot3icon", "@slimbean");
     setvar("slot3text", "Boot SlimBean in Slot 3");
 endif;
-if file_getprop("/cache/slot3.prop","currentslot")=="pac" then
+if file_getprop("/sdcard/turbo/slot3.prop","currentslot")=="pac" then
     setvar("slot3custom", "true");
     setvar("slot3icon", "@pac");
     setvar("slot3text", "Boot P.A.C. Man in Slot 3");
 endif;
-if file_getprop("/cache/slot3.prop","currentslot")=="jellyzeus" then
+if file_getprop("/sdcard/turbo/slot3.prop","currentslot")=="jellyzeus" then
     setvar("slot3custom", "true");
     setvar("slot3icon", "@jellyzeus");
     setvar("slot3text", "Boot Jellyzeus in Slot 3");
 endif;
-if file_getprop("/cache/slot3.prop","currentslot")=="cm10" then
+if file_getprop("/sdcard/turbo/slot3.prop","currentslot")=="cm10" then
     setvar("slot3custom", "true");
     setvar("slot3icon", "@cm10");
     setvar("slot3text", "Boot CyanogenMod 10 in Slot 3");
@@ -189,8 +200,8 @@ if prop("systemselect.prop","selected")=="1" then
     
     if prop("systemtask.prop","selected.2")=="1" then
         alert("Default","Your device will automatically boot to this ROM from now on.\n\nTo change this, simply return to the Boot Menu.", "@cog");
-        exec("/sbin/busybox","rm","/cache/defaultboot_2");
-        exec("/sbin/busybox","rm","/cache/defaultboot_3");
+        exec("/sbin/busybox","rm","/sdcard/turbo/defaultboot_2");
+        exec("/sbin/busybox","rm","/sdcard/turbo/defaultboot_3");
     endif;
     
     if prop("systemtask.prop","selected.1")=="1" then
@@ -268,8 +279,8 @@ if prop("systemselect.prop","selected")=="2" then
     
     if prop("systemtask.prop","selected.2")=="1" then
         alert("Default","Your device will automatically boot to the second slot from now on.\n\nTo change this, simply return to this Boot Menu and set a new default.", "@cog");
-        write("/cache/defaultboot_2","1");
-        exec("/sbin/busybox","rm","/cache/defaultboot_3");
+        write("/sdcard/turbo/defaultboot_2","1");
+        exec("/sbin/busybox","rm","/sdcard/turbo/defaultboot_3");
     endif;
     
     if prop("systemtask.prop","selected.1")=="1" then
@@ -347,8 +358,8 @@ if prop("systemselect.prop","selected")=="3" then
     
     if prop("systemtask.prop","selected.2")=="1" then
         alert("Default","Your device will automatically boot to the third slot from now on.\n\nTo change this, simply return to this Boot Menu and set a new default.", "@cog");
-        write("/cache/defaultboot_3","1");
-        exec("/sbin/busybox","rm","/cache/defaultboot_2");
+        write("/sdcard/turbo/defaultboot_3","1");
+        exec("/sbin/busybox","rm","/sdcard/turbo/defaultboot_2");
     endif;
     
     if prop("systemtask.prop","selected.1")=="1" then
@@ -411,22 +422,22 @@ if prop("systemselect.prop","selected")=="4" then
             "None/Other",  "Boot or use Recovery for the main ROM",                                      "@slot1"
         );
         if prop("slotcustomizeentry.prop","selected")=="1" then
-            write("/cache/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=turbo");
+            write("/sdcard/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=turbo");
         endif;
         if prop("slotcustomizeentry.prop","selected")=="2" then
-            write("/cache/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=slimbean");
+            write("/sdcard/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=slimbean");
         endif;
         if prop("slotcustomizeentry.prop","selected")=="3" then
-            write("/cache/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=pac");
+            write("/sdcard/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=pac");
         endif;
         if prop("slotcustomizeentry.prop","selected")=="4" then
-            write("/cache/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=jellyzeus");
+            write("/sdcard/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=jellyzeus");
         endif;
         if prop("slotcustomizeentry.prop","selected")=="5" then
-            write("/cache/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=cm10");
+            write("/sdcard/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=cm10");
         endif;
         if prop("slotcustomizeentry.prop","selected")=="6" then
-            write("/cache/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=other");
+            write("/sdcard/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=other");
         endif;
         back("999");
     endif;
