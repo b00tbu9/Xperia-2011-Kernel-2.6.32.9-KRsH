@@ -94,7 +94,7 @@ mountproc()
     # App2SD Fix (thanks to LSS4181)
     mount -o remount,rw /
     rm -r /mnt/secure/asec
-    ln -s /sdcard/.android_secure /mnt/secure
+    mount -o bind /sdcard/.android_secure /mnt/secure/asec
     mv /mnt/secure/.android_secure /mnt/secure/asec
     mount -o remount,ro /
 }
