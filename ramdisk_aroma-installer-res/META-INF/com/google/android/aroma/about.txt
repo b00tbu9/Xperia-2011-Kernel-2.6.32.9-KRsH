@@ -1,0 +1,11 @@
+<@center><u><b>Turbo JB Kernel</b></u></@>
+
+<@center>Developed by CosmicDan, Kamarush and Irii</@>
+
+<@fill>Turbo JB Kernel is based on stock ICS kernel with many custom improvements and backports - tailored specifically for performance and reliability on MSM7x30 Sony devices (the Xperia 2011 line).</@>
+
+<b>Additional credits:</b>
+<*>Cyanogenmod and Jerpelea (FreeXperia)</*>
+<*>Wedgess, cj360, paxChristos, KeiranFTW, Nickholtus and SuperVenom</*>
+<*>Fellow members of MIUI Australia - LennyKano, FusionJack and Dekky</*>
+<*>Special thanks to Amarullz (creator of this GUI engine) and the XDA community</*>

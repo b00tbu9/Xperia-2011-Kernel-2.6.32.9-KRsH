@@ -1,0 +1,539 @@
+### LICENSE:
+#
+# Copyright (C) 2011 Ahmad Amarullah ( http://amarullz.com/ )
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+ini_set("text_ok", "OK");
+ini_set("text_next", "Next >");
+ini_set("text_back", "< Back");
+ini_set("text_yes", "Yes");
+ini_set("text_no", "No");
+ini_set("text_about", "About");
+ini_set("text_calibrating", "Calibrating Tools");
+ini_set("text_quit", "Quit Installation");
+ini_set("text_quit_msg", "Quit and boot default ROM?");
+ini_set("text_install", "Install");
+ini_set("text_apply", "Apply");
+ini_set("text_finish", "Finish");
+ini_set("text_none", "None");
+ini_set("force_colorspace","bgra");
+
+calibrate("0.8939","43","0.9616","25");
+
+theme("cosmicui");
+
+fontresload( "0", "ttf/Comfortaa.ttf", "14" ); #-- small
+fontresload( "1", "ttf/Comfortaa.ttf", "20" ); #-- big
+
+#####
+##### CUSTOMIZATION
+#####
+
+# slot1
+if file_getprop("/cache/slot1.prop","currentslot")=="turbo" then
+    setvar("slot1custom", "true");
+    setvar("slot1icon", "@turbo");
+    setvar("slot1text", "Boot Turbo UI in Slot 1");
+endif;
+if file_getprop("/cache/slot1.prop","currentslot")=="slimbean" then
+    setvar("slot1custom", "true");
+    setvar("slot1icon", "@slimbean");
+    setvar("slot1text", "Boot SlimBean in Slot 1");
+endif;
+if file_getprop("/cache/slot1.prop","currentslot")=="pac" then
+    setvar("slot1custom", "true");
+    setvar("slot1icon", "@pac");
+    setvar("slot1text", "Boot P.A.C. Man in Slot 1");
+endif;
+if file_getprop("/cache/slot1.prop","currentslot")=="jellyzeus" then
+    setvar("slot1custom", "true");
+    setvar("slot1icon", "@jellyzeus");
+    setvar("slot1text", "Boot Jellyzeus in Slot 1");
+endif;
+if file_getprop("/cache/slot1.prop","currentslot")=="cm10" then
+    setvar("slot1custom", "true");
+    setvar("slot1icon", "@cm10");
+    setvar("slot1text", "Boot CyanogenMod 10 in Slot 1");
+endif;
+if getvar("slot1custom")!="true" then
+    setvar("slot1icon", "@slot1");
+    setvar("slot1text", "Boot or use Recovery for the main ROM");
+endif;
+
+# slot2
+if file_getprop("/cache/slot2.prop","currentslot")=="turbo" then
+    setvar("slot2custom", "true");
+    setvar("slot2icon", "@turbo");
+    setvar("slot2text", "Boot Turbo UI in Slot 2");
+endif;
+if file_getprop("/cache/slot2.prop","currentslot")=="slimbean" then
+    setvar("slot2custom", "true");
+    setvar("slot2icon", "@slimbean");
+    setvar("slot2text", "Boot SlimBean in Slot 2");
+endif;
+if file_getprop("/cache/slot2.prop","currentslot")=="pac" then
+    setvar("slot2custom", "true");
+    setvar("slot2icon", "@pac");
+    setvar("slot2text", "Boot P.A.C. Man in Slot 2");
+endif;
+if file_getprop("/cache/slot2.prop","currentslot")=="jellyzeus" then
+    setvar("slot2custom", "true");
+    setvar("slot2icon", "@jellyzeus");
+    setvar("slot2text", "Boot Jellyzeus in Slot 2");
+endif;
+if file_getprop("/cache/slot2.prop","currentslot")=="cm10" then
+    setvar("slot2custom", "true");
+    setvar("slot2icon", "@cm10");
+    setvar("slot2text", "Boot CyanogenMod 10 in Slot 2");
+endif;
+if getvar("slot2custom")!="true" then
+    setvar("slot2icon", "@slot2");
+    setvar("slot2text", "Boot or use Recovery for the second slot");
+endif;
+
+# slot3
+if file_getprop("/cache/slot3.prop","currentslot")=="turbo" then
+    setvar("slot3custom", "true");
+    setvar("slot3icon", "@turbo");
+    setvar("slot3text", "Boot Turbo UI in Slot 3");
+endif;
+if file_getprop("/cache/slot3.prop","currentslot")=="slimbean" then
+    setvar("slot3custom", "true");
+    setvar("slot3icon", "@slimbean");
+    setvar("slot3text", "Boot SlimBean in Slot 3");
+endif;
+if file_getprop("/cache/slot3.prop","currentslot")=="pac" then
+    setvar("slot3custom", "true");
+    setvar("slot3icon", "@pac");
+    setvar("slot3text", "Boot P.A.C. Man in Slot 3");
+endif;
+if file_getprop("/cache/slot3.prop","currentslot")=="jellyzeus" then
+    setvar("slot3custom", "true");
+    setvar("slot3icon", "@jellyzeus");
+    setvar("slot3text", "Boot Jellyzeus in Slot 3");
+endif;
+if file_getprop("/cache/slot3.prop","currentslot")=="cm10" then
+    setvar("slot3custom", "true");
+    setvar("slot3icon", "@cm10");
+    setvar("slot3text", "Boot CyanogenMod 10 in Slot 3");
+endif;
+if getvar("slot3custom")!="true" then
+    setvar("slot3icon", "@slot3");
+    setvar("slot3text", "Boot or use Recovery for the third slot");
+endif;
+
+
+#####
+##### MAIN MENU
+#####
+
+menubox("Boot Menu",
+            "Please select the system you wish to use.",
+            "@cog",
+            "systemselect.prop",
+            "Internal", getvar("slot1text"),  getvar("slot1icon"),
+            "Second",   getvar("slot2text"),  getvar("slot2icon"),
+            "Third",    getvar("slot3text"),  getvar("slot3icon"),
+            "Tools",    "Perform various maintenance or customization tasks", "@cog",
+            "About",    "Information and credits about the kernel",           "@about"
+);
+
+ini_set("text_next", "OK");
+
+########
+# SLOT 1
+########
+
+if prop("systemselect.prop","selected")=="1" then
+    selectbox("Internal",
+            "Please select your desired operation.",
+            "@disk",
+            "systemtask.prop",
+            "Task",             "",                                                          2,   # selected.1
+            "Boot",             "Boot the ROM now",                                          1,
+            "Recovery",         "Enter Recovery for this ROM",                               0,
+            "Fix Wifi",         "If Wifi does not work, use this to force a module install", 0,
+            "Save as default",  "",                                                          2,   # selected.2
+            "Yes",              "Internal will boot as default from now on",                 0,
+            "No",               "Just this time only (unless already saved as default)",     1
+    );
+    
+    if prop("systemtask.prop","selected.1")=="2" then
+        write("/tmp/bootrec","1");
+        exec("/sbin/busybox","cp","/recovery.fstab", "/etc/recovery.fstab");
+    endif;
+
+    if prop("systemtask.prop","selected.1")=="3" then
+        pleasewait("Copying Wifi module to Slot 1...");
+        exec("/sbin/busybox","mount", "-w", "-t", "yaffs2", "/dev/block/mtdblock0", "/system");
+        exec("/sbin/busybox","mkdir", "-p", "/system/lib/modules");
+        exec("/sbin/busybox","cp", "-f", "/modules/bcm4329.ko", "/system/lib/modules/bcm4329.ko");
+        exec("/sbin/busybox","chmod","664", "/system/lib/modules/bcm4329.ko");
+        exec("/sbin/busybox","umount", "/system");
+        alert("Fix Wifi","The Wifi module has been forcibly installed to this slot.\n\nYour device will now reboot.", "@cog");
+        pleasewait("Rebooting...");
+        reboot("now");
+    endif;
+    
+    if prop("systemtask.prop","selected.2")=="1" then
+        alert("Default","Your device will automatically boot to this ROM from now on.\n\nTo change this, simply return to the Boot Menu.", "@cog");
+        exec("/sbin/busybox","rm","/cache/defaultboot_2");
+        exec("/sbin/busybox","rm","/cache/defaultboot_3");
+    endif;
+    
+    if prop("systemtask.prop","selected.1")=="1" then
+        write("/cache/multiboot1","1");
+        pleasewait("Booting into Slot 1...");
+        reboot("now");
+    endif;
+endif;
+
+########
+# SLOT 2
+########
+
+if prop("systemselect.prop","selected")=="2" then
+    exec("/res/aromapreinstall/multiboot_helper.sh", "checkslot", "2");
+    if getvar("exec_buffer") == "1\n"
+    then
+        selectbox("Second slot empty",
+            "The second slot is empty and must be set up.",
+            "@disk",
+            "slottask.prop",
+            "System",             "",                                                                    2,   # selected.1
+            "Blank",              "System partition will be created blank (faster, recommended)",        1,
+            "Copy from internal", "System partition will be a duplicate of internal (experimental)",     0,
+            "Userdata",           "",                                                                    2,   # selected.2
+            "Blank",              "Userdata partition will be created blank (faster, recommended)",      1,
+            "Copy from internal", "Userdata partition will be a duplicate of internal (experimental)",   0
+        );
+        alert("Second slot setup","The second slot will now be set up based on your options.\n\nNote that this could take from five to ten minutes, especially if you have a slow SDCard or are copying from a large system and userdata on internal.\n\nOnce pressing OK, the device may seem to freeze (Aroma issue?) but it isn't - just wait. Your device will automatically reboot when finished. If it gets stuck after ten minutes, please pull battery and check your SDCard for errors.", "@cog");
+        pleasewait("Generating system image...");
+        exec("/res/aromapreinstall/multiboot_helper.sh", "makeimage", "2", "system");
+        pleasewait("Generating userdata image...");
+        exec("/res/aromapreinstall/multiboot_helper.sh", "makeimage", "2", "userdata");
+        if prop("slottask.prop","selected.1")=="2" then
+            pleasewait("Copying internal system...");
+            exec("/res/aromapreinstall/multiboot_helper.sh", "copyimage", "2", "system");
+        endif;
+        if prop("slottask.prop","selected.2")=="2" then
+            pleasewait("Copying internal userdata...");
+            exec("/res/aromapreinstall/multiboot_helper.sh", "copyimage", "2", "userdata");
+        endif;
+        alert("Second slot setup","All done! You can now boot and perform CWM-Recovery tasks on this slot.\n\nREMEMBER: Nandroid backups on second/third slots are incompatible with internal ROM. Also, *never* unmount the SDCard in Recovery or you may corrupt your system.", "@cog");
+        pleasewait("Rebooting...");
+        reboot("now");
+    endif;
+    selectbox("Second slot",
+            "Please select your desired operation.",
+            "@disk",
+            "systemtask.prop",
+            "Task",             "",                                                          2,   # selected.1
+            "Boot",             "Boot the ROM now",                                          1,
+            "Recovery",         "Enter Recovery for this ROM",                               0,
+            "Fix Wifi",         "If Wifi does not work, use this to force a module install", 0,
+            "Save as default",  "",                                                          2,   # selected.2
+            "Yes",              "Second slot will boot as default from now on",              0,
+            "No",               "Just this time only (unless already saved as default)",     1
+    );
+    
+    if prop("systemtask.prop","selected.1")=="2" then
+        write("/tmp/bootrec","1");
+        exec("/sbin/busybox","cp","/recovery2.fstab", "/etc/recovery.fstab");
+    endif;
+    
+    if prop("systemtask.prop","selected.1")=="3" then
+        pleasewait("Copying Wifi module to Slot 2...");
+        exec("/sbin/busybox","mount", "-w", "-t", "ext2", "/sdcard/system2.ext2.img", "/system");
+        exec("/sbin/busybox","mkdir", "-p", "/system/lib/modules");
+        exec("/sbin/busybox","cp", "-f", "/modules/bcm4329.ko", "/system/lib/modules/bcm4329.ko");
+        exec("/sbin/busybox","chmod","664", "/system/lib/modules/bcm4329.ko");
+        exec("/sbin/busybox","umount", "/system");
+        alert("Fix Wifi","The Wifi module has been forcibly installed to this slot.\n\nYour device will now reboot.", "@cog");
+        pleasewait("Rebooting...");
+        reboot("now");
+    endif;
+    
+    if prop("systemtask.prop","selected.2")=="1" then
+        alert("Default","Your device will automatically boot to the second slot from now on.\n\nTo change this, simply return to this Boot Menu and set a new default.", "@cog");
+        write("/cache/defaultboot_2","1");
+        exec("/sbin/busybox","rm","/cache/defaultboot_3");
+    endif;
+    
+    if prop("systemtask.prop","selected.1")=="1" then
+        write("/cache/multiboot2","1");
+        pleasewait("Booting into Slot 2...");
+        reboot("now");
+    endif;
+endif;
+
+########
+# SLOT 3
+########
+
+if prop("systemselect.prop","selected")=="3" then
+    exec("/res/aromapreinstall/multiboot_helper.sh", "checkslot", "3");
+    if getvar("exec_buffer") == "1\n"
+    then
+        selectbox("Third slot empty",
+            "The third slot is empty and must be set up.",
+            "@disk",
+            "slottask.prop",
+            "System",             "",                                                                    2,   # selected.1
+            "Blank",              "System partition will be created blank (faster, recommended)",        1,
+            "Copy from internal", "System partition will be a duplicate of internal (experimental)",     0,
+            "Userdata",           "",                                                                    2,   # selected.2
+            "Blank",              "Userdata partition will be created blank (faster, recommended)",      1,
+            "Copy from internal", "Userdata partition will be a duplicate of internal (experimental)",   0
+        );
+        alert("Third slot setup","The third slot will now be set up based on your options.\n\nNote that this could take from five to ten minutes, especially if you have a slow SDCard or are copying from a large system and userdata on internal.\n\nOnce pressing OK, the device may seem to freeze (Aroma issue?) but it isn't - just wait. Your device will automatically reboot when finished. If it gets stuck after ten minutes, please pull battery and check your SDCard for errors.", "@cog");
+        pleasewait("Generating system image...");
+        exec("/res/aromapreinstall/multiboot_helper.sh", "makeimage", "3", "system");
+        pleasewait("Generating userdata image...");
+        exec("/res/aromapreinstall/multiboot_helper.sh", "makeimage", "3", "userdata");
+        if prop("slottask.prop","selected.1")=="2" then
+            pleasewait("Copying internal system...");
+            exec("/res/aromapreinstall/multiboot_helper.sh", "copyimage", "3", "system");
+        endif;
+        if prop("slottask.prop","selected.2")=="2" then
+            pleasewait("Copying internal userdata...");
+            exec("/res/aromapreinstall/multiboot_helper.sh", "copyimage", "3", "userdata");
+        endif;
+        alert("Third slot setup","All done! You can now boot and perform CWM-Recovery tasks on this slot.\n\nREMEMBER: Nandroid backups on second/third slots are incompatible with internal ROM. Also, *never* unmount the SDCard in Recovery or you may corrupt your system.", "@cog");
+        pleasewait("Rebooting...");
+        reboot("now");
+    endif;
+    selectbox("Third slot",
+            "Please select your desired operation.",
+            "@disk",
+            "systemtask.prop",
+            "Task",             "",                                                          2,   # selected.1
+            "Boot",             "Boot the ROM now",                                          1,
+            "Recovery",         "Enter Recovery for this ROM",                               0,
+            "Fix Wifi",         "If Wifi does not work, use this to force a module install", 0,
+            "Save as default",  "",                                                          2,   # selected.2
+            "Yes",              "Third slot will boot as default from now on",               0,
+            "No",               "Just this time only (unless already saved as default)",     1
+    );
+    
+    if prop("systemtask.prop","selected.1")=="2" then
+        write("/tmp/bootrec","1");
+        exec("/sbin/busybox","cp","/recovery3.fstab", "/etc/recovery.fstab");
+    endif;
+    
+    if prop("systemtask.prop","selected.1")=="3" then
+        pleasewait("Copying Wifi module to Slot 3...");
+        exec("/sbin/busybox","mount", "-w", "-t", "ext2", "/sdcard/system3.ext2.img", "/system");
+        exec("/sbin/busybox","mkdir", "-p", "/system/lib/modules");
+        exec("/sbin/busybox","cp", "-f", "/modules/bcm4329.ko", "/system/lib/modules/bcm4329.ko");
+        exec("/sbin/busybox","chmod","664", "/system/lib/modules/bcm4329.ko");
+        exec("/sbin/busybox","umount", "/system");
+        alert("Fix Wifi","The Wifi module has been forcibly installed to this slot.\n\nYour device will now reboot.", "@cog");
+        pleasewait("Rebooting...");
+        reboot("now");
+    endif;
+    
+    if prop("systemtask.prop","selected.2")=="1" then
+        alert("Default","Your device will automatically boot to the third slot from now on.\n\nTo change this, simply return to this Boot Menu and set a new default.", "@cog");
+        write("/cache/defaultboot_3","1");
+        exec("/sbin/busybox","rm","/cache/defaultboot_2");
+    endif;
+    
+    if prop("systemtask.prop","selected.1")=="1" then
+        write("/cache/multiboot3","1");
+        pleasewait("Booting into Slot 3...");
+        reboot("now");
+    endif;
+endif;
+
+########
+# ABOUT
+########
+
+if prop("systemselect.prop","selected")=="5" then
+    textbox(
+        "Turbo JB Kernel",
+        "Information, credits and thanks",
+        "@cosmicdan",
+        resread("about.txt")
+    );
+    back("2");
+endif;
+
+
+########
+# TOOLS
+########
+
+if prop("systemselect.prop","selected")=="4" then
+
+    menubox("Tools",
+            "Please select the task you wish to perform.",
+            "@cog",
+            "toolselect.prop",
+            "Repair",         "Perform a range of repair function for any slot",       "@repair",
+            "Customize",      "Change the icon and text label for any slot",           "@customize",
+            "Delete Slot 2",  "Delete Slot 2 from SDCard (will ask if you are sure)",  "@warning",
+            "Delete Slot 3",  "Delete Slot 3 from SDCard (will ask if you are sure)",  "@warning"
+    );
+
+    if prop("toolselect.prop","selected")=="2" then
+        menubox("Customze",
+            "Please select the slot you wish to customize.",
+            "@customize",
+            "systemcustomize.prop",
+            "Internal", getvar("slot1text"),  getvar("slot1icon"),
+            "Second",   getvar("slot2text"),  getvar("slot2icon"),
+            "Third",    getvar("slot3text"),  getvar("slot3icon")
+        );
+        setvar("slotcustomize", prop("systemcustomize.prop","selected"));
+        menubox("Customze",
+            "Please select the icon and text you want to place in slot " + prop("systemcustomize.prop","selected") + ".",
+            "@customize",
+            "slotcustomizeentry.prop",
+            "Turbo UI",    "Boot Turbo UI in Slot "        + prop("systemcustomize.prop","selected"),    "@turbo",
+            "SlimBean",    "Boot SlimBean in Slot "        + prop("systemcustomize.prop","selected"),    "@slimbean",
+            "P.A.C. Man",  "Boot P.A.C. Man in Slot "      + prop("systemcustomize.prop","selected"),    "@pac",
+            "Jellyzeus",   "Boot Jellyzeus in Slot "       + prop("systemcustomize.prop","selected"),    "@jellyzeus",
+            "CM10",        "Boot CyanogenMod 10 in Slot "  + prop("systemcustomize.prop","selected"),    "@cm10",
+            "None/Other",  "Boot or use Recovery for the main ROM",                                      "@slot1"
+        );
+        if prop("slotcustomizeentry.prop","selected")=="1" then
+            write("/cache/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=turbo");
+        endif;
+        if prop("slotcustomizeentry.prop","selected")=="2" then
+            write("/cache/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=slimbean");
+        endif;
+        if prop("slotcustomizeentry.prop","selected")=="3" then
+            write("/cache/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=pac");
+        endif;
+        if prop("slotcustomizeentry.prop","selected")=="4" then
+            write("/cache/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=jellyzeus");
+        endif;
+        if prop("slotcustomizeentry.prop","selected")=="5" then
+            write("/cache/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=cm10");
+        endif;
+        if prop("slotcustomizeentry.prop","selected")=="6" then
+            write("/cache/slot" + prop("systemcustomize.prop","selected") + ".prop", "currentslot=other");
+        endif;
+        back("999");
+    endif;
+
+    if prop("toolselect.prop","selected")=="3" then
+        exec("/res/aromapreinstall/multiboot_helper.sh", "checkslot", "2");
+        if getvar("exec_buffer") == "1\n"
+        then
+            alert("Warning","Slot 2 is already empty :)", "@warning");
+            back("1");
+        endif;
+        if confirm("Warning", "Are you sure you wish to completely delete Slot 2?\n\nThe following files will be deleted:\n/sdcard/userdata2.ext2.img\n/sdcard/system2.ext2.img", "@warning")=="yes"
+        then
+            exec("/sbin/busybox", "rm", "-f", "/sdcard/system2.ext2.img");
+            exec("/sbin/busybox", "rm", "-f", "/sdcard/userdata2.ext2.img");
+            alert("Done", "All done :) You can no regenerate this Slot when needed.", "@warning");
+        endif;
+        back("1");
+    endif;
+
+    if prop("toolselect.prop","selected")=="4" then
+        exec("/res/aromapreinstall/multiboot_helper.sh", "checkslot", "3");
+        if getvar("exec_buffer") == "1\n"
+        then
+            alert("Warning","Slot 3 is already empty :)", "@warning");
+            back("1");
+        endif;
+        if confirm("Warning", "Are you sure you wish to completely delete Slot 3?\n\nThe following files will be deleted:\n/sdcard/userdata3.ext2.img\n/sdcard/system3.ext2.img", "@warning")=="yes"
+        then
+            exec("/sbin/busybox", "rm", "-f", "/sdcard/system3.ext2.img");
+            exec("/sbin/busybox", "rm", "-f", "/sdcard/userdata3.ext2.img");
+            alert("Done", "All done :) You can no regenerate this slot when needed.", "@warning");
+        endif;
+        back("1");
+    endif;
+
+#### Repair
+
+    if prop("toolselect.prop","selected")=="1" then
+        menubox("Repair",
+            "Please select your desired repair function",
+            "@repair",
+            "repairmode.prop",
+            "Full",        "(Recommended) Perform full repairs where appropriate",                         "@repair",
+            "Custom",      "(Advanced) Allows experienced users to select which repair tasks they desire", "@repair2"
+        );
+
+    
+        if prop("repairmode.prop","selected")=="2" then
+        checkbox(
+        "Advanced Repair",
+        "Select the repair tasks you wish to perform on this run. If the Slot does not exist but it selected, it will be skipped during the run.",
+        "@repair2",
+        "repairtasks.prop",
+        "Internal Partitions",        "",                                                          2,  #-- Group 1. key = "item.1.x"
+        "Fix Permissions",            "Fix permissions on Userdata",                               1,      #-- item.1.1  = 1
+        "microSD",                    "",                                                          2,  #-- Group 2. key = "item.2.x"
+        "Scan and repair FAT32",      "Repair errors on the /sdcard mount.",                       1,      #-- item.2.1  = 1
+        "Scan and repair sd-ext",     "Repair errors on the /sd-ext mount",                        1,      #-- item.2.2  = 1
+        "Slot 2",                     "",                                                          2,  #-- Group 3. key = "item.3.x"
+        "Scan and repair system",     "Repair errors on the system ext2 image for Slot 2",         1,      #-- item.3.1  = 1
+        "Scan and repair userdata",   "Repair errors on the userdata ext2 image for Slot 2",       1,      #-- item.3.2  = 1
+        "Fix Permissions",            "Fix permissions on Userdata for Slot 2",                    1,      #-- item.3.3  = 1
+        "Slot 3",                     "",                                                          2,  #-- Group 4. key = "item.4.x"
+        "Scan and repair system",     "Repair errors on the system ext2 image for Slot 3",         1,      #-- item.4.1  = 1
+        "Scan and repair userdata",   "Repair errors on the userdata ext2 image for Slot 3",       1,      #-- item.4.2  = 1
+        "Fix Permissions",            "Fix permissions on Userdata for Slot 3",                    1,      #-- item.4.3  = 1
+        "Other",                      "",                                                          2,  #-- Group 5. key = "item.5.x"
+        "Save logs",                  "Save the scan/repair log to turbo_repair.log on microSD",   1       #-- item.5.1  = 1
+        );
+        endif; 
+   
+        # Set defaults for Full repair (everything on)
+        if prop("repairmode.prop","selected")=="1" then
+        writetmpfile(
+            "repairtasks.prop",
+            "item.1.1=1\n"+
+            "item.2.1=1\n"+
+            "item.2.2=1\n"+
+            "item.3.1=1\n"+
+            "item.3.2=1\n"+
+            "item.3.3=1\n"+
+            "item.4.1=1\n"+
+            "item.4.2=1\n"+
+            "item.4.3=1\n"+
+            "item.5.1=1\n"
+        );
+        endif; 
+
+        ini_set("text_next", "Repair");
+   
+        viewbox(
+       "About to Repair",
+       "\nThe repair process will begin once you press Repair. This process may take some time.",
+       "@repair"
+        );
+
+        ini_set("text_next", "Finish");
+   
+        install(
+        "Repairing",
+        "<b>Turbo Kernel</b> Is now performing scans and repairing where necessary.",
+        "@repair",
+        "The repair process has completed. Be sure to check the log for details. Press Finish to reboot."
+        )
+    endif;
+    reboot("now");
+endif;
+
+

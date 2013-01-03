@@ -1,0 +1,83 @@
+##
+#
+# AROMA Installer - Installer Script
+#       (c) 2011 by Ahmad Amarullah
+#           amarullz - xda-developers
+#
+##
+
+run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "start");
+
+if file_getprop("/tmp/aroma/repairtasks.prop","item.2.1") == "1" then
+    ui_print("Scanning /sdcard and repairing...");
+    run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "repairsd", "1");
+    ui_print(" ");
+    set_progress(0.20);
+endif;
+
+if file_getprop("/tmp/aroma/repairtasks.prop","item.2.2") == "1" then
+    ui_print("Scanning /sd-ext and repairing...");
+    run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "repairsd", "2");
+    ui_print(" ");
+    set_progress(0.30);
+endif;
+
+if file_getprop("/tmp/aroma/repairtasks.prop","item.3.1") == "1" then
+    set_progress(0.25);
+    ui_print("Scanning /system for Slot 2 and repairing...");
+    run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "repairslot", "2", "system");
+    ui_print(" ");
+    set_progress(0.40);
+endif;
+
+if file_getprop("/tmp/aroma/repairtasks.prop","item.3.2") == "1" then
+    ui_print("Scanning /data for Slot 2 and repairing...");
+    run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "repairslot", "2", "userdata");
+    ui_print(" ");
+    set_progress(0.60);
+endif;
+
+if file_getprop("/tmp/aroma/repairtasks.prop","item.4.1") == "1" then
+    ui_print("Scanning /system for Slot 3 and repairing...");
+    run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "repairslot", "3", "system");
+    ui_print(" ");
+    set_progress(0.70);
+endif;
+
+if file_getprop("/tmp/aroma/repairtasks.prop","item.4.2") == "1" then
+    ui_print("Scanning /data for Slot 3 and repairing...");
+    run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "repairslot", "3", "userdata");
+    ui_print(" ");
+    set_progress(0.90);
+endif;
+
+if file_getprop("/tmp/aroma/repairtasks.prop","item.1.1") == "1" then
+    ui_print("Fixing permissions on internal /data...");
+    run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "fixpermissions", "1");
+    ui_print(" ");
+    set_progress(0.93);
+endif;
+
+if file_getprop("/tmp/aroma/repairtasks.prop","item.3.3") == "1" then
+    ui_print("Fixing permissions on Slot 2 /data...");
+    run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "fixpermissions", "2");
+    ui_print(" ");
+    set_progress(0.96);
+endif;
+
+if file_getprop("/tmp/aroma/repairtasks.prop","item.4.3") == "1" then
+    ui_print("Fixing permissions on Slot 3 /data...");
+    run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "fixpermissions", "3");
+    ui_print(" ");
+    set_progress(0.99);
+endif;
+
+run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "finish");
+
+if file_getprop("/tmp/aroma/repairtasks.prop","item.5.1") == "1" then
+    ui_print("Copying repair log to /sdcard/turbo_repair.log...");
+    run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "copylog");
+    ui_print(" ");
+endif;
+
+set_progress(1);

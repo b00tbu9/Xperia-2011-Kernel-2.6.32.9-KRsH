@@ -18,6 +18,7 @@ arch/arm/boot/Image
 arch/arm/boot/zImage
 arch/arm/boot/compressed/piggy.gz
 arch/arm/kernel/asm-offsets.s
+ramdisk/res/aromapreinstall/aroma-installer-res.zip
 ramdisk_fxp152/
 scripts/
 

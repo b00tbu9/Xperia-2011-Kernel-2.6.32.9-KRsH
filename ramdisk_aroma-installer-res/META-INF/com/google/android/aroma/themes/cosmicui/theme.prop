@@ -1,0 +1,68 @@
+img.background        = 
+img.titlebar          = titlebar.9
+img.navbar            = nav.9
+img.dialog            = dialog.9
+img.dialog.titlebar   = dialog_titlebar.9
+img.progress          = button.9
+img.prograss.fill     = button_focus.9
+img.selection         = select.9
+img.selection.push    = select_push.9
+img.button            = button.9
+img.button.focus      = button_focus.9
+img.button.push       = button_press.9
+img.checkbox          = cb
+img.checkbox.focus    = cb_sel
+img.checkbox.push     = cb
+img.checkbox.on       = cb_on
+img.checkbox.on.focus = cb_on_sel
+img.checkbox.on.push  = cb_on
+img.radio             = radio
+img.radio.focus       = radio_sel
+img.radio.push        = radio
+img.radio.on          = radio_on
+img.radio.on.focus    = radio_on_sel
+img.radio.on.push     = radio_on
+
+
+color.winbg           = #000000
+color.winbg_g         = #000000
+color.winfg           = #eeeeee
+color.winfg_gray      = #bbbbcc
+color.dialogbg        = #333333
+color.dialogbg_g      = #444444
+color.dialogfg        = #eeeeee
+color.textbg          = #333333
+color.textfg          = #eeeeee
+color.textfg_gray     = #bbbbcc
+color.controlbg       = #333333
+color.controlbg_g     = #444444
+color.controlfg       = #eeeeee
+color.selectbg        = #333333
+color.selectbg_g      = #444444
+color.selectfg        = #ffffff
+color.titlebg         = #3b3b3b
+color.titlebg_g       = #1a1a1a
+color.titlefg         = #ffffff
+color.dlgtitlebg      = #3b3b3b
+color.dlgtitlebg_g    = #1a1a1a
+color.dlgtitlefg      = #ffffff
+color.scrollbar       = #01081d
+color.navbg           = #000000
+color.navbg_g         = #222222
+color.border          = #222222
+color.border_g        = #333333
+color.progressglow    = #01081d
+
+
+config.roundsize             = 2
+config.button_roundsize      = 2
+config.window_roundsize      = 2
+config.transition_frame      = 6
+
+font.small            = font.roboto.small
+font.big              = font.roboto.big
+
+
+info.themename        = MIUI CosmicUI
+info.description      = MIUI CosmicUI Theme for AROMA Installer
+info.author           = mickey-r, amarullz and CosmicDan
