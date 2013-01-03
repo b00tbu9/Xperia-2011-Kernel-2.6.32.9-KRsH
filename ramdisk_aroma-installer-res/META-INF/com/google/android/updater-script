@@ -6,8 +6,63 @@
 #
 ##
 
-run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "start");
+if file_getprop("/tmp/aroma/doslot.prop","slot") == "2" then
+    ui_print("@Begin Slot 2 creation");
+    ui_print(" ");
+    ui_print("Generating system image...");
+    run_program("/sbin/sh", "/res/aromapreinstall/multiboot_helper.sh", "makeimage", "2", "system");
+    ui_print(" ");
+    set_progress(0.20);
+    ui_print("Generating userdata image...");
+    run_program("/sbin/sh", "/res/aromapreinstall/multiboot_helper.sh", "makeimage", "2", "userdata");
+    ui_print(" ");
+    set_progress(0.40);
+    if file_getprop("/tmp/aroma/copysystem.prop","do") == "yes" then
+        ui_print("Copying internal system to new image...");
+        run_program("/sbin/sh", "/res/aromapreinstall/multiboot_helper.sh", "copyimage", "2", "system");
+        ui_print(" ");
+        set_progress(0.70);
+    endif;
+    if file_getprop("/tmp/aroma/copyuserdata.prop","do") == "yes" then
+        ui_print("Copying internal userdata to new image...");
+        run_program("/sbin/sh", "/res/aromapreinstall/multiboot_helper.sh", "copyimage", "2", "userdata");
+        ui_print(" ");
+    endif;
+endif;
 
+if file_getprop("/tmp/aroma/doslot.prop","slot") == "3" then
+    ui_print("@Begin Slot 3 creation");
+    ui_print(" ");
+    ui_print("Generating system image...");
+    run_program("/sbin/sh", "/res/aromapreinstall/multiboot_helper.sh", "makeimage", "3", "system");
+    ui_print(" ");
+    set_progress(0.20);
+    ui_print("Generating userdata image...");
+    run_program("/sbin/sh", "/res/aromapreinstall/multiboot_helper.sh", "makeimage", "3", "userdata");
+    ui_print(" ");
+    set_progress(0.40);
+    if file_getprop("/tmp/aroma/copysystem.prop","do") == "yes" then
+        ui_print("Copying internal system to new image...");
+        run_program("/sbin/sh", "/res/aromapreinstall/multiboot_helper.sh", "copyimage", "3", "system");
+        ui_print(" ");
+        set_progress(0.70);
+    endif;
+    if file_getprop("/tmp/aroma/copyuserdata.prop","do") == "yes" then
+        ui_print("Copying internal userdata to new image...");
+        run_program("/sbin/sh", "/res/aromapreinstall/multiboot_helper.sh", "copyimage", "3", "userdata");
+        ui_print(" ");
+    endif;
+endif;
+
+
+
+
+
+
+if file_getprop("/tmp/aroma/repairdo.prop","do") == "yes" then
+    run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "start");
+endif;
+    
 if file_getprop("/tmp/aroma/repairtasks.prop","item.2.1") == "1" then
     ui_print("Scanning /sdcard and repairing...");
     run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "repairsd", "1");
@@ -79,5 +134,6 @@ if file_getprop("/tmp/aroma/repairtasks.prop","item.5.1") == "1" then
     run_program("/sbin/sh", "/res/aromapreinstall/repair_helper.sh", "copylog");
     ui_print(" ");
 endif;
+
 
 set_progress(1);
