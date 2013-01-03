@@ -511,3 +511,24 @@ service mdnsd /system/bin/mdnsd
 service seeder /sbin/seeder
     class main
     user root
+
+on property:turbo.mode=jb
+    export EXTERNAL_STORAGE /storage/sdcard0
+    mount rootfs rootfs / rw remount
+    mkdir /storage 0050 system sdcard_r
+    mkdir /storage/sdcard0 0000 system system
+    # for backwards compatibility
+    symlink /storage/sdcard0 /sdcard
+    symlink /storage/sdcard0 /mnt/sdcard
+    mount rootfs rootfs / ro remount
+
+on property:turbo.mode=ics
+    export EXTERNAL_STORAGE /mnt/sdcard
+    mount rootfs rootfs / rw remount
+    mkdir /mnt/sdcard 0000 system system
+    # for backwards compatibility
+    symlink /mnt/sdcard /sdcard
+    # for forwards compatibility
+    mkdir /storage 0050 system sdcard_r
+    symlink /mnt/sdcard /storage/sdcard0
+    mount rootfs rootfs / ro remount

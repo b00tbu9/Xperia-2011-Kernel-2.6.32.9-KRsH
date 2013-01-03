@@ -5,8 +5,11 @@ then
   /sbin/bootrec-device
 fi
 
-# fix framebuffer for recovery
-echo 0 > /sys/module/msm_fb/parameters/align_buffer
+if [ -e /cache/turbo_repair.ready2copy ]
+then
+  rm /cache/turbo_repair.ready2copy
+  mv /cache/turbo_repair.log /sdcard/turbo_repair.log
+fi
 
 if [ -e /cache/recovery/boot -o -s /dev/keycheck ]
 then
@@ -23,11 +26,6 @@ then
   mkdir /etc
   #umount -l /cache
   mount /dev/block/mmcblk0p1 /sdcard
-  if [ -e /cache/turbo_repair.ready2copy ]
-  then
-    rm /cache/turbo_repair.ready2copy
-    mv /cache/turbo_repair.log /sdcard/turbo_repair.log
-  fi
   chmod 755 /res/aromapreinstall/aroma-installer
   chmod 755 /res/aromapreinstall/*.sh
   /res/aromapreinstall/aroma-installer 1 0 "/res/aromapreinstall/aroma-installer-res.zip"
@@ -47,12 +45,13 @@ fi
 mkdir /data/dalvik-cache
     chown system:system /data/dalvik-cache
     chmod 0771 /data/dalvik-cache
-ln -s /data/dalvik-cache /cache/dalvik-cache
+mkdir /cache/dalvik-cache
+mount -o bind /data/dalvik-cache /cache/dalvik-cache
     chown system:system /cache/dalvik-cache
     chmod 0771 /cache/dalvik-cache
 
-# restore framebuffer for JB
-echo 1 > /sys/module/msm_fb/parameters/align_buffer
+# JB/ICS detection
+/sbin/ics-or-jb
     
 #continue booting
 
