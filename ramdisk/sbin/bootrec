@@ -30,6 +30,10 @@ then
   chmod 755 /res/aromapreinstall/*.sh
   /res/aromapreinstall/aroma-installer 1 0 "/res/aromapreinstall/aroma-installer-res.zip"
   #touch /tmp/bootrec
+  if [ ! -e /tmp/bootrec ]
+  then
+    reboot
+  fi
 fi
 
 if [ -e /tmp/bootrec ]

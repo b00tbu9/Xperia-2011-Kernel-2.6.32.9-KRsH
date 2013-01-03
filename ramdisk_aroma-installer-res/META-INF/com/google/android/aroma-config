@@ -22,7 +22,7 @@ ini_set("text_yes", "Yes");
 ini_set("text_no", "No");
 ini_set("text_about", "About");
 ini_set("text_calibrating", "Calibrating Tools");
-ini_set("text_quit", "Quit Installation");
+ini_set("text_quit", "Quit Boot Menu");
 ini_set("text_quit_msg", "Quit and boot default ROM?");
 ini_set("text_install", "Install");
 ini_set("text_apply", "Apply");
@@ -230,21 +230,40 @@ if prop("systemselect.prop","selected")=="2" then
             "Blank",              "Userdata partition will be created blank (faster, recommended)",      1,
             "Copy from internal", "Userdata partition will be a duplicate of internal (experimental)",   0
         );
-        alert("Second slot setup","The second slot will now be set up based on your options.\n\nNote that this could take from five to ten minutes, especially if you have a slow SDCard or are copying from a large system and userdata on internal.\n\nOnce pressing OK, the device may seem to freeze (Aroma issue?) but it isn't - just wait. Your device will automatically reboot when finished. If it gets stuck after ten minutes, please pull battery and check your SDCard for errors.", "@cog");
-        pleasewait("Generating system image...");
-        exec("/res/aromapreinstall/multiboot_helper.sh", "makeimage", "2", "system");
-        pleasewait("Generating userdata image...");
-        exec("/res/aromapreinstall/multiboot_helper.sh", "makeimage", "2", "userdata");
+        alert("Second slot setup","The second slot will now be set up based on your options.\n\nNote that this could take from five to ten minutes, especially if you have a slow SDCard or are copying from a large system and userdata on internal.\n\nIf it gets stuck after ten minutes, please pull battery and check your SDCard for errors via the Repair option in Tools.", "@cog");
+        writetmpfile(
+            "doslot.prop",
+            "slot=2\n"
+        );
         if prop("slottask.prop","selected.1")=="2" then
-            pleasewait("Copying internal system...");
-            exec("/res/aromapreinstall/multiboot_helper.sh", "copyimage", "2", "system");
+            writetmpfile(
+                "copysystem.prop",
+                "do=yes\n"
+            );
+        else
+            writetmpfile(
+                "copysystem.prop",
+                "do=no\n"
+            );
         endif;
         if prop("slottask.prop","selected.2")=="2" then
-            pleasewait("Copying internal userdata...");
-            exec("/res/aromapreinstall/multiboot_helper.sh", "copyimage", "2", "userdata");
+            writetmpfile(
+                "copyuserdata.prop",
+                "do=yes\n"
+            );
+        else
+            writetmpfile(
+                "copyuserdata.prop",
+                "do=no\n"
+            );
         endif;
-        alert("Second slot setup","All done! You can now boot and perform CWM-Recovery tasks on this slot.\n\nREMEMBER: Nandroid backups on second/third slots are incompatible with internal ROM. Also, *never* unmount the SDCard in Recovery or you may corrupt your system.", "@cog");
-        pleasewait("Rebooting...");
+        ini_set("text_next", "Finish");
+        install(
+            "Creating Slot 2",
+            "<b>Turbo Kernel</b> is now performing the slot creation.",
+            "@cog",
+            "All done! You can now boot and perform CWM-Recovery tasks on this slot.\n\nREMEMBER: Nandroid backups on second/third slots are incompatible with internal ROM. Also, *never* unmount the SDCard in Recovery or you may corrupt your system."
+            );
         reboot("now");
     endif;
     selectbox("Second slot",
@@ -309,21 +328,40 @@ if prop("systemselect.prop","selected")=="3" then
             "Blank",              "Userdata partition will be created blank (faster, recommended)",      1,
             "Copy from internal", "Userdata partition will be a duplicate of internal (experimental)",   0
         );
-        alert("Third slot setup","The third slot will now be set up based on your options.\n\nNote that this could take from five to ten minutes, especially if you have a slow SDCard or are copying from a large system and userdata on internal.\n\nOnce pressing OK, the device may seem to freeze (Aroma issue?) but it isn't - just wait. Your device will automatically reboot when finished. If it gets stuck after ten minutes, please pull battery and check your SDCard for errors.", "@cog");
-        pleasewait("Generating system image...");
-        exec("/res/aromapreinstall/multiboot_helper.sh", "makeimage", "3", "system");
-        pleasewait("Generating userdata image...");
-        exec("/res/aromapreinstall/multiboot_helper.sh", "makeimage", "3", "userdata");
+        alert("Third slot setup","The third slot will now be set up based on your options.\n\nNote that this could take from five to ten minutes, especially if you have a slow SDCard or are copying from a large system and userdata on internal.\n\nIf it gets stuck after ten minutes, please pull battery and check your SDCard for errors via the Repair option in Tools.", "@cog");
+        writetmpfile(
+            "doslot.prop",
+            "slot=3\n"
+        );
         if prop("slottask.prop","selected.1")=="2" then
-            pleasewait("Copying internal system...");
-            exec("/res/aromapreinstall/multiboot_helper.sh", "copyimage", "3", "system");
+            writetmpfile(
+                "copysystem.prop",
+                "do=yes\n"
+            );
+        else
+            writetmpfile(
+                "copysystem.prop",
+                "do=no\n"
+            );
         endif;
         if prop("slottask.prop","selected.2")=="2" then
-            pleasewait("Copying internal userdata...");
-            exec("/res/aromapreinstall/multiboot_helper.sh", "copyimage", "3", "userdata");
+            writetmpfile(
+                "copyuserdata.prop",
+                "do=yes\n"
+            );
+        else
+            writetmpfile(
+                "copyuserdata.prop",
+                "do=no\n"
+            );
         endif;
-        alert("Third slot setup","All done! You can now boot and perform CWM-Recovery tasks on this slot.\n\nREMEMBER: Nandroid backups on second/third slots are incompatible with internal ROM. Also, *never* unmount the SDCard in Recovery or you may corrupt your system.", "@cog");
-        pleasewait("Rebooting...");
+        ini_set("text_next", "Finish");
+        install(
+            "Creating Slot 3",
+            "<b>Turbo Kernel</b> is now performing the slot creation.",
+            "@cog",
+            "All done! You can now boot and perform CWM-Recovery tasks on this slot.\n\nREMEMBER: Nandroid backups on second/third slots are incompatible with internal ROM. Also, *never* unmount the SDCard in Recovery or you may corrupt your system."
+            );
         reboot("now");
     endif;
     selectbox("Third slot",
@@ -453,7 +491,7 @@ if prop("systemselect.prop","selected")=="4" then
         then
             exec("/sbin/busybox", "rm", "-f", "/sdcard/system2.ext2.img");
             exec("/sbin/busybox", "rm", "-f", "/sdcard/userdata2.ext2.img");
-            alert("Done", "All done :) You can no regenerate this Slot when needed.", "@warning");
+            alert("Done", "Slot 2 deleted. You can regenerate this slot when needed.", "@warning");
         endif;
         back("1");
     endif;
@@ -469,7 +507,7 @@ if prop("systemselect.prop","selected")=="4" then
         then
             exec("/sbin/busybox", "rm", "-f", "/sdcard/system3.ext2.img");
             exec("/sbin/busybox", "rm", "-f", "/sdcard/userdata3.ext2.img");
-            alert("Done", "All done :) You can no regenerate this slot when needed.", "@warning");
+            alert("Done", "Slot 3 deleted. You can regenerate this slot when needed.", "@warning");
         endif;
         back("1");
     endif;
@@ -536,6 +574,12 @@ if prop("systemselect.prop","selected")=="4" then
         );
 
         ini_set("text_next", "Finish");
+        writetmpfile(
+            "repairdo.prop",
+            "do=yes\n"
+        );
+        
+        writetmpfile("doslot.prop", "slot=na\n");
    
         install(
         "Repairing",
