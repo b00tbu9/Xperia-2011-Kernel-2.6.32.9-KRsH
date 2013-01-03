@@ -12,7 +12,7 @@
 	<resources>
 		<resource name="font" type="font" filename="Roboto-Regular-20" />
 		<resource name="mediumfont" type="font" filename="Roboto-Regular-20" />
-		<resource name="filelist" type="font" filename="Roboto-Regular-20" />
+		<resource name="filelist" type="font" filename="Roboto-Regular-30" />
 		<resource name="top_bar" type="image" filename="top-bar.jpg" />
 		<resource name="main_button" type="image" filename="menu-button" />
 		<resource name="file_icon" type="image" filename="file" />
@@ -54,23 +54,23 @@
 		<variable name="row_queue_y" value="510" />
 		<variable name="row1_header_y" value="110" />
 		<variable name="row1_text_y" value="140" />
-		<variable name="row2_text_y" value="170" />
-		<variable name="row3_text_y" value="200" />
-		<variable name="row4_text_y" value="230" />
-		<variable name="row5_text_y" value="260" />
-		<variable name="row6_text_y" value="290" />
-		<variable name="row7_text_y" value="320" />
-		<variable name="row8_text_y" value="350" />
-		<variable name="row9_text_y" value="380" />
-		<variable name="row10_text_y" value="410" />
-		<variable name="row11_text_y" value="440" />
-		<variable name="row12_text_y" value="480" />
-		<variable name="row13_text_y" value="510" />
-		<variable name="row14_text_y" value="540" />
-		<variable name="row15_text_y" value="570" />
-		<variable name="row16_text_y" value="600" />
-		<variable name="row17_text_y" value="630" />
-		<variable name="row18_text_y" value="660" />
+		<variable name="row2_text_y" value="175" />
+		<variable name="row3_text_y" value="210" />
+		<variable name="row4_text_y" value="245" />
+		<variable name="row5_text_y" value="280" />
+		<variable name="row6_text_y" value="315" />
+		<variable name="row7_text_y" value="350" />
+		<variable name="row8_text_y" value="385" />
+		<variable name="row9_text_y" value="420" />
+		<variable name="row10_text_y" value="455" />
+		<variable name="row11_text_y" value="490" />
+		<variable name="row12_text_y" value="525" />
+		<variable name="row13_text_y" value="560" />
+		<variable name="row14_text_y" value="595" />
+		<variable name="row15_text_y" value="630" />
+		<variable name="row16_text_y" value="665" />
+		<variable name="row17_text_y" value="700" />
+		<variable name="row18_text_y" value="735" />
 		<variable name="zip_status_y" value="585" />
 		<variable name="tz_selected_y" value="110" />
 		<variable name="tz_set_y" value="580" />
