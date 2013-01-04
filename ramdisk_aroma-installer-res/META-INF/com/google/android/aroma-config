@@ -263,7 +263,7 @@ if prop("systemselect.prop","selected")=="2" then
             "Creating Slot 2",
             "<b>Turbo Kernel</b> is now performing the slot creation.",
             "@cog",
-            "All done! You can now boot and perform CWM-Recovery tasks on this slot.\n\nREMEMBER: Nandroid backups on second/third slots are incompatible with internal ROM. Also, *never* unmount the SDCard in Recovery or you may corrupt your system."
+            "All done! You can now boot and/or perform Recovery tasks on this slot.\n\nREMEMBER: *Never* unmount the SDCard in Recovery or you may corrupt this slot."
             );
         reboot("now");
     endif;
@@ -362,7 +362,7 @@ if prop("systemselect.prop","selected")=="3" then
             "Creating Slot 3",
             "<b>Turbo Kernel</b> is now performing the slot creation.",
             "@cog",
-            "All done! You can now boot and perform CWM-Recovery tasks on this slot.\n\nREMEMBER: Nandroid backups on second/third slots are incompatible with internal ROM. Also, *never* unmount the SDCard in Recovery or you may corrupt your system."
+            "All done! You can now boot and/or perform Recovery tasks on this slot.\n\nREMEMBER: *Never* unmount the SDCard in Recovery or you may corrupt this slot."
             );
         reboot("now");
     endif;
@@ -415,7 +415,7 @@ endif;
 
 if prop("systemselect.prop","selected")=="5" then
     textbox(
-        "Turbo JB Kernel",
+        "Turbo Kernel",
         "Information, credits and thanks",
         "@cosmicdan",
         resread("about.txt")
