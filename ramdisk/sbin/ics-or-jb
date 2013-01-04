@@ -5,6 +5,9 @@ if [ "$(grep -F "ro.build.version.release=" /system/build.prop | sed "s/ro.build
 then
   echo 1 > /sys/module/msm_fb/parameters/align_buffer
   setprop turbo.mode jb
+  echo jb
 else
+  echo 0 > /sys/module/msm_fb/parameters/align_buffer
   setprop turbo.mode ics
+  echo ics
 fi

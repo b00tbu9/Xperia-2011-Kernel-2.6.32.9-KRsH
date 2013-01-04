@@ -63,7 +63,8 @@ boot2()
     umount /system
     umount /data
     mount -t ext2   -o rw,loop                       /sdcard/system2.ext2.img    /system
-    mount -t ext2   -o ro,loop,remount               /sdcard/system2.ext2.img    /system
+    /res/aromapreinstall/mountsd.sh
+    mount -t ext2   -o ro,loop                       /sdcard/system2.ext2.img    /system
     mount -t ext2   -o rw,loop,noatime,nosuid,nodev  /sdcard/userdata2.ext2.img  /data
 }
 
@@ -71,6 +72,8 @@ boot3()
 {
     umount /system
     umount /data
+    mount -t ext2   -o rw,loop                       /sdcard/system3.ext2.img    /system
+    /res/aromapreinstall/mountsd.sh
     mount -t ext2   -o ro,loop                       /sdcard/system3.ext2.img    /system
     mount -t ext2   -o rw,loop,noatime,nosuid,nodev  /sdcard/userdata3.ext2.img  /data
 }
@@ -82,6 +85,8 @@ mountproc()
     if   [ -e /cache/multiboot1 ]
     then
         rm /cache/multiboot1
+        /res/aromapreinstall/mountsd.sh
+        mount -t yaffs2 -o ro /dev/block/mtdblock0 /system
     elif [ -e /cache/multiboot2 ]
     then
         rm /cache/multiboot2
@@ -100,14 +105,22 @@ mountproc()
     then
         boot3
         multifix
+    else
+        /res/aromapreinstall/mountsd.sh
+        mount -t yaffs2 -o ro /dev/block/mtdblock0 /system
     fi
     
-    # App2SD Fix (thanks to LSS4181)
-    mount -o remount,rw /
-    rm -r /mnt/secure/asec
-    mount -o bind /sdcard/.android_secure /mnt/secure/asec
-    mv /mnt/secure/.android_secure /mnt/secure/asec
-    mount -o remount,ro /
+    sync
+    
+    mkdir /data/dalvik-cache
+        chown system:system /data/dalvik-cache
+        chmod 0771 /data/dalvik-cache
+    mkdir /cache/dalvik-cache
+        chown system:system /cache/dalvik-cache
+        chmod 0771 /cache/dalvik-cache
+    mount -o bind /data/dalvik-cache /cache/dalvik-cache
+    
+    sync
 }
 
 multifix()
