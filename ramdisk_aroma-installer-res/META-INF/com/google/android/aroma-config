@@ -76,7 +76,7 @@ endif;
 if file_getprop("/sdcard/turbo/slot1.prop","currentslot")=="cm10" then
     setvar("slot1custom", "true");
     setvar("slot1icon", "@cm10");
-    setvar("slot1text", "Boot CyanogenMod 10 in Slot 1");
+    setvar("slot1text", "Boot CyanogenMod in Slot 1");
 endif;
 if getvar("slot1custom")!="true" then
     setvar("slot1icon", "@slot1");
@@ -107,7 +107,7 @@ endif;
 if file_getprop("/sdcard/turbo/slot2.prop","currentslot")=="cm10" then
     setvar("slot2custom", "true");
     setvar("slot2icon", "@cm10");
-    setvar("slot2text", "Boot CyanogenMod 10 in Slot 2");
+    setvar("slot2text", "Boot CyanogenMod in Slot 2");
 endif;
 if getvar("slot2custom")!="true" then
     setvar("slot2icon", "@slot2");
@@ -138,7 +138,7 @@ endif;
 if file_getprop("/sdcard/turbo/slot3.prop","currentslot")=="cm10" then
     setvar("slot3custom", "true");
     setvar("slot3icon", "@cm10");
-    setvar("slot3text", "Boot CyanogenMod 10 in Slot 3");
+    setvar("slot3text", "Boot CyanogenMod in Slot 3");
 endif;
 if getvar("slot3custom")!="true" then
     setvar("slot3icon", "@slot3");
@@ -458,7 +458,7 @@ if prop("systemselect.prop","selected")=="4" then
             "SlimBean",    "Boot SlimBean in Slot "        + prop("systemcustomize.prop","selected"),    "@slimbean",
             "P.A.C. Man",  "Boot P.A.C. Man in Slot "      + prop("systemcustomize.prop","selected"),    "@pac",
             "Jellyzeus",   "Boot Jellyzeus in Slot "       + prop("systemcustomize.prop","selected"),    "@jellyzeus",
-            "CM10",        "Boot CyanogenMod 10 in Slot "  + prop("systemcustomize.prop","selected"),    "@cm10",
+            "CM10",        "Boot CyanogenMod in Slot "     + prop("systemcustomize.prop","selected"),    "@cm10",
             "None/Other",  "Boot or use Recovery for the main ROM",                                      "@slot1"
         );
         if prop("slotcustomizeentry.prop","selected")=="1" then
