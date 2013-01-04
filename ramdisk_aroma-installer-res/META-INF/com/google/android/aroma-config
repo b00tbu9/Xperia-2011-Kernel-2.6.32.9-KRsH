@@ -257,6 +257,7 @@ if prop("systemselect.prop","selected")=="2" then
                 "do=no\n"
             );
         endif;
+        writetmpfile("repairdo.prop", "do=no\n");
         ini_set("text_next", "Finish");
         install(
             "Creating Slot 2",
@@ -355,6 +356,7 @@ if prop("systemselect.prop","selected")=="3" then
                 "do=no\n"
             );
         endif;
+        writetmpfile("repairdo.prop", "do=no\n");
         ini_set("text_next", "Finish");
         install(
             "Creating Slot 3",
