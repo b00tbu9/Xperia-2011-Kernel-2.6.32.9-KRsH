@@ -512,6 +512,9 @@ service seeder /sbin/seeder
     class main
     user root
 
+service shelld /system/xbin/shelld
+	class main
+
 on property:turbo.mode=jb
     export EXTERNAL_STORAGE /storage/sdcard0
 
