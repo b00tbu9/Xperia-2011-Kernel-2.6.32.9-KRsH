@@ -193,9 +193,11 @@ if prop("systemselect.prop","selected")=="1" then
         exec("/sbin/busybox","cp", "-f", "/modules/bcm4329.ko", "/system/lib/modules/bcm4329.ko");
         exec("/sbin/busybox","chmod","664", "/system/lib/modules/bcm4329.ko");
         exec("/sbin/busybox","umount", "/system");
-        alert("Fix Wifi","The Wifi module has been forcibly installed to this slot.\n\nYour device will now reboot.", "@cog");
-        pleasewait("Rebooting...");
-        reboot("now");
+        alert("Fix Wifi","The Wifi module has been forcibly installed to this slot.\n\nPress OK to return to the main menu.", "@cog");
+        #pleasewait("Rebooting...");
+        exec("sync");
+        #reboot("now");
+        back("999");
     endif;
     
     if prop("systemtask.prop","selected.2")=="1" then
@@ -206,8 +208,8 @@ if prop("systemselect.prop","selected")=="1" then
     
     if prop("systemtask.prop","selected.1")=="1" then
         write("/cache/multiboot1","1");
-        pleasewait("Booting into Slot 1...");
-        reboot("now");
+        exec("sync");
+        exit("");
     endif;
 endif;
 
@@ -258,14 +260,16 @@ if prop("systemselect.prop","selected")=="2" then
             );
         endif;
         writetmpfile("repairdo.prop", "do=no\n");
-        ini_set("text_next", "Finish");
+        ini_set("text_next", "Return");
         install(
             "Creating Slot 2",
             "<b>Turbo Kernel</b> is now performing the slot creation.",
             "@cog",
             "All done! You can now boot and/or perform Recovery tasks on this slot.\n\nREMEMBER: *Never* unmount the SDCard in Recovery or you may corrupt this slot."
             );
-        reboot("now");
+        exec("sync");
+        #reboot("now");
+        back("999");
     endif;
     selectbox("Second slot",
             "Please select your desired operation.",
@@ -292,9 +296,11 @@ if prop("systemselect.prop","selected")=="2" then
         exec("/sbin/busybox","cp", "-f", "/modules/bcm4329.ko", "/system/lib/modules/bcm4329.ko");
         exec("/sbin/busybox","chmod","664", "/system/lib/modules/bcm4329.ko");
         exec("/sbin/busybox","umount", "/system");
-        alert("Fix Wifi","The Wifi module has been forcibly installed to this slot.\n\nYour device will now reboot.", "@cog");
+        alert("Fix Wifi","The Wifi module has been forcibly installed to this slot.\n\nPress OK to return to the main menu.", "@cog");
         pleasewait("Rebooting...");
-        reboot("now");
+        exec("sync");
+        #reboot("now");
+        back("999");
     endif;
     
     if prop("systemtask.prop","selected.2")=="1" then
@@ -305,8 +311,8 @@ if prop("systemselect.prop","selected")=="2" then
     
     if prop("systemtask.prop","selected.1")=="1" then
         write("/cache/multiboot2","1");
-        pleasewait("Booting into Slot 2...");
-        reboot("now");
+        exec("sync");
+        exit("");
     endif;
 endif;
 
@@ -364,7 +370,9 @@ if prop("systemselect.prop","selected")=="3" then
             "@cog",
             "All done! You can now boot and/or perform Recovery tasks on this slot.\n\nREMEMBER: *Never* unmount the SDCard in Recovery or you may corrupt this slot."
             );
-        reboot("now");
+        exec("sync");
+        #reboot("now");
+        back("999");
     endif;
     selectbox("Third slot",
             "Please select your desired operation.",
@@ -391,9 +399,11 @@ if prop("systemselect.prop","selected")=="3" then
         exec("/sbin/busybox","cp", "-f", "/modules/bcm4329.ko", "/system/lib/modules/bcm4329.ko");
         exec("/sbin/busybox","chmod","664", "/system/lib/modules/bcm4329.ko");
         exec("/sbin/busybox","umount", "/system");
-        alert("Fix Wifi","The Wifi module has been forcibly installed to this slot.\n\nYour device will now reboot.", "@cog");
-        pleasewait("Rebooting...");
-        reboot("now");
+        alert("Fix Wifi","The Wifi module has been forcibly installed to this slot.\n\nPress OK to return to the main menu.", "@cog");
+        #pleasewait("Rebooting...");
+        exec("sync");
+        #reboot("now");
+        back("999");
     endif;
     
     if prop("systemtask.prop","selected.2")=="1" then
@@ -404,8 +414,8 @@ if prop("systemselect.prop","selected")=="3" then
     
     if prop("systemtask.prop","selected.1")=="1" then
         write("/cache/multiboot3","1");
-        pleasewait("Booting into Slot 3...");
-        reboot("now");
+        exec("sync");
+        exit("");
     endif;
 endif;
 
@@ -575,7 +585,7 @@ if prop("systemselect.prop","selected")=="4" then
        "@repair"
         );
 
-        ini_set("text_next", "Finish");
+        ini_set("text_next", "Return");
         writetmpfile(
             "repairdo.prop",
             "do=yes\n"
@@ -587,10 +597,12 @@ if prop("systemselect.prop","selected")=="4" then
         "Repairing",
         "<b>Turbo Kernel</b> Is now performing scans and repairing where necessary.",
         "@repair",
-        "The repair process has completed. Be sure to check the log for details. Press Finish to reboot."
+        "The repair process has completed. Be sure to check the log for details. Press Return to return to the main menu."
         )
     endif;
-    reboot("now");
+    exec("sync");
+    #reboot("now");
+    back("999");
 endif;
 
-
+ini_set("force_colorspace", "argb");
