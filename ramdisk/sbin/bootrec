@@ -5,12 +5,6 @@ then
   /sbin/bootrec-device
 fi
 
-if [ -e /cache/turbo_repair.ready2copy ]
-then
-  rm /cache/turbo_repair.ready2copy
-  mv /cache/turbo_repair.log /sdcard/turbo_repair.log
-fi
-
 if [ -e /cache/recovery/boot -o -s /dev/keycheck ]
 then
   mount -o remount,rw rootfs /
@@ -28,8 +22,14 @@ then
   mount /dev/block/mmcblk0p1 /sdcard
   chmod 755 /res/aromapreinstall/aroma-installer
   chmod 755 /res/aromapreinstall/*.sh
+  setprop sys.usb.config=mass_storage,adb
   /res/aromapreinstall/aroma-installer 1 0 "/res/aromapreinstall/aroma-installer-res.zip"
   #touch /tmp/bootrec
+  if [ -e /cache/turbo_repair.ready2copy ]
+  then
+    rm /cache/turbo_repair.ready2copy
+    mv /cache/turbo_repair.log /sdcard/turbo_repair.log
+  fi
   if [ ! -e /tmp/bootrec ]
   then
     reboot
@@ -42,22 +42,8 @@ then
   rm /tmp/bootrec
   umount -l /cache
   mount /dev/block/mmcblk0p1 /sdcard
+  echo 0 > /sys/module/msm_fb/parameters/align_buffer
   /sbin/adbd&/sbin/recovery
 fi
-    
-# Couldn't be bothered doing this in init syntax (I'm ignorant) so we'll link dalvik here instead
-mkdir /data/dalvik-cache
-    chown system:system /data/dalvik-cache
-    chmod 0771 /data/dalvik-cache
-mkdir /cache/dalvik-cache
-mount -o bind /data/dalvik-cache /cache/dalvik-cache
-    chown system:system /cache/dalvik-cache
-    chmod 0771 /cache/dalvik-cache
 
-# JB/ICS detection
-/sbin/ics-or-jb
-    
 #continue booting
-
-
-
