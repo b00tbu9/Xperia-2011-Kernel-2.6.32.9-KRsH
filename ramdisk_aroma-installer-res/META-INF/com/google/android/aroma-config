@@ -268,8 +268,19 @@ if prop("systemselect.prop","selected")=="2" then
             "All done! You can now boot and/or perform Recovery tasks on this slot.\n\nREMEMBER: *Never* unmount the SDCard in Recovery or you may corrupt this slot."
             );
         exec("sync");
-        #reboot("now");
-        back("999");
+        if confirm(
+          "Slot 2 created",
+          "Would you like to enter Recovery for Slot 2 now?\n\nSelecting No will reboot your device.",
+          "@about"
+        )=="yes"
+        then
+            write("/tmp/bootrec","1");
+            exec("/sbin/busybox","cp","/recovery2.fstab", "/etc/recovery.fstab");
+            exec("sync");
+            exit("");
+        else
+            exit("");
+        endif;
     endif;
     selectbox("Second slot",
             "Please select your desired operation.",
@@ -371,8 +382,19 @@ if prop("systemselect.prop","selected")=="3" then
             "All done! You can now boot and/or perform Recovery tasks on this slot.\n\nREMEMBER: *Never* unmount the SDCard in Recovery or you may corrupt this slot."
             );
         exec("sync");
-        #reboot("now");
-        back("999");
+        if confirm(
+          "Slot 3 created",
+          "Would you like to enter Recovery for Slot 3 now?\n\nSelecting No will reboot your device.",
+          "@about"
+        )=="yes"
+        then
+            write("/tmp/bootrec","1");
+            exec("/sbin/busybox","cp","/recovery3.fstab", "/etc/recovery.fstab");
+            exec("sync");
+            exit("");
+        else
+            exit("");
+        endif;
     endif;
     selectbox("Third slot",
             "Please select your desired operation.",
