@@ -1381,14 +1381,6 @@
 			</object>
 
 			<object type="checkbox">
-				<placement x="%col1_x%" y="%row14_text_y%" />
-				<font resource="font" color="%text_color%" />
-				<text>Enable compression.</text>
-				<data variable="tw_use_compression" />
-				<image checked="checkbox_true" unchecked="checkbox_false" />
-			</object>
-
-			<object type="checkbox">
 				<placement x="%col1_x%" y="%row15_text_y%" />
 				<font resource="font" color="%text_color%" />
 				<text>Skip MD5 generation during backup.</text>
