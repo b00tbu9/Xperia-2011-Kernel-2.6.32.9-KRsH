@@ -23,12 +23,17 @@ then
   chmod 755 /res/aromapreinstall/aroma-installer
   chmod 755 /res/aromapreinstall/*.sh
   setprop sys.usb.config=mass_storage,adb
-  /res/aromapreinstall/aroma-installer 1 0 "/res/aromapreinstall/aroma-installer-res.zip"
+  /sbin/adbd&/res/aromapreinstall/aroma-installer 1 0 "/res/aromapreinstall/aroma-installer-res.zip"
+  
+  # debug
   #touch /tmp/bootrec
-  if [ -e /cache/turbo_repair.ready2copy ]
+  
+  sync
+  
+  if [ -e /tmp/turbo_repair.ready2copy ]
   then
-    rm /cache/turbo_repair.ready2copy
-    mv /cache/turbo_repair.log /sdcard/turbo_repair.log
+    rm /tmp/turbo_repair.ready2copy
+    mv /tmp/turbo_repair.log /sdcard/turbo_repair.log
   fi
   if [ ! -e /tmp/bootrec ]
   then
