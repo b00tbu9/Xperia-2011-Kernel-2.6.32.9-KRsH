@@ -34,8 +34,8 @@ busybox echo 1024000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 busybox echo 122000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 
 
-# trigger amber LED
-busybox echo 255 > ${BOOTREC_LED_RED}
+# trigger blue LED
+busybox echo 0 > ${BOOTREC_LED_RED}
 busybox echo 0 > ${BOOTREC_LED_GREEN}
 busybox echo 255 > ${BOOTREC_LED_BLUE}
 
