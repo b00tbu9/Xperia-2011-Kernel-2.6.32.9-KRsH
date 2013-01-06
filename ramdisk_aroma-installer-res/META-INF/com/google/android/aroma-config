@@ -30,8 +30,6 @@ ini_set("text_finish", "Finish");
 ini_set("text_none", "None");
 ini_set("force_colorspace","bgra");
 
-calibrate("0.8939","43","0.9616","25");
-
 theme("cosmicui");
 
 fontresload( "0", "ttf/Comfortaa.ttf", "14" ); #-- small
@@ -607,7 +605,7 @@ if prop("systemselect.prop","selected")=="4" then
        "@repair"
         );
 
-        ini_set("text_next", "Return");
+        ini_set("text_next", "Reboot");
         writetmpfile(
             "repairdo.prop",
             "do=yes\n"
@@ -617,14 +615,13 @@ if prop("systemselect.prop","selected")=="4" then
    
         install(
         "Repairing",
-        "<b>Turbo Kernel</b> Is now performing scans and repairing where necessary.",
+        "<b>Turbo Kernel</b> is now performing scans and repairing where necessary.",
         "@repair",
-        "The repair process has completed. Be sure to check the log for details. Press Return to return to the main menu."
+        "The repair process has completed. Be sure to check the log for details."
         )
     endif;
     exec("sync");
-    #reboot("now");
-    back("999");
+    exit("");
 endif;
 
 ini_set("force_colorspace", "argb");
