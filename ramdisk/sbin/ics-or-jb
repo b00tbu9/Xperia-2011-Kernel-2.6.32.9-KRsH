@@ -6,8 +6,18 @@ then
   echo 1 > /sys/module/msm_fb/parameters/align_buffer
   setprop turbo.mode jb
   echo jb
+  
+  # fake class to fix log spam
+  if [ ! -e /system/framework/filterfw.jar ]; then
+    echo "dummy file for Turbo Kernel (fixes log spam)" > /system/framework/filterfw.jar
+  fi
 else
   echo 0 > /sys/module/msm_fb/parameters/align_buffer
   setprop turbo.mode ics
   echo ics
+  
+  # fake class to fix log spam
+  if [ ! -e /system/framework/framework2.jar ]; then
+    echo "dummy file for Turbo Kernel (fixes log spam)" > /system/framework/framework2.jar
+  fi
 fi
