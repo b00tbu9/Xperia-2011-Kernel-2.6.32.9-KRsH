@@ -43,18 +43,27 @@ busybox echo 255 > ${BOOTREC_LED_BLUE}
 busybox cat ${BOOTREC_EVENT} > /dev/keycheck&
 busybox sleep 2
 
+# LED off
+busybox echo 0 > ${BOOTREC_LED_RED}
+busybox echo 0 > ${BOOTREC_LED_GREEN}
+busybox echo 0 > ${BOOTREC_LED_BLUE}
+
 # android ramdisk (jb is default)
 load_image=/sbin/ramdisk-jb.cpio
+
+# bind-mount turbo data then unmount sdcard
+busybox mkdir /sdcard
+busybox mount /dev/block/mmcblk0p1 /sdcard
+busybox mkdir /turbo
+busybox mount -o bind /turbo /turbo
+busybox umount /dev/block/mmcblk0p1
+busybox rm -rf /sdcard
 
 # boot decision
 if [ -s /dev/keycheck -o -e /cache/recovery/boot ]
 then
 	busybox echo 'BOOTMENU' >>boot.txt
 	busybox rm /cache/recovery/boot
-	# trigger blue led
-	busybox echo 255 > ${BOOTREC_LED_RED}
-	busybox echo 255 > ${BOOTREC_LED_GREEN}
-	busybox echo 255 > ${BOOTREC_LED_BLUE}
     # start aroma bootmenu
     busybox mkdir /sdcard
     busybox mkdir /tmp
@@ -68,31 +77,30 @@ then
     fi
     busybox sync
     busybox umount /dev/block/mmcblk0p1
-    rm -rf /sdcard
+    busybox rm -rf /sdcard
     #if [ ! -e /tmp/bootrec ]
     #then
     #    reboot
     #fi
 fi
 
-if [ -e /tmp/bootrec ]
-    # recovery ramdisk
-    rm /tmp/bootrec
-    rm -rf /tmp
-	load_image=/sbin/recovery-twrp.cpio
-	echo 0 > /sys/module/msm_fb/parameters/align_buffer
-else
-    rm -rf /tmp
-	busybox echo 'ANDROID BOOT' >>boot.txt
-	# poweroff LED
-	busybox echo 0 > ${BOOTREC_LED_RED}
-	busybox echo 0 > ${BOOTREC_LED_GREEN}
-	busybox echo 0 > ${BOOTREC_LED_BLUE}
-	echo 1 > /sys/module/msm_fb/parameters/align_buffer
-fi
-
 # kill the keycheck process
 busybox pkill -f "busybox cat ${BOOTREC_EVENT}"
+
+if [ -e /tmp/bootrec ]
+    # recovery ramdisk
+    busybox rm /tmp/bootrec
+    busybox rm -rf /tmp
+	load_image=/sbin/recovery-twrp.cpio
+	busybox echo 0 > /sys/module/msm_fb/parameters/align_buffer
+else
+    # Prepare for normal boot
+    busybox rm -rf /tmp
+	busybox echo 'ANDROID BOOT' >>boot.txt
+    # Which RAMDisk do we need?
+    if [ "$(busybox grep -F "mode=" /turbo/slot4.prop | busybox sed "s/mode=//g")" == "JB-AOSP" ]; then
+	echo 1 > /sys/module/msm_fb/parameters/align_buffer
+fi
 
 # unpack the ramdisk image
 busybox cpio -i < ${load_image}

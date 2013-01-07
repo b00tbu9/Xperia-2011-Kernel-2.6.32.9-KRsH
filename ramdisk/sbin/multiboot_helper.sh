@@ -2,27 +2,27 @@
 
 checkfresh()
 {
-    if [ ! -e /sdcard/turbo/version ]; then
+    if [ ! -e /turbo/version ]; then
         # delete old settings
-        busybox rm -rf /sdcard/turbo
-        busybox mkdir /sdcard/turbo
-        busybox uname -r > /sdcard/turbo/version;
-        busybox echo "icon=@slot1" > /sdcard/turbo/slot1.prop
-        busybox echo "text=Slot 1" >> /sdcard/turbo/slot1.prop
-        busybox echo "custom=true" >> /sdcard/turbo/slot1.prop
-        busybox echo "mode=JB-AOSP" >> /sdcard/turbo/slot1.prop
-        busybox echo "icon=@slot2" > /sdcard/turbo/slot2.prop
-        busybox echo "text=Slot 2" >> /sdcard/turbo/slot2.prop
-        busybox echo "custom=true" >> /sdcard/turbo/slot2.prop
-        busybox echo "mode=JB-AOSP" >> /sdcard/turbo/slot2.prop
-        busybox echo "icon=@slot3" > /sdcard/turbo/slot3.prop
-        busybox echo "text=Slot 3" >> /sdcard/turbo/slot3.prop
-        busybox echo "custom=true" >> /sdcard/turbo/slot3.prop
-        busybox echo "mode=JB-AOSP" >> /sdcard/turbo/slot3.prop
-        busybox echo "icon=@slot4" > /sdcard/turbo/slot4.prop
-        busybox echo "text=Slot 4" >> /sdcard/turbo/slot4.prop
-        busybox echo "custom=true" >> /sdcard/turbo/slot4.prop
-        busybox echo "mode=JB-AOSP" >> /sdcard/turbo/slot4.prop
+        busybox rm -rf /turbo
+        busybox mkdir /turbo
+        busybox uname -r > /turbo/version;
+        busybox echo "icon=@slot1" > /turbo/slot1.prop
+        busybox echo "text=Slot 1" >> /turbo/slot1.prop
+        busybox echo "custom=true" >> /turbo/slot1.prop
+        busybox echo "mode=JB-AOSP" >> /turbo/slot1.prop
+        busybox echo "icon=@slot2" > /turbo/slot2.prop
+        busybox echo "text=Slot 2" >> /turbo/slot2.prop
+        busybox echo "custom=true" >> /turbo/slot2.prop
+        busybox echo "mode=JB-AOSP" >> /turbo/slot2.prop
+        busybox echo "icon=@slot3" > /turbo/slot3.prop
+        busybox echo "text=Slot 3" >> /turbo/slot3.prop
+        busybox echo "custom=true" >> /turbo/slot3.prop
+        busybox echo "mode=JB-AOSP" >> /turbo/slot3.prop
+        busybox echo "icon=@slot4" > /turbo/slot4.prop
+        busybox echo "text=Slot 4" >> /turbo/slot4.prop
+        busybox echo "custom=true" >> /turbo/slot4.prop
+        busybox echo "mode=JB-AOSP" >> /turbo/slot4.prop
         busybox echo "1";
     else
         busybox echo "0";
@@ -31,15 +31,15 @@ checkfresh()
 
 clearslot()
 {
-    busybox echo "icon=@slot$2" > /sdcard/turbo/slot$2.prop
-    busybox echo "text=Slot $2" >> /sdcard/turbo/slot$2.prop
-    busybox echo "custom=true" >> /sdcard/turbo/slot$2.prop
-    busybox echo "mode=JB-AOSP" >> /sdcard/turbo/slot$2.prop
+    busybox echo "icon=@slot$2" > /turbo/slot$2.prop
+    busybox echo "text=Slot $2" >> /turbo/slot$2.prop
+    busybox echo "custom=true" >> /turbo/slot$2.prop
+    busybox echo "mode=JB-AOSP" >> /turbo/slot$2.prop
 }
 
 checkslot()
 {
-    if [ ! -e /sdcard/system$2.ext2.img ] && [ ! -e /sdcard/userdata$2.ext2.img ]; then 
+    if [ ! -e /turbo/system$2.ext2.img ] && [ ! -e /turbo/userdata$2.ext2.img ]; then 
         busybox echo "1";
     else
         busybox echo "0";
@@ -75,20 +75,20 @@ makeimage()
         else
             IMGSIZE=$4
         fi
-        busybox rm /sdcard/system$2.ext2.img
-        busybox dd if=/dev/zero of=/sdcard/system$2.ext2.img bs=1K count=$IMGSIZE
-        busybox mke2fs -b 1024 -I 128 -m 0 -F -E resize=$(( IMGSIZE * 2 )) /sdcard/system$2.ext2.img
-        busybox tune2fs -C 1 -m 0 -f /sdcard/system$2.ext2.img
+        busybox rm /turbo/system$2.ext2.img
+        busybox dd if=/dev/zero of=/turbo/system$2.ext2.img bs=1K count=$IMGSIZE
+        busybox mke2fs -b 1024 -I 128 -m 0 -F -E resize=$(( IMGSIZE * 2 )) /turbo/system$2.ext2.img
+        busybox tune2fs -C 1 -m 0 -f /turbo/system$2.ext2.img
     elif [ "$3" == "userdata" ]; then
         if [ "$4" == "1" ]; then
             IMGSIZE=`cat /proc/partitions | grep mtdblock1 | awk '{print $3}'`
         else
             IMGSIZE=$4
         fi
-        busybox rm /sdcard/userdata$2.ext2.img
-        busybox dd if=/dev/zero of=/sdcard/userdata$2.ext2.img bs=1K count=$IMGSIZE
-        busybox mke2fs -b 1024 -I 128 -m 0 -F -E resize=$(( IMGSIZE * 2 )) /sdcard/userdata$2.ext2.img
-        busybox tune2fs -C 1 -m 0 -f /sdcard/userdata$2.ext2.img
+        busybox rm /turbo/userdata$2.ext2.img
+        busybox dd if=/dev/zero of=/turbo/userdata$2.ext2.img bs=1K count=$IMGSIZE
+        busybox mke2fs -b 1024 -I 128 -m 0 -F -E resize=$(( IMGSIZE * 2 )) /turbo/userdata$2.ext2.img
+        busybox tune2fs -C 1 -m 0 -f /turbo/userdata$2.ext2.img
     fi
 }
 
@@ -97,7 +97,7 @@ copyimage()
     if   [ "$3" == "system" ]; then
         busybox mkdir /dest
         busybox mount -t yaffs2 -o ro /dev/block/mtdblock0 /system
-        busybox mount -t ext2 -o rw,loop /sdcard/system$2.ext2.img /dest
+        busybox mount -t ext2 -o rw,loop /turbo/system$2.ext2.img /dest
         #tar -c -f - -p /system/* |(cd /dest; tar -x -f - -p)
         busybox cp -a /system/* /dest
         busybox umount /system
@@ -106,7 +106,7 @@ copyimage()
     elif [ "$3" == "userdata" ]; then
         busybox mkdir /dest
         busybox mount -t yaffs2 -o ro /dev/block/mtdblock1 /data
-        busybox mount -t ext2 -o rw,loop /sdcard/userdata$2.ext2.img /dest
+        busybox mount -t ext2 -o rw,loop /turbo/userdata$2.ext2.img /dest
         #tar -c -f - -p /system/* |(cd /dest; tar -x -f - -p)
         busybox cp -a /data/* /dest
         busybox umount /data
@@ -119,20 +119,20 @@ boot2()
 {
     umount /system
     umount /data
-    mount -t ext2   -o rw,loop                       /sdcard/system2.ext2.img    /system
+    mount -t ext2   -o rw,loop                       /turbo/system2.ext2.img    /system
     /sbin/mountsd.sh
-    mount -t ext2   -o ro,loop                       /sdcard/system2.ext2.img    /system
-    mount -t ext2   -o rw,loop,noatime,nosuid,nodev  /sdcard/userdata2.ext2.img  /data
+    mount -t ext2   -o ro,loop                       /turbo/system2.ext2.img    /system
+    mount -t ext2   -o rw,loop,noatime,nosuid,nodev  /turbo/userdata2.ext2.img  /data
 }
 
 boot3()
 {
     umount /system
     umount /data
-    mount -t ext2   -o rw,loop                       /sdcard/system3.ext2.img    /system
+    mount -t ext2   -o rw,loop                       /turbo/system3.ext2.img    /system
     /sbin/mountsd.sh
-    mount -t ext2   -o ro,loop                       /sdcard/system3.ext2.img    /system
-    mount -t ext2   -o rw,loop,noatime,nosuid,nodev  /sdcard/userdata3.ext2.img  /data
+    mount -t ext2   -o ro,loop                       /turbo/system3.ext2.img    /system
+    mount -t ext2   -o rw,loop,noatime,nosuid,nodev  /turbo/userdata3.ext2.img  /data
 }
 
 mountproc()
@@ -154,11 +154,11 @@ mountproc()
         rm /cache/multiboot3
         boot3
         multifix
-    elif [ -e /sdcard/turbo/defaultboot_2 ]
+    elif [ -e /turbo/defaultboot_2 ]
     then
         boot2
         multifix
-    elif [ -e /sdcard/turbo/defaultboot_3 ]
+    elif [ -e /turbo/defaultboot_3 ]
     then
         boot3
         multifix

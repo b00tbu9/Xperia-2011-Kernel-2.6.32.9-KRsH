@@ -56,17 +56,17 @@ endif;
 ##### LOAD CUSTOMIZATION
 ########################################
 
-setvar("slot1icon",    file_getprop("/sdcard/turbo/slot1.prop","icon"));
-setvar("slot1text",    file_getprop("/sdcard/turbo/slot1.prop","text"));
+setvar("slot1icon",    file_getprop("/turbo/slot1.prop","icon"));
+setvar("slot1text",    file_getprop("/turbo/slot1.prop","text"));
 
-setvar("slot2icon",    file_getprop("/sdcard/turbo/slot2.prop","icon"));
-setvar("slot2text",    file_getprop("/sdcard/turbo/slot2.prop","text"));
+setvar("slot2icon",    file_getprop("/turbo/slot2.prop","icon"));
+setvar("slot2text",    file_getprop("/turbo/slot2.prop","text"));
 
-setvar("slot3icon",    file_getprop("/sdcard/turbo/slot3.prop","icon"));
-setvar("slot3text",    file_getprop("/sdcard/turbo/slot3.prop","text"));
+setvar("slot3icon",    file_getprop("/turbo/slot3.prop","icon"));
+setvar("slot3text",    file_getprop("/turbo/slot3.prop","text"));
 
-setvar("slot4icon",    file_getprop("/sdcard/turbo/slot4.prop","icon"));
-setvar("slot4text",    file_getprop("/sdcard/turbo/slot4.prop","text"));
+setvar("slot4icon",    file_getprop("/turbo/slot4.prop","icon"));
+setvar("slot4text",    file_getprop("/turbo/slot4.prop","text"));
 
 setvar("slot1default", "");
 setvar("slot2default", "");
@@ -439,42 +439,42 @@ if prop("systemselect.prop","selected")=="5" then
             "None/Other",  "Slot "                         + prop("systemcustomize.prop","selected"),    "@slot1"
         );
         if prop("slotcustomizeentry.prop","selected")=="1" then
-            write("/sdcard/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
+            write("/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
                 "icon=@turbo\n"+
                 "text=Turbo UI in Slot " + prop("systemcustomize.prop","selected") + "\n"+
                 "custom=true"
             );
         endif;
         if prop("slotcustomizeentry.prop","selected")=="2" then
-            write("/sdcard/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
+            write("/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
                 "icon=@slimbean\n"+
                 "text=SlimBean in Slot " + prop("systemcustomize.prop","selected") + "\n"+
                 "custom=true"
             );
         endif;
         if prop("slotcustomizeentry.prop","selected")=="3" then
-            write("/sdcard/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
+            write("/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
                 "icon=@pac\n"+
                 "text=P.A.C. Man in Slot " + prop("systemcustomize.prop","selected") + "\n"+
                 "custom=true"
             );
         endif;
         if prop("slotcustomizeentry.prop","selected")=="4" then
-            write("/sdcard/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
+            write("/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
                 "icon=@jellyzeus\n"+
                 "text=Jellyzeus in Slot " + prop("systemcustomize.prop","selected") + "\n"+
                 "custom=true"
             );
         endif;
         if prop("slotcustomizeentry.prop","selected")=="5" then
-            write("/sdcard/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
+            write("/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
                 "icon=@cm10\n"+
                 "text=CyanogenMod in Slot " + prop("systemcustomize.prop","selected") + "\n"+
                 "custom=true"
             );
         endif;
         if prop("slotcustomizeentry.prop","selected")=="6" then
-            write("/sdcard/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
+            write("/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
                 "icon=@slot1\n"+
                 "text=Slot " + prop("systemcustomize.prop","selected") + "\n"+
                 "custom=true"
@@ -524,17 +524,17 @@ if prop("systemselect.prop","selected")=="5" then
         exec("/sbin/busybox", "rm", "-f", "/sdcard/userdata" + prop("slotcustomizeentry.prop","selected") + ".ext2.img");
         exec("/res/aromapreinstall/multiboot_helper.sh", "clearslot", prop("slotcustomizeentry.prop","selected"));
         
-        setvar("slot1icon",    file_getprop("/sdcard/turbo/slot1.prop","icon"));
-        setvar("slot1text",    file_getprop("/sdcard/turbo/slot1.prop","text"));
+        setvar("slot1icon",    file_getprop("/turbo/slot1.prop","icon"));
+        setvar("slot1text",    file_getprop("/turbo/slot1.prop","text"));
 
-        setvar("slot2icon",    file_getprop("/sdcard/turbo/slot2.prop","icon"));
-        setvar("slot2text",    file_getprop("/sdcard/turbo/slot2.prop","text"));
+        setvar("slot2icon",    file_getprop("/turbo/slot2.prop","icon"));
+        setvar("slot2text",    file_getprop("/turbo/slot2.prop","text"));
 
-        setvar("slot3icon",    file_getprop("/sdcard/turbo/slot3.prop","icon"));
-        setvar("slot3text",    file_getprop("/sdcard/turbo/slot3.prop","text"));
+        setvar("slot3icon",    file_getprop("/turbo/slot3.prop","icon"));
+        setvar("slot3text",    file_getprop("/turbo/slot3.prop","text"));
 
-        setvar("slot4icon",    file_getprop("/sdcard/turbo/slot4.prop","icon"));
-        setvar("slot4text",    file_getprop("/sdcard/turbo/slot4.prop","text"));
+        setvar("slot4icon",    file_getprop("/turbo/slot4.prop","icon"));
+        setvar("slot4text",    file_getprop("/turbo/slot4.prop","text"));
         
         exec("/sbin/busybox", "sync");
         

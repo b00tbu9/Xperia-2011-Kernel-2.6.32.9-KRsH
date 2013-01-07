@@ -45,11 +45,11 @@ fixpermissions()
         if [ -e /system/etc/init.d/11link2sd ]; then /sbin/sh /system/etc/init.d/11link2sd; fi
         /sbin/fix_permissions >> /tmp/turbo_repair.log
     else
-        if [ -e /sdcard/userdata$2.ext2.img ]; then
+        if [ -e /turbo/userdata$2.ext2.img ]; then
             echo "### About to repair permissions for Slot $2... " >> /tmp/turbo_repair.log
             echo "###" >> /tmp/turbo_repair.log
-            mount -t ext2 -o rw,loop,noatime,nosuid,nodev  /sdcard/system$2.ext2.img  /system >> /tmp/turbo_repair.log
-            mount -t ext2 -o rw,loop,noatime,nosuid,nodev  /sdcard/userdata$2.ext2.img  /data >> /tmp/turbo_repair.log
+            mount -t ext2 -o rw,loop,noatime,nosuid,nodev  /turbo/system$2.ext2.img  /system >> /tmp/turbo_repair.log
+            mount -t ext2 -o rw,loop,noatime,nosuid,nodev  /turbo/userdata$2.ext2.img  /data >> /tmp/turbo_repair.log
             if [ -e /system/etc/init.d/11link2sd ]; then /sbin/sh /system/etc/init.d/11link2sd; fi
             /sbin/fix_permissions >> /tmp/turbo_repair.log
         else
