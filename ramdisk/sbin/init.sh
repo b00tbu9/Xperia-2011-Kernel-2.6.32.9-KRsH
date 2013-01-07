@@ -175,6 +175,8 @@ busybox umount -l /cache
 busybox umount -l /proc
 busybox umount -l /sys
 
+busybox rm -rf /cache
+
 busybox rm -fr /dev/*
 busybox date >>boot.txt
 export PATH="${_PATH}"
