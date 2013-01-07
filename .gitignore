@@ -48,6 +48,10 @@ lib/lib.a
 net/sched/cls_flow.mod.c
 net/sched/sch_dsmark.mod.c
 ramdisk_fxp152/
+ramdisk_old/
+ramdisk/sbin/aroma-res.zip
+ramdisk/sbin/ramdisk-jb.cpio
+ramdisk/sbin/recovery-twrp.cpio
 scripts/
 usr/.initramfs_data.cpio.d
 usr/gen_init_cpio
