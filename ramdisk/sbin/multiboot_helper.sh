@@ -9,19 +9,15 @@ checkfresh()
         busybox uname -r > /turbo/version;
         busybox echo "icon=@slot1" > /turbo/slot1.prop
         busybox echo "text=Slot 1" >> /turbo/slot1.prop
-        busybox echo "custom=true" >> /turbo/slot1.prop
         busybox echo "mode=JB-AOSP" >> /turbo/slot1.prop
         busybox echo "icon=@slot2" > /turbo/slot2.prop
         busybox echo "text=Slot 2" >> /turbo/slot2.prop
-        busybox echo "custom=true" >> /turbo/slot2.prop
         busybox echo "mode=JB-AOSP" >> /turbo/slot2.prop
         busybox echo "icon=@slot3" > /turbo/slot3.prop
         busybox echo "text=Slot 3" >> /turbo/slot3.prop
-        busybox echo "custom=true" >> /turbo/slot3.prop
         busybox echo "mode=JB-AOSP" >> /turbo/slot3.prop
         busybox echo "icon=@slot4" > /turbo/slot4.prop
         busybox echo "text=Slot 4" >> /turbo/slot4.prop
-        busybox echo "custom=true" >> /turbo/slot4.prop
         busybox echo "mode=JB-AOSP" >> /turbo/slot4.prop
         busybox echo "1";
     else

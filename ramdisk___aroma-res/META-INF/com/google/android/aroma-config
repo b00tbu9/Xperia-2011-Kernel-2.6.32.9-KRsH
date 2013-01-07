@@ -438,46 +438,50 @@ if prop("systemselect.prop","selected")=="5" then
             "CyanogenMod", "Boot CyanogenMod in Slot "     + prop("systemcustomize.prop","selected"),    "@cm10",
             "None/Other",  "Slot "                         + prop("systemcustomize.prop","selected"),    "@slot1"
         );
+        
+        #store existing values
+        setvar("mode", file_getprop(/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", "mode"));
+        
         if prop("slotcustomizeentry.prop","selected")=="1" then
             write("/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
                 "icon=@turbo\n"+
                 "text=Turbo UI in Slot " + prop("systemcustomize.prop","selected") + "\n"+
-                "custom=true"
+                "mode="+getvar("mode")+"\n"
             );
         endif;
         if prop("slotcustomizeentry.prop","selected")=="2" then
             write("/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
                 "icon=@slimbean\n"+
                 "text=SlimBean in Slot " + prop("systemcustomize.prop","selected") + "\n"+
-                "custom=true"
+                "mode="+getvar("mode")+"\n"
             );
         endif;
         if prop("slotcustomizeentry.prop","selected")=="3" then
             write("/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
                 "icon=@pac\n"+
                 "text=P.A.C. Man in Slot " + prop("systemcustomize.prop","selected") + "\n"+
-                "custom=true"
+                "mode="+getvar("mode")+"\n"
             );
         endif;
         if prop("slotcustomizeentry.prop","selected")=="4" then
             write("/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
                 "icon=@jellyzeus\n"+
                 "text=Jellyzeus in Slot " + prop("systemcustomize.prop","selected") + "\n"+
-                "custom=true"
+                "mode="+getvar("mode")+"\n"
             );
         endif;
         if prop("slotcustomizeentry.prop","selected")=="5" then
             write("/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
                 "icon=@cm10\n"+
                 "text=CyanogenMod in Slot " + prop("systemcustomize.prop","selected") + "\n"+
-                "custom=true"
+                "mode="+getvar("mode")+"\n"
             );
         endif;
         if prop("slotcustomizeentry.prop","selected")=="6" then
             write("/turbo/slot" + prop("systemcustomize.prop","selected") + ".prop", 
                 "icon=@slot1\n"+
                 "text=Slot " + prop("systemcustomize.prop","selected") + "\n"+
-                "custom=true"
+                "mode="+getvar("mode")+"\n"
             );
         endif;
         back("999");
