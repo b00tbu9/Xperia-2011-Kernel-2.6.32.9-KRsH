@@ -533,3 +533,5 @@ service suntrolkac /system/bin/suntrolkac
     oneshot
 
 
+#on property:sys.boot_completed=1
+#    exec /sbin/app2sd.sh

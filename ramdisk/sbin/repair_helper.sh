@@ -1,4 +1,4 @@
-#!/sbin/sh
+#!/sbin/busybox sh
 
 start()
 {

@@ -1,4 +1,4 @@
-#!/sbin/sh
+#!/sbin/busybox sh
 
 export BOOTREC_CACHE_NODE="/dev/block/mtdblock2 b 31 2"
 export BOOTREC_CACHE="/dev/block/mtdblock2"
