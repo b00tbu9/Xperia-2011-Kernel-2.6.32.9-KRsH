@@ -1,13 +1,21 @@
+mkdir ramdisk/modules/ >nul
 cp -f drivers/net/wireless/bcm4329/bcm4329.ko ramdisk/modules/
 echo "[i] bcm4329.ko added to ramdisk"
-rm ./ramdisk/res/aromapreinstall/aroma-installer-res.zip
-cd ramdisk_aroma-installer-res
+rm ./ramdisk/sbin/aroma-res.zip
+cd ramdisk___aroma-res
 zip -9 -r -q ../ramdisk/sbin/aroma-res.zip *
-echo "[i] aroma-installer-res.zip added to ramdisk"
+echo "[i] aroma-res.zip built"
+cd ../ramdisk___ramdisk-jb
+find . | cpio -o -H newc > ../ramdisk/sbin/ramdisk-jb.cpio
+echo "[i] ramdisk-jb.cpio built"
+cd ../ramdisk___recovery-twrp
+find . | cpio -o -H newc > ../ramdisk/sbin/recovery-twrp.cpio
+echo "[i] recovery-twrp.cpio built"
 cd ../ramdisk
 find . | cpio -o -H newc | gzip > ../ramdisk.img
+echo "[i] ramdisk.img built"
 cd ..
 ./mkbootimg --base 0x00200000 --kernel ./arch/arm/boot/zImage --ramdisk ramdisk.img -o boot.img
 #./mkbootimg --base 0x00200000 --kernel ./arch/arm/boot/Image --ramdisk ramdisk.img -o boot.img
-rm ramdisk.img
+#rm ramdisk.img
 echo "  boot.img ready"
