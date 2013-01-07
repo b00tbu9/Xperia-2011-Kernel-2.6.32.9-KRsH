@@ -114,7 +114,8 @@ if prop("systemselect.prop","selected")=="1" then
             "TWRP Recovery",    "Enter Team-Win Recovery Project now",              "@twrp",
             "CWM Recovery",     "Enter ClockworkMod Recovery now",                  "@cwm",
             "Fix Wifi",         "Force a Wifi module install if you have issues",   "@wifi",
-            "Change Slot Mode", "Current Slot Mode is JB-AOSP",                     "@android",
+            "Change Slot Mode", "Current Slot Mode is " + file_getprop("/turbo/slot1mode.prop","mode"),
+                                                                                    "@android",
             "Tweaks and Mods",  "Various things for your hacking pleasures",        "@customize"
     );
 endif;
@@ -133,7 +134,8 @@ if prop("systemselect.prop","selected")=="2" then
                 "TWRP Recovery",    "Enter Team-Win Recovery Project now",              "@twrp",
                 "CWM Recovery",     "Enter ClockworkMod Recovery now",                  "@cwm",
                 "Fix Wifi",         "Force a Wifi module install if you have issues",   "@wifi",
-                "Change Slot Mode", "Current Slot Mode is JB-AOSP",                     "@android",
+                "Change Slot Mode", "Current Slot Mode is " + file_getprop("/turbo/slot2mode.prop","mode"),
+                                                                                        "@android",
                 "Tweaks and Mods",  "Various things for your hacking pleasures",        "@customize"
         );
     endif;
@@ -153,7 +155,8 @@ if prop("systemselect.prop","selected")=="3" then
                 "TWRP Recovery",    "Enter Team-Win Recovery Project now",              "@twrp",
                 "CWM Recovery",     "Enter ClockworkMod Recovery now",                  "@cwm",
                 "Fix Wifi",         "Force a Wifi module install if you have issues",   "@wifi",
-                "Change Slot Mode", "Current Slot Mode is JB-AOSP",                     "@android",
+                "Change Slot Mode", "Current Slot Mode is " + file_getprop("/turbo/slot3mode.prop","mode"),
+                                                                                        "@android",
                 "Tweaks and Mods",  "Various things for your hacking pleasures",        "@customize"
         );
     endif;
@@ -173,7 +176,8 @@ if prop("systemselect.prop","selected")=="4" then
                 "TWRP Recovery",    "Enter Team-Win Recovery Project now",              "@twrp",
                 "CWM Recovery",     "Enter ClockworkMod Recovery now",                  "@cwm",
                 "Fix Wifi",         "Force a Wifi module install if you have issues",   "@wifi",
-                "Change Slot Mode", "Current Slot Mode is JB-AOSP",                     "@android",
+                "Change Slot Mode", "Current Slot Mode is " + file_getprop("/turbo/slot4mode.prop","mode"),
+                                                                                        "@android",
                 "Tweaks and Mods",  "Various things for your hacking pleasures",        "@customize"
         );
     endif;
@@ -231,15 +235,31 @@ endif;
 ##########
 # Mode
 if prop("systemtask.prop","selected")=="5" then
-    # TODO
-    back("999");
+    menubox(
+        "Slot Mode",
+        "Select the type of ROM that will be (or already is) installed to this slot.",
+        "@android",
+        "mode.prop",
+            "JB-AOSP",          "Jellybean ROM's based on AOSP (Default)",                  "@jellyzeus",
+            "ICS-AOSP",         "Ice Cream Sandwich ROM's based on AOSP (e.g. CM9, AOKP)",  "@cm10"
+    );
+    
+    if prop("mode.prop","selected")=="1" then
+        write("/turbo/slot" + getvar("currentslot") + "mode.prop", "mode=JB-AOSP\n");
+    endif;
+    
+    if prop("mode.prop","selected")=="2" then
+        write("/turbo/slot" + getvar("currentslot") + "mode.prop", "mode=ICS-AOSP\n");
+    endif;
+    
+    back("2");
 endif;
 
 ##########
 # Tweaks
 if prop("systemtask.prop","selected")=="6" then
-    # TODO
-    back("999");
+    alert("Not Implemented","This option doesn't do anything yet.\n\nIf you have any suggestions or ideas, please let me know!", "@customize");
+    back("2");
 endif;
 
 
@@ -662,7 +682,9 @@ then
         "Creating Slot " + getvar("currentslot"),
         "<b>Turbo Kernel</b> is now performing the slot creation.",
         "@cog",
-        "All done! You can now boot and/or perform Recovery tasks on this slot.\n\nREMEMBER: *Never* unmount the SDCard in Recovery or you may corrupt this slot."
+        "All done! You can now boot and/or perform Recovery tasks on this slot.\n\n"+
+        "<b>If you are not installing a Jellybean ROM in this Slot, be *sure* to change the Mode in the Slot Menu.</b>\n\n\n"+
+        "REMEMBER: *Never* unmount the SDCard when in this Slot or you may corrupt the images and your SDCard."
     );
     exec("/sbin/busybox", "sync");
     back("999");
