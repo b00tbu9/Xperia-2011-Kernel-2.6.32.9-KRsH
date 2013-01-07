@@ -56,7 +56,7 @@ busybox mkdir /sdcard
 busybox mount /dev/block/mmcblk0p1 /sdcard
 busybox mkdir /turbo
 busybox mount -o bind /turbo /turbo
-busybox umount /dev/block/mmcblk0p1
+busybox umount -l /dev/block/mmcblk0p1
 busybox rm -rf /sdcard
 
 # boot decision
@@ -76,7 +76,7 @@ then
         busybox mv /tmp/turbo_repair.log /sdcard/turbo_repair.log
     fi
     busybox sync
-    busybox umount /dev/block/mmcblk0p1
+    busybox umount -l /dev/block/mmcblk0p1
     busybox rm -rf /sdcard
     #if [ ! -e /tmp/bootrec ]
     #then
@@ -105,9 +105,9 @@ fi
 # unpack the ramdisk image
 busybox cpio -i < ${load_image}
 
-busybox umount /cache
-busybox umount /proc
-busybox umount /sys
+busybox umount -l /cache
+busybox umount -l /proc
+busybox umount -l /sys
 
 busybox rm -fr /dev/*
 busybox date >>boot.txt
