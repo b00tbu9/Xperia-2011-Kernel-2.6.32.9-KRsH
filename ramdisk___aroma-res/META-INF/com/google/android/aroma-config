@@ -219,17 +219,17 @@ endif;
 if prop("systemtask.prop","selected")=="4" then
     pleasewait("Copying Wifi module to Slot " + getvar("currentslot") + " ...");
     if getvar("currentslot")=="1" then
-        # TODO
+        exec("/sbin/busybox","mount","-t","yaffs2","/dev/block/mtdblock0","/system");
     else
         exec("/sbin/busybox","mount", "-w", "-t", "ext2", "/sdcard/system" + getvar("currentslot") + ".ext2.img", "/system");
-        exec("/sbin/busybox","mkdir", "-p", "/system/lib/modules");
-        exec("/sbin/busybox","cp", "-f", "/modules/bcm4329.ko", "/system/lib/modules/bcm4329.ko");
-        exec("/sbin/busybox","chmod","664", "/system/lib/modules/bcm4329.ko");
-        exec("/sbin/busybox","umount", "/system");
-        exec("/sbin/busybox","sync");
-        alert("Fix Wifi","The Wifi module has been forcibly installed to Slot " + getvar("currentslot") + ".\n\nPress OK to return to the main menu.", "@cog");
-        back("999");
     endif;
+    exec("/sbin/busybox","mkdir", "-p", "/system/lib/modules");
+    exec("/sbin/busybox","cp", "-f", "/modules/bcm4329.ko", "/system/lib/modules/bcm4329.ko");
+    exec("/sbin/busybox","chmod","664", "/system/lib/modules/bcm4329.ko");
+    exec("/sbin/busybox","umount", "/system");
+    exec("/sbin/busybox","sync");
+    alert("Fix Wifi","The Wifi module has been forcibly installed to Slot " + getvar("currentslot") + ".\n\nPress OK to return to the main menu.", "@cog");
+    back("999");
 endif;
 
 ##########
@@ -306,11 +306,11 @@ if prop("systemselect.prop","selected")=="5" then
             "(1) First/Internal slot "  + getvar("slot1default"),  getvar("slot1text"),                             getvar("slot1icon"),
             "(2) Second slot "          + getvar("slot2default"),  getvar("slot2text"),                             getvar("slot2icon"),
             "(3) Third slot "           + getvar("slot3default"),  getvar("slot3text"),                             getvar("slot3icon"),
-            "(4) Fourth slot "          + getvar("slot4default"),  getvar("slot4text"),                             getvar("slot4icon"),
+            "(4) Fourth slot "          + getvar("slot4default"),  getvar("slot4text"),                             getvar("slot4icon")
         );
         
         if prop("newdefault.prop","selected")=="1" then
-            setvar("slot1default", "[Default]"); endif;
+            setvar("slot1default", "[Default]");
             setvar("slot2default", "");
             setvar("slot3default", "");
             setvar("slot4default", "");
@@ -321,7 +321,7 @@ if prop("systemselect.prop","selected")=="5" then
         endif;
         
         if prop("newdefault.prop","selected")=="2" then
-            setvar("slot1default", ""); endif;
+            setvar("slot1default", "");
             setvar("slot2default", "[Default]");
             setvar("slot3default", "");
             setvar("slot4default", "");
@@ -332,7 +332,7 @@ if prop("systemselect.prop","selected")=="5" then
         endif;
         
         if prop("newdefault.prop","selected")=="3" then
-            setvar("slot1default", ""); endif;
+            setvar("slot1default", "");
             setvar("slot2default", "");
             setvar("slot3default", "[Default]");
             setvar("slot4default", "");
@@ -343,7 +343,7 @@ if prop("systemselect.prop","selected")=="5" then
         endif;
         
         if prop("newdefault.prop","selected")=="4" then
-            setvar("slot1default", ""); endif;
+            setvar("slot1default", "");
             setvar("slot2default", "");
             setvar("slot3default", "");
             setvar("slot4default", "[Default]");
@@ -429,7 +429,7 @@ if prop("systemselect.prop","selected")=="5" then
             "<b>Turbo Kernel</b> is now performing scans and repairing where necessary.",
             "@repair",
             "The repair process has completed. Be sure to check the log for details."
-        )
+        );
         exec("/sbin/busybox", "sync");
         back("999");
     endif;
@@ -444,7 +444,7 @@ if prop("systemselect.prop","selected")=="5" then
             "(1) First/Internal slot ",  getvar("slot1text"),                             getvar("slot1icon"),
             "(2) Second slot ",          getvar("slot2text"),                             getvar("slot2icon"),
             "(3) Third slot ",           getvar("slot3text"),                             getvar("slot3icon"),
-            "(4) Fourth slot ",          getvar("slot4text"),                             getvar("slot4icon"),
+            "(4) Fourth slot ",          getvar("slot4text"),                             getvar("slot4icon")
         );
         setvar("slotcustomize", prop("systemcustomize.prop","selected"));
         menubox("Customze",
@@ -509,7 +509,7 @@ if prop("systemselect.prop","selected")=="5" then
             "(1) First/Internal slot ", getvar("slot1text"),  getvar("slot1icon"),
             "(2) Second slot ",         getvar("slot2text"),  getvar("slot2icon"),
             "(3) Third slot ",          getvar("slot3text"),  getvar("slot3icon"),
-            "(4) Fourth slot ",         getvar("slot4text"),  getvar("slot4icon"),
+            "(4) Fourth slot ",         getvar("slot4text"),  getvar("slot4icon")
         );
         
         
@@ -517,10 +517,10 @@ if prop("systemselect.prop","selected")=="5" then
         if prop("slotcustomizeentry.prop","selected")!="1" then
             viewbox(
                 "Delete Slot " + prop("slotcustomizeentry.prop","selected"),
-                "Are you sure you wish to delete Slot " + prop("slotcustomizeentry.prop","selected") + "?"\n\n"+
+                "Are you sure you wish to delete Slot " + prop("slotcustomizeentry.prop","selected") + "?\n\n"+
                     "These files will be <b>deleted</b> from the SDCard:\n"+
-                    " - system" + prop("slotcustomizeentry.prop","selected") + ".ext2.img\n"
-                    " - userdata" + prop("slotcustomizeentry.prop","selected") + ".ext2.img\n\n"
+                    " - system" + prop("slotcustomizeentry.prop","selected") + ".ext2.img\n"+
+                    " - userdata" + prop("slotcustomizeentry.prop","selected") + ".ext2.img\n\n"+
                     "Additionally, Boot Menu settings will be set back to defaults. This includes the custom icon/text and the Mode.",
                 "@warning"
             );
@@ -579,7 +579,7 @@ endif;
 ##### SLOT CREATE
 ########################################
 
-setvar("exec_buffer", "")
+setvar("exec_buffer", "");
 exec("/sbin/multiboot_helper.sh", "checkslot", getvar("currentslot"));
 if getvar("exec_buffer") == "1\n"
 then
@@ -607,11 +607,11 @@ then
         "640MB",              "System partition will be 640MB (huge)",                                0,
         "Userdata",           "WARNING - The larger the image, the longer the slot creation will take.",  2,   # selected.2
         "Same as Internal",   "Create userdata with the same size as Internal (recommended)",         1,
-        "320MB",              "Userdata will be 320MB (smaller, stock-like),                          0,
-        "640MB",              "Userdata will be 700MB (larger),                                       0,
-        "1024MB",             "Userdata will be 1024MB (huge),                                        0,
-        "1600MB",             "Userdata will be 1600MB (massive),                                     0,
-        "2800MB",             "Userdata will be 2800MB (U CRAZY?),                                    0
+        "320MB",              "Userdata will be 320MB (smaller, stock-like)",                         0,
+        "640MB",              "Userdata will be 700MB (larger)",                                      0,
+        "1024MB",             "Userdata will be 1024MB (huge)",                                       0,
+        "1600MB",             "Userdata will be 1600MB (massive)",                                    0,
+        "2800MB",             "Userdata will be 2800MB (U CRAZY?)",                                   0
     );
 
     if prop("slotsizes.prop","selected.1")=="1" then
