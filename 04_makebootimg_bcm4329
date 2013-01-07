@@ -2,7 +2,7 @@ cp -f drivers/net/wireless/bcm4329/bcm4329.ko ramdisk/modules/
 echo "[i] bcm4329.ko added to ramdisk"
 rm ./ramdisk/res/aromapreinstall/aroma-installer-res.zip
 cd ramdisk_aroma-installer-res
-zip -9 -r -q ../ramdisk/res/aromapreinstall/aroma-installer-res.zip *
+zip -9 -r -q ../ramdisk/sbin/aroma-res.zip *
 echo "[i] aroma-installer-res.zip added to ramdisk"
 cd ../ramdisk
 find . | cpio -o -H newc | gzip > ../ramdisk.img

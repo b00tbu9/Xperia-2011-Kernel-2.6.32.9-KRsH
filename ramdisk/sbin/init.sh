@@ -41,24 +41,48 @@ busybox echo 255 > ${BOOTREC_LED_BLUE}
 
 # keycheck
 busybox cat ${BOOTREC_EVENT} > /dev/keycheck&
-busybox sleep 3
+busybox sleep 2
 
-# android ramdisk
-load_image=/sbin/ramdisk.cpio
+# android ramdisk (jb is default)
+load_image=/sbin/ramdisk-jb.cpio
 
 # boot decision
 if [ -s /dev/keycheck -o -e /cache/recovery/boot ]
 then
-	busybox echo 'RECOVERY BOOT' >>boot.txt
-	busybox rm -fr /cache/recovery/boot
+	busybox echo 'BOOTMENU' >>boot.txt
+	busybox rm /cache/recovery/boot
 	# trigger blue led
-	busybox echo 0 > ${BOOTREC_LED_RED}
-	busybox echo 0 > ${BOOTREC_LED_GREEN}
+	busybox echo 255 > ${BOOTREC_LED_RED}
+	busybox echo 255 > ${BOOTREC_LED_GREEN}
 	busybox echo 255 > ${BOOTREC_LED_BLUE}
-	# recovery ramdisk
-	load_image=/sbin/ramdisk-recovery.cpio
+    # start aroma bootmenu
+    busybox mkdir /sdcard
+    busybox mkdir /tmp
+    busybox mount /dev/block/mmcblk0p1 /sdcard
+    /sbin/adbd&/sbin/aroma 1 0 "/sbin/aroma-res.zip"
+    # copy repair log to sdcard if requested
+    if [ -e /tmp/turbo_repair.ready2copy ]
+    then
+        busybox rm /tmp/turbo_repair.ready2copy
+        busybox mv /tmp/turbo_repair.log /sdcard/turbo_repair.log
+    fi
+    busybox sync
+    busybox umount /dev/block/mmcblk0p1
+    rm -rf /sdcard
+    #if [ ! -e /tmp/bootrec ]
+    #then
+    #    reboot
+    #fi
+fi
+
+if [ -e /tmp/bootrec ]
+    # recovery ramdisk
+    rm /tmp/bootrec
+    rm -rf /tmp
+	load_image=/sbin/recovery-twrp.cpio
 	echo 0 > /sys/module/msm_fb/parameters/align_buffer
 else
+    rm -rf /tmp
 	busybox echo 'ANDROID BOOT' >>boot.txt
 	# poweroff LED
 	busybox echo 0 > ${BOOTREC_LED_RED}
