@@ -1,5 +1,8 @@
 #!/sbin/busybox sh
 
+#set -x
+#exec >>multiboot.log 2>&1
+
 checkfresh()
 {
     if [ ! -e /turbo/version ]; then
@@ -110,41 +113,43 @@ copyimage()
     fi
 }
 
-mount()
+mounter()
 {
-    if   [ "$2"=="1" ]; then
-        mount -t yaffs2 -o rw                        /dev/block/mtdblock0        /system
-        mount -t yaffs2 -o ro,remount                /dev/block/mtdblock0        /system
-        mount -t yaffs2 -o rw                        /dev/block/mtdblock1        /data
+    echo "About to mount Slot $1..."
+    if  [ "$1" == "1" ]; then
+        mount -t yaffs2 -o ro,remount                       /dev/block/mtdblock0        /system
+        mount -t yaffs2 -o rw,remount,noatime,nosuid,nodev  /dev/block/mtdblock1        /data
+        mount
     else
-        mount -t ext2   -o rw                        /turbo/system$2.ext2.img    /system
-        mount -t ext2   -o ro,remount                /turbo/system$2.ext2.img    /system
-        mount -t ext2   -o rw,noatime,nosuid,nodev   /turbo/userdata$2.ext2.img  /data
+        mount -t ext2   -o rw                        /turbo/system$1.ext2.img    /system
+        mount -t ext2   -o ro,remount                /turbo/system$1.ext2.img    /system
+        mount -t ext2   -o rw,noatime,nosuid,nodev   /turbo/userdata$1.ext2.img  /data
     fi
 }
 
 mountproc()
 {
+    echo "Mountproc started..."
     if   [ -e /cache/multiboot1 ]; then
         rm /cache/multiboot1
-        mount 1
+        mounter 1
     elif [ -e /cache/multiboot2 ]; then
         rm /cache/multiboot2
-        mount 2
+        mounter 2
     elif [ -e /cache/multiboot3 ]; then
         rm /cache/multiboot3
-        mount 3
+        mounter 3
     elif [ -e /cache/multiboot4 ]; then
         rm /cache/multiboot4
-        mount 4
+        mounter 4
     elif [ -e /turbo/defaultboot_2 ]; then
-        mount 2
+        mounter 2
     elif [ -e /turbo/defaultboot_3 ]; then
-        mount 3
+        mounter 3
     elif [ -e /turbo/defaultboot_4 ]; then
-        mount 4
+        mounter 4
     else
-        mount 1
+        mounter 1
     fi
     
     sync

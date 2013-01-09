@@ -60,37 +60,19 @@ busybox echo 0 > $BOOTREC_LED_BLUE
 load_image=/sbin/ramdisk-recovery.cpio
 
 # bind-mount turbo data then unmount sdcard
-#busybox mkdir /sdcard
-#busybox mount /dev/block/mmcblk0p1 /sdcard
-#busybox ls -l /sdcard >>sdcard.log
-#busybox mkdir /turbo
-#busybox mount -o bind /sdcard/turbo /turbo
-#busybox umount -l /dev/block/mmcblk0p1
-#busybox rm -rf /sdcard
+busybox mkdir /sdcard
+busybox mount /dev/block/mmcblk0p1 /sdcard
+busybox mkdir /turbo
+busybox mount -o bind /sdcard/turbo /turbo
+busybox umount -l /sdcard
+busybox rm -rf /sdcard
 
 # boot decision
 if [ -s /dev/keycheck -o -e /cache/recovery/boot ]
 then
 	busybox echo "[TURBO] Entering Boot Menu..." >>boot.log
 	busybox rm /cache/recovery/boot
-    # start aroma bootmenu
-    #busybox mkdir /sdcard
-    #busybox mount /dev/block/mmcblk0p1 /sdcard
     busybox touch /tmp/bootrec
-    # copy repair log to sdcard if requested
-    #if [ -e /tmp/turbo_repair.ready2copy ]
-    #then
-    #    busybox rm /tmp/turbo_repair.ready2copy
-    #    busybox mv /tmp/turbo_repair.log /sdcard/turbo_repair.log
-    #    busybox echo "[TURBO] turbo_repair.log copied to SDCard" >>boot.log
-    #fi
-    #busybox sync
-    #busybox umount -l /dev/block/mmcblk0p1
-    #busybox rm -rf /sdcard
-    #if [ ! -e /tmp/bootrec ]
-    #then
-    #    reboot
-    #fi
 fi
 
 # kill the keycheck process
@@ -101,19 +83,16 @@ then
     # twrp-recovery ramdisk
     busybox rm /tmp/bootrec
     busybox rm /tmp/bootrec-cwm
-    #busybox rm -rf /tmp
 	load_image=/sbin/ramdisk-recovery.cpio
     busybox echo 0 > /sys/module/msm_fb/parameters/align_buffer
 elif [ -e /tmp/bootrec-cwm ]
 then
     # cwm-recovery ramdisk
     busybox rm /tmp/bootrec-cwm
-    #busybox rm -rf /tmp
 	load_image=/sbin/ramdisk-cwm.cpio
     busybox echo 0 > /sys/module/msm_fb/parameters/align_buffer
 else
     # Prepare for normal boot
-    #busybox rm -rf /tmp
 	busybox echo 'ANDROID BOOT' >>boot.log
     # Slot select
     if   [ -e /cache/multiboot1 ]
@@ -121,60 +100,60 @@ else
         # Slot 1 (one time only)
         #rm /cache/multiboot1
         mode=$(busybox grep -F "mode=" /turbo/slot1mode.prop | busybox sed "s/mode=//g")
-        busybox echo '[TURBO] Booting Internal/Slot 1 (One-time only); Mode is ${mode}' >>boot.log
+        busybox echo '[TURBO] Booting Internal/Slot 1 (One-time only); Mode is $mode' >>boot.log
     elif [ -e /cache/multiboot2 ]
     then
         # Slot 2 (one time only)
         #rm /cache/multiboot2
         mode=$(busybox grep -F "mode=" /turbo/slot2mode.prop | busybox sed "s/mode=//g")
-        busybox echo '[TURBO] Booting Slot 2 (One-time only); Mode is ${mode}' >>boot.log
+        busybox echo '[TURBO] Booting Slot 2 (One-time only); Mode is $mode' >>boot.log
     elif [ -e /cache/multiboot3 ]
     then
         # Slot 3 (one time only)
         #rm /cache/multiboot3
         mode=$(busybox grep -F "mode=" /turbo/slot3mode.prop | busybox sed "s/mode=//g")
-        busybox echo '[TURBO] Booting Slot 3 (One-time only); Mode is ${mode}' >>boot.log
+        busybox echo '[TURBO] Booting Slot 3 (One-time only); Mode is $mode' >>boot.log
     elif [ -e /cache/multiboot4 ]
     then
         # Slot 4 (one time only)
         #rm /cache/multiboot4
         mode=$(busybox grep -F "mode=" /turbo/slot4mode.prop | busybox sed "s/mode=//g")
-        busybox echo '[TURBO] Booting Slot 4 (One-time only); Mode is ${mode}' >>boot.log
+        busybox echo '[TURBO] Booting Slot 4 (One-time only); Mode is $mode' >>boot.log
     elif [ -e /turbo/defaultboot_2 ]
     then
         # Slot 2 (default)
         mode=$(busybox grep -F "mode=" /turbo/slot2mode.prop | busybox sed "s/mode=//g")
-        busybox echo '[TURBO] Booting Slot 2 (Default); Mode is ${mode}' >>boot.log
+        busybox echo '[TURBO] Booting Slot 2 (Default); Mode is $mode' >>boot.log
     elif [ -e /turbo/defaultboot_3 ]
     then
         # Slot 3 (default)
         mode=$(busybox grep -F "mode=" /turbo/slot3mode.prop | busybox sed "s/mode=//g")
-        busybox echo '[TURBO] Booting Slot 3 (Default); Mode is ${mode}' >>boot.log
+        busybox echo '[TURBO] Booting Slot 3 (Default); Mode is $mode' >>boot.log
     elif [ -e /turbo/defaultboot_4 ]
     then
         # Slot 4 (default)
         mode=$(busybox grep -F "mode=" /turbo/slot4mode.prop | busybox sed "s/mode=//g")
-        busybox echo '[TURBO] Booting Slot 4 (Default); Mode is ${mode}' >>boot.log
+        busybox echo '[TURBO] Booting Slot 4 (Default); Mode is $mode' >>boot.log
     else
         # Internal/Slot 1 (default)
         mode=$(busybox grep -F "mode=" /turbo/slot1mode.prop | busybox sed "s/mode=//g")
-        busybox echo '[TURBO] Booting Internal/Slot 1 (Default); Mode is ${mode}' >>boot.log
+        busybox echo '[TURBO] Booting Internal/Slot 1 (Default); Mode is $mode' >>boot.log
     fi
-    if [ "$mode"=="" ]
+    if [ "$mode" == "" ]
     then
-        busybox echo '[TURBO] Error - mode "${mode}" is not valid. Entering TWRP...' >>boot.log
+        busybox echo '[TURBO] Error - mode "$mode" is not valid. Entering TWRP...' >>boot.log
         busybox rm -rf /tmp
         busybox echo 0 > /sys/module/msm_fb/parameters/align_buffer
         load_image=/sbin/ramdisk-recovery.cpio
-    elif [ "$mode"=="JB-AOSP" ]
+    elif [ "$mode" == "JB-AOSP" ]
     then
         busybox echo 1 > /sys/module/msm_fb/parameters/align_buffer
         load_image=/sbin/ramdisk-jb.cpio
-    elif [ "$mode"=="ICS-AOSP" ]
+    elif [ "$mode" == "ICS-AOSP" ]
     then
         busybox echo 0 > /sys/module/msm_fb/parameters/align_buffer
         load_image=/sbin/ramdisk-ics.cpio
-    elif [ "$mode"=="ICS-Stock" ]
+    elif [ "$mode" == "ICS-Stock" ]
     then
         busybox echo 0 > /sys/module/msm_fb/parameters/align_buffer
         load_image=/sbin/ramdisk-ics-stock.cpio
