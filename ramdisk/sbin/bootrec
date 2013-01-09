@@ -9,8 +9,7 @@ busybox mkdir /turbo
 busybox mount -o bind /sdcard/turbo /turbo
 /sbin/aroma 1 0 "/sbin/aroma-res.zip"
 # copy repair log to sdcard if requested
-if [ -e /tmp/turbo_repair.ready2copy ]
-then
+if [ -e /tmp/turbo_repair.ready2copy ]; then
     busybox rm /tmp/turbo_repair.ready2copy
     busybox mv /tmp/turbo_repair.log /sdcard/turbo_repair.log
 fi
