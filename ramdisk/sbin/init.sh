@@ -32,7 +32,6 @@ busybox mknod -m 666 /dev/null c 1 3
 busybox mount -t proc proc /proc
 busybox mount -t sysfs sysfs /sys
 busybox mount -t yaffs2 $BOOTREC_CACHE /cache
-#busybox mount /tmp /tmp tmpfs
 busybox mount -t tmpfs -o size=3M,mode=0755 tmpfs /tmp
 
 # fixing CPU clocks to avoid issues in recovery
@@ -98,25 +97,21 @@ else
     if   [ -e /cache/multiboot1 ]
     then
         # Slot 1 (one time only)
-        #rm /cache/multiboot1
         mode=$(busybox grep -F "mode=" /turbo/slot1mode.prop | busybox sed "s/mode=//g")
         busybox echo '[TURBO] Booting Internal/Slot 1 (One-time only); Mode is $mode' >>boot.log
     elif [ -e /cache/multiboot2 ]
     then
         # Slot 2 (one time only)
-        #rm /cache/multiboot2
         mode=$(busybox grep -F "mode=" /turbo/slot2mode.prop | busybox sed "s/mode=//g")
         busybox echo '[TURBO] Booting Slot 2 (One-time only); Mode is $mode' >>boot.log
     elif [ -e /cache/multiboot3 ]
     then
         # Slot 3 (one time only)
-        #rm /cache/multiboot3
         mode=$(busybox grep -F "mode=" /turbo/slot3mode.prop | busybox sed "s/mode=//g")
         busybox echo '[TURBO] Booting Slot 3 (One-time only); Mode is $mode' >>boot.log
     elif [ -e /cache/multiboot4 ]
     then
         # Slot 4 (one time only)
-        #rm /cache/multiboot4
         mode=$(busybox grep -F "mode=" /turbo/slot4mode.prop | busybox sed "s/mode=//g")
         busybox echo '[TURBO] Booting Slot 4 (One-time only); Mode is $mode' >>boot.log
     elif [ -e /turbo/defaultboot_2 ]
@@ -141,8 +136,7 @@ else
     fi
     if [ "$mode" == "" ]
     then
-        busybox echo '[TURBO] Error - mode "$mode" is not valid. Entering TWRP...' >>boot.log
-        busybox rm -rf /tmp
+        busybox echo '[TURBO] Error - mode "$mode" is not valid! Entering Recovery.' >>boot.log
         busybox echo 0 > /sys/module/msm_fb/parameters/align_buffer
         load_image=/sbin/ramdisk-recovery.cpio
     elif [ "$mode" == "JB-AOSP" ]
@@ -158,8 +152,9 @@ else
         busybox echo 0 > /sys/module/msm_fb/parameters/align_buffer
         load_image=/sbin/ramdisk-ics-stock.cpio
     else
-        # TODO: Handle mode error (Aroma prompt?)
-        busybox echo '[TURBO] Error - mode "${mode}" is not valid' >>boot.log
+        busybox echo '[TURBO] Error - mode "$mode" is not valid! Entering Recovery.' >>boot.log
+        busybox echo 0 > /sys/module/msm_fb/parameters/align_buffer
+        load_image=/sbin/ramdisk-recovery.cpio
     fi
 fi
 
@@ -169,12 +164,12 @@ busybox cpio -d -i < ${load_image}
 #busybox cp /boot.log /cache/boot_last.log
 
 busybox umount -l /cache
+#busybox rm -rf /cache
 busybox umount -l /proc
 busybox umount -l /sys
+#busybox umount -l /tmp
 
-#busybox rm -rf /cache
-
-busybox rm -fr /dev/*
+busybox rm -rf /dev/*
 busybox date >>boot.log
 export PATH="${_PATH}"
 exec /init
