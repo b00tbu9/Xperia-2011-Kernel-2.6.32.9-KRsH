@@ -81,6 +81,15 @@ if getvar("exec_buffer") == "2\n" then setvar("slot2default", "[Default]"); endi
 if getvar("exec_buffer") == "3\n" then setvar("slot3default", "[Default]"); endif;
 if getvar("exec_buffer") == "4\n" then setvar("slot4default", "[Default]"); endif;
 
+exec("/sbin/multiboot_helper.sh", "checkrecovery");
+if getvar("exec_buffer") == "cwm\n"
+then
+    setvar("rec", "CWM");
+    setvar("recicon", "@cwm");
+else
+    setvar("rec", "TWRP");
+    setvar("recicon", "@twrp");
+endif;
 
 
 ########################################
@@ -112,13 +121,11 @@ if prop("systemselect.prop","selected")=="1" then
         "What do you want to do?",
         getvar("slot1icon"),
         "systemtask.prop",
-            "Boot",             "Boot " + getvar("slot1text") + " now",             "@slot1",
-            "TWRP Recovery",    "Enter Team-Win Recovery Project now",              "@twrp",
-            "CWM Recovery",     "Enter ClockworkMod Recovery now",                  "@cwm",
-            "Fix Wifi",         "Force a Wifi module install if you have issues",   "@wifi",
-            "Change Slot Mode", "Current Slot Mode is " + file_getprop("/turbo/slot1mode.prop","mode"),
-                                                                                    "@android",
-            "Tweaks and Mods",  "Various things for your hacking pleasures",        "@customize"
+            "Boot",                         "Boot " + getvar("slot1text") + " now",                                    "@slot1",
+            getvar("rec") + " Recovery",    "Enter " + getvar("rec") + " Recovery now",                                getvar("recicon"),
+            "Fix Wifi",                     "Force a Wifi module install if you have issues",                          "@wifi",
+            "Change Slot Mode",             "Current Slot Mode is " + file_getprop("/turbo/slot1mode.prop","mode"),    "@android",
+            "Tweaks and Mods",              "Various things for your hacking pleasure",                                "@customize"
     );
 endif;
 
@@ -132,13 +139,11 @@ if prop("systemselect.prop","selected")=="2" then
             "What do you want to do?",
             getvar("slot2icon"),
             "systemtask.prop",
-                "Boot",             "Boot " + getvar("slot2text") + " now",             "@slot2",
-                "TWRP Recovery",    "Enter Team-Win Recovery Project now",              "@twrp",
-                "CWM Recovery",     "Enter ClockworkMod Recovery now",                  "@cwm",
-                "Fix Wifi",         "Force a Wifi module install if you have issues",   "@wifi",
-                "Change Slot Mode", "Current Slot Mode is " + file_getprop("/turbo/slot2mode.prop","mode"),
-                                                                                        "@android",
-                "Tweaks and Mods",  "Various things for your hacking pleasures",        "@customize"
+                "Boot",                         "Boot " + getvar("slot2text") + " now",                                    "@slot2",
+                getvar("rec") + " Recovery",    "Enter " + getvar("rec") + " Recovery now",                                getvar("recicon"),
+                "Fix Wifi",                     "Force a Wifi module install if you have issues",                          "@wifi",
+                "Change Slot Mode",             "Current Slot Mode is " + file_getprop("/turbo/slot1mode.prop","mode"),    "@android",
+                "Tweaks and Mods",              "Various things for your hacking pleasure",                                "@customize"
         );
     endif;
 endif;
@@ -153,13 +158,11 @@ if prop("systemselect.prop","selected")=="3" then
             "What do you want to do?",
             getvar("slot3icon"),
             "systemtask.prop",
-                "Boot",             "Boot " + getvar("slot3text") + " now",             "@slot3",
-                "TWRP Recovery",    "Enter Team-Win Recovery Project now",              "@twrp",
-                "CWM Recovery",     "Enter ClockworkMod Recovery now",                  "@cwm",
-                "Fix Wifi",         "Force a Wifi module install if you have issues",   "@wifi",
-                "Change Slot Mode", "Current Slot Mode is " + file_getprop("/turbo/slot3mode.prop","mode"),
-                                                                                        "@android",
-                "Tweaks and Mods",  "Various things for your hacking pleasures",        "@customize"
+                "Boot",                         "Boot " + getvar("slot3text") + " now",                                    "@slot3",
+                getvar("rec") + " Recovery",    "Enter " + getvar("rec") + " Recovery now",                                getvar("recicon"),
+                "Fix Wifi",                     "Force a Wifi module install if you have issues",                          "@wifi",
+                "Change Slot Mode",             "Current Slot Mode is " + file_getprop("/turbo/slot1mode.prop","mode"),    "@android",
+                "Tweaks and Mods",              "Various things for your hacking pleasure",                                "@customize"
         );
     endif;
 endif;
@@ -174,13 +177,11 @@ if prop("systemselect.prop","selected")=="4" then
             "What do you want to do?",
             getvar("slot4icon"),
             "systemtask.prop",
-                "Boot",             "Boot " + getvar("slot4text") + " now",             "@slot4",
-                "TWRP Recovery",    "Enter Team-Win Recovery Project now",              "@twrp",
-                "CWM Recovery",     "Enter ClockworkMod Recovery now",                  "@cwm",
-                "Fix Wifi",         "Force a Wifi module install if you have issues",   "@wifi",
-                "Change Slot Mode", "Current Slot Mode is " + file_getprop("/turbo/slot4mode.prop","mode"),
-                                                                                        "@android",
-                "Tweaks and Mods",  "Various things for your hacking pleasures",        "@customize"
+                "Boot",                         "Boot " + getvar("slot4text") + " now",                                    "@slot4",
+                getvar("rec") + " Recovery",    "Enter " + getvar("rec") + " Recovery now",                                getvar("recicon"),
+                "Fix Wifi",                     "Force a Wifi module install if you have issues",                          "@wifi",
+                "Change Slot Mode",             "Current Slot Mode is " + file_getprop("/turbo/slot1mode.prop","mode"),    "@android",
+                "Tweaks and Mods",              "Various things for your hacking pleasure",                                "@customize"
         );
     endif;
 endif;
@@ -201,24 +202,17 @@ if prop("systemtask.prop","selected")=="1" then
 endif;
 
 ##########
-# TWRP
+# Recovery
 if prop("systemtask.prop","selected")=="2" then
         write("/tmp/bootrec","1");
-        exec("/sbin/busybox","cp","/recovery" + getvar("currentslot") + ".fstab", "/etc/recovery.fstab");
-endif;
-
-##########
-# CWM
-if prop("systemtask.prop","selected")=="3" then
-        # TODO - Boot TWRP for now
-        #write("/tmp/bootrec-cwm","1");
-        write("/tmp/bootrec","1");
-        exec("/sbin/busybox","cp","/recovery" + getvar("currentslot") + ".fstab", "/etc/recovery.fstab");
+        exec("busybox", "cp", "-f", "/recovery" + getvar("currentslot") + ".fstab", "/etc/recovery.fstab");
+        exec("/sbin/busybox", "sync");
+        exit("");
 endif;
 
 ##########
 # Wifi
-if prop("systemtask.prop","selected")=="4" then
+if prop("systemtask.prop","selected")=="3" then
     pleasewait("Copying Wifi module to Slot " + getvar("currentslot") + " ...");
     if getvar("currentslot")=="1" then
         exec("/sbin/busybox","mount","-t","yaffs2","/dev/block/mtdblock0","/system");
@@ -236,10 +230,10 @@ endif;
 
 ##########
 # Mode
-if prop("systemtask.prop","selected")=="5" then
+if prop("systemtask.prop","selected")=="4" then
     menubox(
         "Slot Mode",
-        "Select the type of ROM that will be (or already is) installed to this slot.",
+        "Select the type of ROM that will be (or already is) installed to this slot. Currently set to " + file_getprop("/turbo/slot" + getvar("currentslot") + "mode.prop","mode") + ".",
         "@android",
         "mode.prop",
             "JB-AOSP",          "Jellybean ROM's based on AOSP (Default)",                  "@jellyzeus",
@@ -259,7 +253,7 @@ endif;
 
 ##########
 # Tweaks
-if prop("systemtask.prop","selected")=="6" then
+if prop("systemtask.prop","selected")=="5" then
     alert("Not Implemented","This option doesn't do anything yet.\n\nIf you have any suggestions or ideas, please let me know!", "@customize");
     back("1");
 endif;
@@ -275,11 +269,40 @@ if prop("systemselect.prop","selected")=="5" then
             "Please select the task you wish to perform.",
             "@cog",
             "toolselect.prop",
-            "Default Slot",   "Change the default slot for automatic booting",         "@disk",
-            "Repair",         "Perform a range of repair function for any slot",       "@repair",
-            "Customize",      "Change the icon and text label for any slot",           "@customize",
-            "Delete Slot",    "Delete a Slot from SDCard",                             "@warning"
+            "Default Slot",         "Change the default slot for automatic booting",         "@disk",
+            "Recovery Selection",   "Current recovery is " + getvar("rec") + ".",            getvar("recicon"),
+            "Repair",               "Perform a range of repair function for any slot",       "@repair",
+            "Customize",            "Change the icon and text label for any slot",           "@customize",
+            "Delete Slot",          "Delete a Slot from SDCard",                             "@warning"
     );
+
+    ##########
+    # Recovery
+    if prop("toolselect.prop","selected")=="2" then
+    menubox(
+        "Recovery Selection",
+        "Select the Recovery you wish to use. Currently set to " + getvar("rec") + ". After selection, Boot Menu must reboot.",
+        getvar("recicon"),
+        "rec.prop",
+            "TWRP",   "Switch to TWRP (Default)",   "@twrp",
+            "CWM",    "Switch to CWM",              "@cwm"
+    );
+    
+    if prop("rec.prop","selected")=="1" then
+        exec("busybox", "rm", "/turbo/cwm");
+    endif;
+    
+    if prop("rec.prop","selected")=="2" then
+        write("/turbo/cwm", "1\n");
+    endif;
+    
+    exec("busybox", "mkdir", "/cache/recovery");
+    write("/cache/recovery/boot", "1\n");
+    
+    exec("busybox", "sync");
+    exit("");
+endif;
+
     
     ##########
     # Default
@@ -360,7 +383,7 @@ if prop("systemselect.prop","selected")=="5" then
        
     ##########
     # Repair
-    if prop("toolselect.prop","selected")=="2" then
+    if prop("toolselect.prop","selected")=="3" then
         menubox("Repair",
             "Please select your desired repair function",
             "@repair",
@@ -438,7 +461,7 @@ if prop("systemselect.prop","selected")=="5" then
     
     ##########
     # Customize
-    if prop("toolselect.prop","selected")=="3" then
+    if prop("toolselect.prop","selected")=="4" then
         menubox("Customze",
             "Please select the slot you wish to customize.",
             "@customize",
@@ -502,7 +525,7 @@ if prop("systemselect.prop","selected")=="5" then
 
     ##########
     # Delete Slot
-    if prop("toolselect.prop","selected")=="4" then
+    if prop("toolselect.prop","selected")=="5" then
         exec("/res/aromapreinstall/multiboot_helper.sh", "checkslot", "2");
         menubox("Delete Slot",
             "Select the Slot to delete. The delete will remove both system and userdata images from SDCard and clear all settings for it. In the case of Slot 1, it will just remove Boot settings.",

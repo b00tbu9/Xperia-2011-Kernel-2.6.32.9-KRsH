@@ -165,4 +165,13 @@ mountproc()
     sync
 }
 
+checkrecovery()
+{
+    if [ -e /turbo/cwm ]; then 
+        busybox echo "cwm";
+    else
+        busybox echo "twrp";
+    fi
+}
+
 $1 $1 $2 $3 $4

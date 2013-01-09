@@ -15,45 +15,49 @@ source /sbin/bootrec-device
 
 # create directories
 busybox mkdir -m 755 -p /cache
+busybox mkdir -m 755 -p /dev
+busybox mount -t tmpfs -o size=10M,mode=0755 tmpfs /dev
 busybox mkdir -m 755 -p /dev/block
 busybox mkdir -m 755 -p /dev/input
 busybox mkdir -m 555 -p /proc
 busybox mkdir -m 755 -p /sys
 busybox mkdir -m 755 -p /tmp
+busybox mount -t tmpfs -o size=10M,mode=0755 tmpfs /tmp
 
 # create device nodes
-busybox mknod -m 600 /dev/block/mmcblk0 b 179 0
-busybox mknod -m 600 /dev/block/mmcblk0p1 b 179 1
 busybox mknod -m 600 $BOOTREC_CACHE_NODE
 busybox mknod -m 600 $BOOTREC_EVENT_NODE
 busybox mknod -m 666 /dev/null c 1 3
+busybox mknod -m 600 /dev/block/mmcblk0 b 179 0
+busybox mknod -m 600 /dev/block/mmcblk0p1 b 179 1
+#busybox fdisk -l /dev/block/mmcblk0
 
 # mount filesystems
 busybox mount -t proc proc /proc
 busybox mount -t sysfs sysfs /sys
 busybox mount -t yaffs2 $BOOTREC_CACHE /cache
-busybox mount -t tmpfs -o size=3M,mode=0755 tmpfs /tmp
 
 # fixing CPU clocks to avoid issues in recovery
 busybox echo 1024000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 busybox echo 122000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 
+if [ ! -e /cache/recovery/boot ]; then
+    # trigger blue LED
+    busybox echo 0 > $BOOTREC_LED_RED
+    busybox echo 0 > $BOOTREC_LED_GREEN
+    busybox echo 255 > $BOOTREC_LED_BLUE
+    # trigger superquick vibration
+    busybox echo 80 > $BOOTREC_VIBRATOR
 
-# trigger blue LED
-busybox echo 0 > $BOOTREC_LED_RED
-busybox echo 0 > $BOOTREC_LED_GREEN
-busybox echo 255 > $BOOTREC_LED_BLUE
-# trigger superquick vibration
-busybox echo 80 > $BOOTREC_VIBRATOR
+    # keycheck
+    busybox cat $BOOTREC_EVENT > /dev/keycheck&
+    busybox sleep 2
 
-# keycheck
-busybox cat $BOOTREC_EVENT > /dev/keycheck&
-busybox sleep 2
-
-# LED off
-busybox echo 0 > $BOOTREC_LED_RED
-busybox echo 0 > $BOOTREC_LED_GREEN
-busybox echo 0 > $BOOTREC_LED_BLUE
+    # LED off
+    busybox echo 0 > $BOOTREC_LED_RED
+    busybox echo 0 > $BOOTREC_LED_GREEN
+    busybox echo 0 > $BOOTREC_LED_BLUE
+fi
 
 # default ramdisk
 load_image=/sbin/ramdisk-recovery.cpio
@@ -79,16 +83,15 @@ busybox pkill -f "busybox cat ${BOOTREC_EVENT}"
 
 if [ -e /tmp/bootrec ]
 then
-    # twrp-recovery ramdisk
     busybox rm /tmp/bootrec
-    busybox rm /tmp/bootrec-cwm
-	load_image=/sbin/ramdisk-recovery.cpio
-    busybox echo 0 > /sys/module/msm_fb/parameters/align_buffer
-elif [ -e /tmp/bootrec-cwm ]
-then
-    # cwm-recovery ramdisk
-    busybox rm /tmp/bootrec-cwm
-	load_image=/sbin/ramdisk-cwm.cpio
+    if [ -e /turbo/cwm ]; then
+        # cwm-recovery ramdisk
+        rec_image=/sbin/ramdisk-cwm.cpio
+	else
+        # twrp-recovery ramdisk
+        rec_image=/sbin/ramdisk-recovery.cpio
+    fi
+    load_image=$rec_image
     busybox echo 0 > /sys/module/msm_fb/parameters/align_buffer
 else
     # Prepare for normal boot
@@ -138,7 +141,7 @@ else
     then
         busybox echo '[TURBO] Error - mode "$mode" is not valid! Entering Recovery.' >>boot.log
         busybox echo 0 > /sys/module/msm_fb/parameters/align_buffer
-        load_image=/sbin/ramdisk-recovery.cpio
+        load_image=$rec_image
     elif [ "$mode" == "JB-AOSP" ]
     then
         busybox echo 1 > /sys/module/msm_fb/parameters/align_buffer
@@ -154,12 +157,12 @@ else
     else
         busybox echo '[TURBO] Error - mode "$mode" is not valid! Entering Recovery.' >>boot.log
         busybox echo 0 > /sys/module/msm_fb/parameters/align_buffer
-        load_image=/sbin/ramdisk-recovery.cpio
+        load_image=$rec_image
     fi
 fi
 
 # unpack the ramdisk image
-busybox cpio -d -i < ${load_image}
+busybox cpio -d -i -u < ${load_image}
 
 #busybox cp /boot.log /cache/boot_last.log
 
@@ -169,7 +172,7 @@ busybox umount -l /proc
 busybox umount -l /sys
 #busybox umount -l /tmp
 
-busybox rm -rf /dev/*
+#busybox rm -rf /dev/*
 busybox date >>boot.log
 export PATH="${_PATH}"
 exec /init

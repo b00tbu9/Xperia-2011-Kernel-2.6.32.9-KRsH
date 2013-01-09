@@ -7,6 +7,7 @@ busybox mkdir /sdcard
 busybox mount /dev/block/mmcblk0p1 /sdcard
 busybox mkdir /turbo
 busybox mount -o bind /sdcard/turbo /turbo
+busybox rm /tmp/bootrec
 /sbin/aroma 1 0 "/sbin/aroma-res.zip"
 # copy repair log to sdcard if requested
 if [ -e /tmp/turbo_repair.ready2copy ]; then
@@ -14,5 +15,8 @@ if [ -e /tmp/turbo_repair.ready2copy ]; then
     busybox mv /tmp/turbo_repair.log /sdcard/turbo_repair.log
 fi
 busybox sync
+if [ -e /tmp/bootrec ]; then
+    /sbin/recovery
+fi
 busybox umount -l /dev/block/mmcblk0p1
 reboot
