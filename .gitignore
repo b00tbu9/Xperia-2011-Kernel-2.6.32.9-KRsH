@@ -31,7 +31,7 @@ drivers/scsi/scsi_wait_scan.mod.c
 include/asm
 include/asm-arm/asm-offsets.h
 include/asm-arm/mach-types.h
-include/config/auto.conf
+include/config/
 include/config/kernel.release
 include/linux/autoconf.h
 include/linux/bounds.h
@@ -47,11 +47,14 @@ lib/gen_crc32table
 lib/lib.a
 net/sched/cls_flow.mod.c
 net/sched/sch_dsmark.mod.c
+ramdisk_cm9/
 ramdisk_fxp152/
+ramdisk_kxp/
+ramdisk_new/
 ramdisk_old/
 ramdisk/sbin/aroma-res.zip
 ramdisk/sbin/ramdisk-jb.cpio
-ramdisk/sbin/recovery-twrp.cpio
+ramdisk/sbin/ramdisk-recovery.cpio
 scripts/
 usr/.initramfs_data.cpio.d
 usr/gen_init_cpio

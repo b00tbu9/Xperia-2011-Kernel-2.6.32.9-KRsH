@@ -1,0 +1,10 @@
+#!/sbin/busybox sh
+
+# start aroma bootmenu
+
+busybox mkdir /sdcard
+busybox mount /dev/block/mmcblk0p1 /sdcard
+busybox mkdir /turbo
+busybox mount -o bind /sdcard/turbo /turbo
+/sbin/aroma 1 0 "/sbin/aroma-res.zip"
+

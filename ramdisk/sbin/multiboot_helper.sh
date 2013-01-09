@@ -4,8 +4,7 @@ checkfresh()
 {
     if [ ! -e /turbo/version ]; then
         # delete old settings
-        busybox rm -rf /turbo
-        busybox mkdir /turbo
+        busybox rm -rf /turbo/*
         busybox uname -r > /turbo/version;
         busybox echo "icon=@slot1" > /turbo/slot1.prop
         busybox echo "text=Slot 1" >> /turbo/slot1.prop
@@ -44,16 +43,16 @@ checkslot()
 
 checkdefault()
 {
-    if   [ -e /cache/defaultboot_2 ]
+    if   [ -e /cache/defaultboot_2 ]; then
         busybox rm /cache/defaultboot_1
         busybox rm /cache/defaultboot_3
         busybox rm /cache/defaultboot_4
         busybox echo "2";
-    elif [ -e /cache/defaultboot_3 ]
+    elif [ -e /cache/defaultboot_3 ]; then
         busybox rm /cache/defaultboot_1
         busybox rm /cache/defaultboot_4
         busybox echo "3";
-    elif [ -e /cache/defaultboot_4 ]
+    elif [ -e /cache/defaultboot_4 ]; then
         busybox rm /cache/defaultboot_1
         busybox echo "4";
     else
@@ -113,8 +112,7 @@ copyimage()
 
 mount()
 {
-    if   [ "$2"=="1" ]
-    then
+    if   [ "$2"=="1" ]; then
         mount -t yaffs2 -o rw                        /dev/block/mtdblock0        /system
         mount -t yaffs2 -o ro,remount                /dev/block/mtdblock0        /system
         mount -t yaffs2 -o rw                        /dev/block/mtdblock1        /data
@@ -127,30 +125,23 @@ mount()
 
 mountproc()
 {
-    if   [ -e /cache/multiboot1 ]
-    then
+    if   [ -e /cache/multiboot1 ]; then
         rm /cache/multiboot1
         mount 1
-    elif [ -e /cache/multiboot2 ]
-    then
+    elif [ -e /cache/multiboot2 ]; then
         rm /cache/multiboot2
         mount 2
-    elif [ -e /cache/multiboot3 ]
-    then
+    elif [ -e /cache/multiboot3 ]; then
         rm /cache/multiboot3
         mount 3
-    elif [ -e /cache/multiboot4 ]
-    then
+    elif [ -e /cache/multiboot4 ]; then
         rm /cache/multiboot4
         mount 4
-    elif [ -e /turbo/defaultboot_2 ]
-    then
+    elif [ -e /turbo/defaultboot_2 ]; then
         mount 2
-    elif [ -e /turbo/defaultboot_3 ]
-    then
+    elif [ -e /turbo/defaultboot_3 ]; then
         mount 3
-    elif [ -e /turbo/defaultboot_4 ]
-    then
+    elif [ -e /turbo/defaultboot_4 ]; then
         mount 4
     else
         mount 1

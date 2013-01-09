@@ -1,4 +1,4 @@
-#!/system/bin/sh
+#!/sbin/sh
 touch /cache/recovery/boot;
 sync;
 reboot;

@@ -33,6 +33,8 @@ ini_set("text_finish", "Finish");
 ini_set("text_none", "None");
 ini_set("force_colorspace","bgra");
 
+calibrate("0.8939","43","0.9616","25");
+
 theme("cosmicui");
 
 fontresload( "0", "ttf/Comfortaa.ttf", "14" ); #-- small
@@ -85,7 +87,7 @@ if getvar("exec_buffer") == "4\n" then setvar("slot4default", "[Default]"); endi
 ##### MAIN MENU
 ########################################
 
-menubox("Boot Menu",
+menubox("Turbo Boot Menu",
             "Please select your choice.",
             "@cog",
             "systemselect.prop",
@@ -252,14 +254,14 @@ if prop("systemtask.prop","selected")=="5" then
         write("/turbo/slot" + getvar("currentslot") + "mode.prop", "mode=ICS-AOSP\n");
     endif;
     
-    back("2");
+    back("1");
 endif;
 
 ##########
 # Tweaks
 if prop("systemtask.prop","selected")=="6" then
     alert("Not Implemented","This option doesn't do anything yet.\n\nIf you have any suggestions or ideas, please let me know!", "@customize");
-    back("2");
+    back("1");
 endif;
 
 
@@ -563,7 +565,7 @@ endif;
 ##### ABOUT
 ########################################
 
-if prop("systemselect.prop","selected")=="5" then
+if prop("systemselect.prop","selected")=="6" then
     textbox(
         "Turbo Kernel",
         "Information, credits and thanks",

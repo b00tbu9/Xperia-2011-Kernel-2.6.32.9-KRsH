@@ -1,21 +1,21 @@
-mkdir ramdisk/modules/ >nul
+if [ ! -e ./ramdisk/modules/ ]
+then
+    mkdir ramdisk/modules/
+fi
 cp -f drivers/net/wireless/bcm4329/bcm4329.ko ramdisk/modules/
 echo "[i] bcm4329.ko added to ramdisk"
 rm ./ramdisk/sbin/aroma-res.zip
 cd ramdisk___aroma-res
 zip -9 -r -q ../ramdisk/sbin/aroma-res.zip *
 echo "[i] aroma-res.zip built"
-cd ../ramdisk___ramdisk-jb
-find . | cpio -o -H newc > ../ramdisk/sbin/ramdisk-jb.cpio
-echo "[i] ramdisk-jb.cpio built"
-cd ../ramdisk___recovery-twrp
-find . | cpio -o -H newc > ../ramdisk/sbin/recovery-twrp.cpio
-echo "[i] recovery-twrp.cpio built"
-cd ../ramdisk
-find . | cpio -o -H newc | gzip > ../ramdisk.img
-echo "[i] ramdisk.img built"
 cd ..
-./mkbootimg --base 0x00200000 --kernel ./arch/arm/boot/zImage --ramdisk ramdisk.img -o boot.img
-#./mkbootimg --base 0x00200000 --kernel ./arch/arm/boot/Image --ramdisk ramdisk.img -o boot.img
-#rm ramdisk.img
-echo "  boot.img ready"
+./mkbootfs ./ramdisk-jb > ramdisk/sbin/ramdisk-jb.cpio
+echo "[i] ramdisk-jb.cpio built"
+./mkbootfs ./ramdisk-recovery > ramdisk/sbin/ramdisk-recovery.cpio
+echo "[i] ramdisk-recovery.cpio built"
+./mkbootfs ./ramdisk | gzip > ramdisk.cpio.gz
+echo "[i] ramdisk.cpio.gz built"
+./mkbootimg --base 0x00200000 --kernel ./arch/arm/boot/zImage --ramdisk ramdisk.cpio.gz -o boot.img
+#./mkbootimg --base 0x00200000 --kernel ./arch/arm/boot/Image --ramdisk ramdisk.cpio.gz -o boot.img
+rm ramdisk.cpio.gz
+echo "[i] boot.img built"

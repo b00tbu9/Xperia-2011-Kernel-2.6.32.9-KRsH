@@ -1,9 +1,11 @@
 #!/sbin/busybox sh
 
-export BOOTREC_CACHE_NODE="/dev/block/mtdblock2 b 31 2"
-export BOOTREC_CACHE="/dev/block/mtdblock2"
-export BOOTREC_EVENT_NODE="/dev/input/event1 c 13 65"
-export BOOTREC_EVENT="/dev/input/event1"
-export BOOTREC_LED_RED="/sys/class/leds/red/brightness"
-export BOOTREC_LED_GREEN="/sys/class/leds/green/brightness"
-export BOOTREC_LED_BLUE="/sys/class/leds/blue/brightness"
+BOOTREC_CACHE_NODE="/dev/block/mtdblock2 b 31 2"
+BOOTREC_CACHE="/dev/block/mtdblock2"
+BOOTREC_EVENT_NODE="/dev/input/event1 c 13 65"
+BOOTREC_EVENT="/dev/input/event1"
+BOOTREC_LED_RED="/sys/class/leds/red/brightness"
+BOOTREC_LED_GREEN="/sys/class/leds/green/brightness"
+BOOTREC_LED_BLUE="/sys/class/leds/blue/brightness"
+BOOTREC_VIBRATOR="/sys/class/timed_output/vibrator/enable"
+
