@@ -537,7 +537,7 @@ endif;
             "(4) Fourth slot ",         getvar("slot4text"),  getvar("slot4icon")
         );
         
-        
+        ini_set("text_next", "Delete");
         
         if prop("slotcustomizeentry.prop","selected")!="1" then
             viewbox(
@@ -577,6 +577,8 @@ endif;
         setvar("slot4text",    file_getprop("/turbo/slot4.prop","text"));
         
         exec("/sbin/busybox", "sync");
+        
+        ini_set("text_next", "Next >");
         
         back("999");
     endif;
