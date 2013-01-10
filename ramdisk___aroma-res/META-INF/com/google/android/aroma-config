@@ -217,7 +217,7 @@ if prop("systemtask.prop","selected")=="3" then
     if getvar("currentslot")=="1" then
         exec("/sbin/busybox","mount","-t","yaffs2","/dev/block/mtdblock0","/system");
     else
-        exec("/sbin/busybox","mount", "-w", "-t", "ext2", "/sdcard/system" + getvar("currentslot") + ".ext2.img", "/system");
+        exec("/sbin/busybox","mount", "-w", "-t", "ext2", "/turbo/system" + getvar("currentslot") + ".ext2.img", "/system");
     endif;
     exec("/sbin/busybox","mkdir", "-p", "/system/lib/modules");
     exec("/sbin/busybox","cp", "-f", "/modules/bcm4329.ko", "/system/lib/modules/bcm4329.ko");
@@ -560,8 +560,8 @@ endif;
             );
         endif;
         
-        exec("/sbin/busybox", "rm", "-f", "/sdcard/system" + prop("slotcustomizeentry.prop","selected") + ".ext2.img");
-        exec("/sbin/busybox", "rm", "-f", "/sdcard/userdata" + prop("slotcustomizeentry.prop","selected") + ".ext2.img");
+        exec("/sbin/busybox", "rm", "-f", "/turbo/system" + prop("slotcustomizeentry.prop","selected") + ".ext2.img");
+        exec("/sbin/busybox", "rm", "-f", "/turbo/userdata" + prop("slotcustomizeentry.prop","selected") + ".ext2.img");
         exec("/res/aromapreinstall/multiboot_helper.sh", "clearslot", prop("slotcustomizeentry.prop","selected"));
         
         setvar("slot1icon",    file_getprop("/turbo/slot1.prop","icon"));
