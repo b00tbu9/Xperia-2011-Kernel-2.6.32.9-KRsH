@@ -10,22 +10,22 @@ if file_getprop("/tmp/aroma/doslot.prop","slot") == "2" then
     ui_print("@Slot 2 generation");
     ui_print(" ");
     ui_print("Generating system image...");
-    run_program("/sbin/sh", "/sbin/multiboot_helper.sh", "makeimage", "2", "system", file_getprop("/tmp/aroma/systemsize.prop","size"));
+    run_program("/sbin/busybox", "sh", "/sbin/multiboot_helper.sh", "makeimage", "2", "system", file_getprop("/tmp/aroma/systemsize.prop","size"));
     ui_print(" ");
     set_progress(0.20);
     ui_print("Generating userdata image...");
-    run_program("/sbin/sh", "/sbin/multiboot_helper.sh", "makeimage", "2", "userdata", file_getprop("/tmp/aroma/userdatasize.prop","size"));
+    run_program("/sbin/busybox", "sh", "/sbin/multiboot_helper.sh", "makeimage", "2", "userdata", file_getprop("/tmp/aroma/userdatasize.prop","size"));
     ui_print(" ");
     set_progress(0.40);
     if file_getprop("/tmp/aroma/copysystem.prop","do") == "yes" then
         ui_print("Copying internal system to new image...");
-        run_program("/sbin/sh", "/sbin/multiboot_helper.sh", "copyimage", "2", "system");
+        run_program("/sbin/busybox", "sh", "/sbin/multiboot_helper.sh", "copyimage", "2", "system");
         ui_print(" ");
         set_progress(0.70);
     endif;
     if file_getprop("/tmp/aroma/copyuserdata.prop","do") == "yes" then
         ui_print("Copying internal userdata to new image...");
-        run_program("/sbin/sh", "/sbin/multiboot_helper.sh", "copyimage", "2", "userdata");
+        run_program("/sbin/busybox", "sh", "/sbin/multiboot_helper.sh", "copyimage", "2", "userdata");
         ui_print(" ");
     endif;
 endif;
@@ -34,22 +34,22 @@ if file_getprop("/tmp/aroma/doslot.prop","slot") == "3" then
     ui_print("@Slot 3 generation");
     ui_print(" ");
     ui_print("Generating system image...");
-    run_program("/sbin/sh", "/sbin/multiboot_helper.sh", "makeimage", "3", "system", file_getprop("/tmp/aroma/systemsize.prop","size"));
+    run_program("/sbin/busybox", "sh", "/sbin/multiboot_helper.sh", "makeimage", "3", "system", file_getprop("/tmp/aroma/systemsize.prop","size"));
     ui_print(" ");
     set_progress(0.20);
     ui_print("Generating userdata image...");
-    run_program("/sbin/sh", "/sbin/multiboot_helper.sh", "makeimage", "3", "userdata", file_getprop("/tmp/aroma/userdatasize.prop","size"));
+    run_program("/sbin/busybox", "sh", "/sbin/multiboot_helper.sh", "makeimage", "3", "userdata", file_getprop("/tmp/aroma/userdatasize.prop","size"));
     ui_print(" ");
     set_progress(0.40);
     if file_getprop("/tmp/aroma/copysystem.prop","do") == "yes" then
         ui_print("Copying internal system to new image...");
-        run_program("/sbin/sh", "/sbin/multiboot_helper.sh", "copyimage", "3", "system");
+        run_program("/sbin/busybox", "sh", "/sbin/multiboot_helper.sh", "copyimage", "3", "system");
         ui_print(" ");
         set_progress(0.70);
     endif;
     if file_getprop("/tmp/aroma/copyuserdata.prop","do") == "yes" then
         ui_print("Copying internal userdata to new image...");
-        run_program("/sbin/sh", "/sbin/multiboot_helper.sh", "copyimage", "3", "userdata");
+        run_program("/sbin/busybox", "sh", "/sbin/multiboot_helper.sh", "copyimage", "3", "userdata");
         ui_print(" ");
     endif;
 endif;
@@ -58,22 +58,22 @@ if file_getprop("/tmp/aroma/doslot.prop","slot") == "4" then
     ui_print("@Slot 4 generation");
     ui_print(" ");
     ui_print("Generating system image...");
-    run_program("/sbin/sh", "/sbin/multiboot_helper.sh", "makeimage", "4", "system", file_getprop("/tmp/aroma/systemsize.prop","size"));
+    run_program("/sbin/busybox", "sh", "/sbin/multiboot_helper.sh", "makeimage", "4", "system", file_getprop("/tmp/aroma/systemsize.prop","size"));
     ui_print(" ");
     set_progress(0.20);
     ui_print("Generating userdata image...");
-    run_program("/sbin/sh", "/sbin/multiboot_helper.sh", "makeimage", "4", "userdata", file_getprop("/tmp/aroma/userdatasize.prop","size"));
+    run_program("/sbin/busybox", "sh", "/sbin/multiboot_helper.sh", "makeimage", "4", "userdata", file_getprop("/tmp/aroma/userdatasize.prop","size"));
     ui_print(" ");
     set_progress(0.40);
     if file_getprop("/tmp/aroma/copysystem.prop","do") == "yes" then
         ui_print("Copying internal system to new image...");
-        run_program("/sbin/sh", "/sbin/multiboot_helper.sh", "copyimage", "4", "system");
+        run_program("/sbin/busybox", "sh", "/sbin/multiboot_helper.sh", "copyimage", "4", "system");
         ui_print(" ");
         set_progress(0.70);
     endif;
     if file_getprop("/tmp/aroma/copyuserdata.prop","do") == "yes" then
         ui_print("Copying internal userdata to new image...");
-        run_program("/sbin/sh", "/sbin/multiboot_helper.sh", "copyimage", "4", "userdata");
+        run_program("/sbin/busybox", "sh", "/sbin/multiboot_helper.sh", "copyimage", "4", "userdata");
         ui_print(" ");
     endif;
 endif;
@@ -84,18 +84,18 @@ endif;
 
 
 if file_getprop("/tmp/aroma/repairdo.prop","do") == "yes" then
-    run_program("/sbin/sh", "/sbin/repair_helper.sh", "start");
+    run_program("/sbin/busybox", "sh", "/sbin/repair_helper.sh", "start");
     
     if file_getprop("/tmp/aroma/repairtasks.prop","item.2.1") == "1" then
         ui_print("Scanning /sdcard and repairing...");
-        run_program("/sbin/sh", "/sbin/repair_helper.sh", "repairsd", "1");
+        run_program("/sbin/busybox", "sh", "/sbin/repair_helper.sh", "repairsd", "1");
         ui_print(" ");
         set_progress(0.20);
     endif;
 
     if file_getprop("/tmp/aroma/repairtasks.prop","item.2.2") == "1" then
         ui_print("Scanning /sd-ext and repairing...");
-        run_program("/sbin/sh", "/sbin/repair_helper.sh", "repairsd", "2");
+        run_program("/sbin/busybox", "sh", "/sbin/repair_helper.sh", "repairsd", "2");
         ui_print(" ");
         set_progress(0.30);
     endif;
@@ -103,58 +103,58 @@ if file_getprop("/tmp/aroma/repairdo.prop","do") == "yes" then
     if file_getprop("/tmp/aroma/repairtasks.prop","item.3.1") == "1" then
         set_progress(0.25);
         ui_print("Scanning /system for Slot 2 and repairing...");
-        run_program("/sbin/sh", "/sbin/repair_helper.sh", "repairslot", "2", "system");
+        run_program("/sbin/busybox", "sh", "/sbin/repair_helper.sh", "repairslot", "2", "system");
         ui_print(" ");
         set_progress(0.40);
     endif;
 
     if file_getprop("/tmp/aroma/repairtasks.prop","item.3.2") == "1" then
         ui_print("Scanning /data for Slot 2 and repairing...");
-        run_program("/sbin/sh", "/sbin/repair_helper.sh", "repairslot", "2", "userdata");
+        run_program("/sbin/busybox", "sh", "/sbin/repair_helper.sh", "repairslot", "2", "userdata");
         ui_print(" ");
         set_progress(0.60);
     endif;
 
     if file_getprop("/tmp/aroma/repairtasks.prop","item.4.1") == "1" then
         ui_print("Scanning /system for Slot 3 and repairing...");
-        run_program("/sbin/sh", "/sbin/repair_helper.sh", "repairslot", "3", "system");
+        run_program("/sbin/busybox", "sh", "/sbin/repair_helper.sh", "repairslot", "3", "system");
         ui_print(" ");
         set_progress(0.70);
     endif;
 
     if file_getprop("/tmp/aroma/repairtasks.prop","item.4.2") == "1" then
         ui_print("Scanning /data for Slot 3 and repairing...");
-        run_program("/sbin/sh", "/sbin/repair_helper.sh", "repairslot", "3", "userdata");
+        run_program("/sbin/busybox", "sh", "/sbin/repair_helper.sh", "repairslot", "3", "userdata");
         ui_print(" ");
         set_progress(0.90);
     endif;
 
     if file_getprop("/tmp/aroma/repairtasks.prop","item.1.1") == "1" then
         ui_print("Fixing permissions on internal /data...");
-        run_program("/sbin/sh", "/sbin/repair_helper.sh", "fixpermissions", "1");
+        run_program("/sbin/busybox", "sh", "/sbin/repair_helper.sh", "fixpermissions", "1");
         ui_print(" ");
         set_progress(0.93);
     endif;
 
     if file_getprop("/tmp/aroma/repairtasks.prop","item.3.3") == "1" then
         ui_print("Fixing permissions on Slot 2 /data...");
-        run_program("/sbin/sh", "/sbin/repair_helper.sh", "fixpermissions", "2");
+        run_program("/sbin/busybox", "sh", "/sbin/repair_helper.sh", "fixpermissions", "2");
         ui_print(" ");
         set_progress(0.96);
     endif;
 
     if file_getprop("/tmp/aroma/repairtasks.prop","item.4.3") == "1" then
         ui_print("Fixing permissions on Slot 3 /data...");
-        run_program("/sbin/sh", "/sbin/repair_helper.sh", "fixpermissions", "3");
+        run_program("/sbin/busybox", "sh", "/sbin/repair_helper.sh", "fixpermissions", "3");
         ui_print(" ");
         set_progress(0.99);
     endif;
 
-    run_program("/sbin/sh", "/sbin/repair_helper.sh", "finish");
+    run_program("/sbin/busybox", "sh", "/sbin/repair_helper.sh", "finish");
 
     if file_getprop("/tmp/aroma/repairtasks.prop","item.5.1") == "1" then
         ui_print("Copying repair log to /sdcard/turbo_repair.log...");
-        run_program("/sbin/sh", "/sbin/repair_helper.sh", "copylog");
+        run_program("/sbin/busybox", "sh", "/sbin/repair_helper.sh", "copylog");
         ui_print(" ");
     endif;
 
