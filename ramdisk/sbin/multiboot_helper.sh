@@ -1,7 +1,7 @@
 #!/sbin/busybox sh
 
 #set -x
-#exec >>multiboot.log 2>&1
+#exec >>/multiboot.log 2>&1
 
 checkfresh()
 {
@@ -46,17 +46,17 @@ checkslot()
 
 checkdefault()
 {
-    if   [ -e /cache/defaultboot_2 ]; then
-        busybox rm /cache/defaultboot_1
-        busybox rm /cache/defaultboot_3
-        busybox rm /cache/defaultboot_4
+    if   [ -e /turbo/defaultboot_2 ]; then
+        busybox rm /turbo/defaultboot_1 >> /dev/null 2>&1
+        busybox rm /turbo/defaultboot_3 >> /dev/null 2>&1
+        busybox rm /turbo/defaultboot_4 >> /dev/null 2>&1
         busybox echo "2";
-    elif [ -e /cache/defaultboot_3 ]; then
-        busybox rm /cache/defaultboot_1
-        busybox rm /cache/defaultboot_4
+    elif [ -e /turbo/defaultboot_3 ]; then
+        busybox rm /turbo/defaultboot_1 >> /dev/null 2>&1
+        busybox rm /turbo/defaultboot_4 >> /dev/null 2>&1
         busybox echo "3";
-    elif [ -e /cache/defaultboot_4 ]; then
-        busybox rm /cache/defaultboot_1
+    elif [ -e /turbo/defaultboot_4 ]; then
+        busybox rm /turbo/defaultboot_1 >> /dev/null 2>&1
         busybox echo "4";
     else
         busybox echo "1";
@@ -74,11 +74,7 @@ makeimage()
         busybox mke2fs -b 1024 -I 128 -m 0 -F -E resize=$(( IMGSIZE * 2 )) /turbo/system$2.ext2.img
         busybox tune2fs -C 1 -m 0 -f /turbo/system$2.ext2.img
     elif [ "$3" == "userdata" ]; then
-        if [ "$4" == "1" ]; then
-            IMGSIZE=`cat /proc/partitions | grep mtdblock1 | awk '{print $3}'`
-        else
-            IMGSIZE=$4
-        fi
+        IMGSIZE=$4
         busybox rm /turbo/userdata$2.ext2.img
         busybox dd if=/dev/zero of=/turbo/userdata$2.ext2.img bs=1K count=$IMGSIZE
         busybox mke2fs -b 1024 -I 128 -m 0 -F -E resize=$(( IMGSIZE * 2 )) /turbo/userdata$2.ext2.img
@@ -88,25 +84,20 @@ makeimage()
 
 copyimage()
 {
+    busybox mkdir /dest
     if   [ "$3" == "system" ]; then
-        busybox mkdir /dest
         busybox mount -t yaffs2 -o ro /dev/block/mtdblock0 /system
         busybox mount -t ext2 -o rw,loop /turbo/system$2.ext2.img /dest
-        #tar -c -f - -p /system/* |(cd /dest; tar -x -f - -p)
         busybox cp -a /system/* /dest
         busybox umount /system
-        busybox umount /dest
-        busybox rm -f -R /dest
     elif [ "$3" == "userdata" ]; then
-        busybox mkdir /dest
         busybox mount -t yaffs2 -o ro /dev/block/mtdblock1 /data
         busybox mount -t ext2 -o rw,loop /turbo/userdata$2.ext2.img /dest
-        #tar -c -f - -p /system/* |(cd /dest; tar -x -f - -p)
         busybox cp -a /data/* /dest
         busybox umount /data
-        busybox umount /dest
-        busybox rm -f -R /dest
     fi
+    busybox umount /dest
+    busybox rm -f -R /dest
 }
 
 mounter()
@@ -115,11 +106,19 @@ mounter()
     if  [ "$1" == "1" ]; then
         mount -t yaffs2 -o ro,remount                       /dev/block/mtdblock0        /system
         mount -t yaffs2 -o rw,remount,noatime,nosuid,nodev  /dev/block/mtdblock1        /data
-        mount
     else
-        mount -t ext2   -o rw                        /turbo/system$1.ext2.img    /system
-        mount -t ext2   -o ro,remount                /turbo/system$1.ext2.img    /system
-        mount -t ext2   -o rw,noatime,nosuid,nodev   /turbo/userdata$1.ext2.img  /data
+        
+        busybox mount /dev/block/mmcblk0p1 /sdcard
+        busybox mount -o bind /sdcard/turbo /turbo
+        busybox umount -l /sdcard
+        busybox rm -rf /sdcard
+        busybox losetup /dev/block/loop0 /turbo/system$1.ext2.img
+        busybox losetup /dev/block/loop1 /turbo/userdata$1.ext2.img
+        umount /system
+        umount /data
+        mount -t ext2   -o rw                        /dev/block/loop0    /system
+        mount -t ext2   -o ro,remount                /dev/block/loop0    /system
+        mount -t ext2   -o rw,noatime,nosuid,nodev   /dev/block/loop1    /data
     fi
 }
 

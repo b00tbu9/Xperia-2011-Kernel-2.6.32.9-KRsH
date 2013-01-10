@@ -70,16 +70,31 @@ setvar("slot3text",    file_getprop("/turbo/slot3.prop","text"));
 setvar("slot4icon",    file_getprop("/turbo/slot4.prop","icon"));
 setvar("slot4text",    file_getprop("/turbo/slot4.prop","text"));
 
-setvar("slot1default", "");
-setvar("slot2default", "");
-setvar("slot3default", "");
-setvar("slot4default", "");
-
 exec("/sbin/multiboot_helper.sh", "checkdefault");
-if getvar("exec_buffer") == "1\n" then setvar("slot1default", "[Default]"); endif;
-if getvar("exec_buffer") == "2\n" then setvar("slot2default", "[Default]"); endif;
-if getvar("exec_buffer") == "3\n" then setvar("slot3default", "[Default]"); endif;
-if getvar("exec_buffer") == "4\n" then setvar("slot4default", "[Default]"); endif;
+if getvar("exec_buffer") == "1\n" then 
+    setvar("slot1default", "[Default]"); 
+    setvar("slot2default", "");
+    setvar("slot3default", "");
+    setvar("slot4default", "");
+endif;
+if getvar("exec_buffer") == "2\n" then 
+    setvar("slot1default", "");
+    setvar("slot2default", "[Default]");
+    setvar("slot3default", "");
+    setvar("slot4default", "");
+endif;
+if getvar("exec_buffer") == "3\n" then 
+    setvar("slot1default", "");
+    setvar("slot2default", "");
+    setvar("slot3default", "[Default]"); 
+    setvar("slot4default", "");
+endif;
+if getvar("exec_buffer") == "4\n" then 
+    setvar("slot1default", "");
+    setvar("slot2default", "");
+    setvar("slot3default", "");
+    setvar("slot4default", "[Default]"); 
+endif;
 
 exec("/sbin/multiboot_helper.sh", "checkrecovery");
 if getvar("exec_buffer") == "cwm\n"
@@ -339,10 +354,10 @@ endif;
             setvar("slot2default", "");
             setvar("slot3default", "");
             setvar("slot4default", "");
-            write("/cache/defaultboot_1","1");
-            exec("/sbin/busybox", "rm", "-f", "/cache/defaultboot_2");
-            exec("/sbin/busybox", "rm", "-f", "/cache/defaultboot_3");
-            exec("/sbin/busybox", "rm", "-f", "/cache/defaultboot_4");
+            write("/turbo/defaultboot_1","1");
+            exec("/sbin/busybox", "rm", "-f", "/turbo/defaultboot_2");
+            exec("/sbin/busybox", "rm", "-f", "/turbo/defaultboot_3");
+            exec("/sbin/busybox", "rm", "-f", "/turbo/defaultboot_4");
         endif;
         
         if prop("newdefault.prop","selected")=="2" then
@@ -350,10 +365,10 @@ endif;
             setvar("slot2default", "[Default]");
             setvar("slot3default", "");
             setvar("slot4default", "");
-            write("/cache/defaultboot_2","1");
-            exec("/sbin/busybox", "rm", "-f", "/cache/defaultboot_1");
-            exec("/sbin/busybox", "rm", "-f", "/cache/defaultboot_3");
-            exec("/sbin/busybox", "rm", "-f", "/cache/defaultboot_4");
+            write("/turbo/defaultboot_2","1");
+            exec("/sbin/busybox", "rm", "-f", "/turbo/defaultboot_1");
+            exec("/sbin/busybox", "rm", "-f", "/turbo/defaultboot_3");
+            exec("/sbin/busybox", "rm", "-f", "/turbo/defaultboot_4");
         endif;
         
         if prop("newdefault.prop","selected")=="3" then
@@ -361,10 +376,10 @@ endif;
             setvar("slot2default", "");
             setvar("slot3default", "[Default]");
             setvar("slot4default", "");
-            write("/cache/defaultboot_3","1");
-            exec("/sbin/busybox", "rm", "-f", "/cache/defaultboot_1");
-            exec("/sbin/busybox", "rm", "-f", "/cache/defaultboot_2");
-            exec("/sbin/busybox", "rm", "-f", "/cache/defaultboot_4");
+            write("/turbo/defaultboot_3","1");
+            exec("/sbin/busybox", "rm", "-f", "/turbo/defaultboot_1");
+            exec("/sbin/busybox", "rm", "-f", "/turbo/defaultboot_2");
+            exec("/sbin/busybox", "rm", "-f", "/turbo/defaultboot_4");
         endif;
         
         if prop("newdefault.prop","selected")=="4" then
@@ -372,10 +387,10 @@ endif;
             setvar("slot2default", "");
             setvar("slot3default", "");
             setvar("slot4default", "[Default]");
-            write("/cache/defaultboot_4","1");
-            exec("/sbin/busybox", "rm", "-f", "/cache/defaultboot_1");
-            exec("/sbin/busybox", "rm", "-f", "/cache/defaultboot_2");
-            exec("/sbin/busybox", "rm", "-f", "/cache/defaultboot_3");
+            write("/turbo/defaultboot_4","1");
+            exec("/sbin/busybox", "rm", "-f", "/turbo/defaultboot_1");
+            exec("/sbin/busybox", "rm", "-f", "/turbo/defaultboot_2");
+            exec("/sbin/busybox", "rm", "-f", "/turbo/defaultboot_3");
         endif;
         
         back("999");
