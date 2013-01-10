@@ -723,7 +723,7 @@ then
     
     writetmpfile("repairdo.prop", "do=no\n");
     
-    ini_set("text_next", "Return");
+    ini_set("text_next", "Reboot");
     exec("/sbin/busybox", "sync");
     install(
         "Creating Slot " + getvar("currentslot"),
@@ -733,8 +733,9 @@ then
         "<b>If you are not installing a Jellybean ROM in this Slot, be *sure* to change the Mode in the Slot Menu.</b>\n\n\n"+
         "REMEMBER: *Never* unmount the SDCard when in this Slot or you may corrupt the images and your SDCard."
     );
+    pleasewait("Synchronizing filesystem... do NOT pull battery!");
     exec("/sbin/busybox", "sync");
-    back("999");
+    exit("");
 endif;
 
 ##########################
