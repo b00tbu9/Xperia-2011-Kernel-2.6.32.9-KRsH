@@ -68,11 +68,7 @@ checkdefault()
 makeimage()
 {
     if   [ "$3" == "system" ]; then
-        if [ "$4" == "1" ]; then
-            IMGSIZE=`cat /proc/partitions | grep mtdblock0 | awk '{print $3}'`
-        else
-            IMGSIZE=$4
-        fi
+        IMGSIZE=$4
         busybox rm /turbo/system$2.ext2.img
         busybox dd if=/dev/zero of=/turbo/system$2.ext2.img bs=1K count=$IMGSIZE
         busybox mke2fs -b 1024 -I 128 -m 0 -F -E resize=$(( IMGSIZE * 2 )) /turbo/system$2.ext2.img
@@ -172,6 +168,19 @@ checkrecovery()
     else
         busybox echo "twrp";
     fi
+}
+
+checkfree()
+{
+    FREE=`df | grep $2 | awk '{print $4}'`
+    SPACE=`expr $FREE - 10240`
+    INPUT=`expr $3 + $4`
+    busybox echo "tmp=`expr $SPACE - $INPUT`" > /tmp/aroma/tmp.prop
+}
+
+checkcapacity()
+{
+    busybox echo "tmp=`cat /proc/partitions | grep $2 | awk '{print $3}'`" > /tmp/aroma/tmp.prop
 }
 
 $1 $1 $2 $3 $4

@@ -205,7 +205,7 @@ endif;
 # Recovery
 if prop("systemtask.prop","selected")=="2" then
         write("/tmp/bootrec","1");
-        exec("busybox", "cp", "-f", "/recovery" + getvar("currentslot") + ".fstab", "/etc/recovery.fstab");
+        write("/tmp/recslot", "FSTAB=/recovery" + getvar("currentslot") + ".fstab");
         exec("/sbin/busybox", "sync");
         exit("");
 endif;
@@ -289,7 +289,7 @@ if prop("systemselect.prop","selected")=="5" then
     );
     
     if prop("rec.prop","selected")=="1" then
-        exec("busybox", "rm", "/turbo/cwm");
+        exec("busybox", "rm", "-f", "/turbo/cwm");
     endif;
     
     if prop("rec.prop","selected")=="2" then
@@ -640,7 +640,8 @@ then
     );
 
     if prop("slotsizes.prop","selected.1")=="1" then
-        writetmpfile("systemsize.prop","size=1\n");
+        exec("/sbin/multiboot_helper.sh", "checkcapacity", "mtdblock0");
+        writetmpfile("systemsize.prop", "size=" + prop("tmp.prop","tmp") + "\n");
     endif;
     if prop("slotsizes.prop","selected.1")=="2" then
         writetmpfile("systemsize.prop","size=430080\n");
@@ -649,7 +650,8 @@ then
         writetmpfile("systemsize.prop","size=655360\n");
     endif;
     if prop("slotsizes.prop","selected.2")=="1" then
-        writetmpfile("userdatasize.prop","size=1\n");
+        exec("/sbin/multiboot_helper.sh", "checkcapacity", "mtdblock1");
+        writetmpfile("userdatasize.prop", "size=" + prop("tmp.prop","tmp") + "\n");
     endif;
     if prop("slotsizes.prop","selected.2")=="2" then
         writetmpfile("userdatasize.prop","size=327680\n");
@@ -670,8 +672,28 @@ then
         alert("WARNING","You have selected the userdata size of 2800MB. This will take an EXTREMELY long time to complete. It is recommended to plug your charger in NOW.", "@warning");
     endif;
 
-    alert("Slot " + getvar("currentslot") + " Setup","This slot will now be set up based on your options.\n\nNote that this could take anywhere from five to twenty minutes, especially if you have a slow SDCard or are copying from a large system and userdata on internal.\n\nIf it creates a bad image you cannot boot from, please pull battery and check your SDCard for errors via the Repair option in Tools, *then* Delete the Slot and try again.", "@cog");
-
+    exec("/sbin/busybox", "sh", "/sbin/multiboot_helper.sh", "checkfree", "/sdcard", prop("systemsize.prop","size"), prop("userdatasize.prop","size"));
+    writetmpfile("sdcardfree.prop", "free=" + prop("tmp.prop","tmp") + "\n");
+    
+    if cmp(prop("sdcardfree.prop", "free"), "<", "0") then
+        alert("Error","Your SDCard has insufficient space for the requested image sizes.\n\n" +
+            "You need " + cal(prop("sdcardfree.prop", "free"), "/", "-1024") + "MB more for these sizes.",
+        "@disk");
+        back("999");
+    endif;
+    
+    viewbox(
+        "Slot " + getvar("currentslot") + " Setup",
+        "This slot will now be set up based on your options.\n\n" +
+            "System size:     " + "\n\t" + cal(prop("systemsize.prop","size"),   "/", "1024") + "MB\n" +
+            "Userdata size:   " + "\n\t" + cal(prop("userdatasize.prop","size"), "/", "1024") + "MB\n" +
+            "SDCard remaining:" + "\n\t" + cal(prop("sdcardfree.prop", "free"),  "/", "1024") + "MB\n" +
+            "\n" +
+            "Note that this could take anywhere from five to twenty minutes, especially if you have a slow SDCard or are creating/copying a large system or userdata image.\n\n" + 
+            "If it creates a bad image you cannot boot from, please pull battery and check your SDCard for errors via the Repair option in Tools, *then* Delete the Slot and try again.",
+        "@disk"
+    );
+    
     writetmpfile(
         "doslot.prop",
         "slot=" + getvar("currentslot") + "\n"
