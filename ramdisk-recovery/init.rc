@@ -21,7 +21,7 @@ on init
     mkdir /cache
     mount /tmp /tmp tmpfs
 
-    symlink /sbin/busybox /system/bin/sh
+    #symlink /sbin/sh /system/bin/sh
     
     chown root shell /tmp
     chmod 0775 /tmp
@@ -53,8 +53,11 @@ service recovery /sbin/bootrec
     oneshot
 
 service console /sbin/sh
+    class core
     console
     disabled
+    user shell
+    group log
 
 service adbd /sbin/adbd recovery
     disabled

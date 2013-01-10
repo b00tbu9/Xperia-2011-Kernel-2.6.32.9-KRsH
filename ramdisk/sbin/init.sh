@@ -4,7 +4,7 @@ _PATH="$PATH"
 export PATH=/sbin
 #export ANDROID_CACHE=/cache
 
-busybox cd /
+cd /
 busybox echo "[TURBO] Stage 1 begins" >>boot.log
 busybox date >>boot.log
 exec >>boot.log 2>&1
@@ -58,6 +58,10 @@ if [ ! -e /cache/recovery/boot ]; then
     busybox echo 0 > $BOOTREC_LED_GREEN
     busybox echo 0 > $BOOTREC_LED_BLUE
 fi
+
+busybox echo 200 > $BOOTREC_LED_RED
+busybox echo 200 > $BOOTREC_LED_GREEN
+busybox echo 200 > $BOOTREC_LED_BLUE
 
 # default ramdisk
 load_image=/sbin/ramdisk-recovery.cpio
@@ -161,8 +165,13 @@ else
     fi
 fi
 
-# unpack the ramdisk image
-busybox cpio -d -i -u < ${load_image}
+# unpack the ramdisk
+busybox cpio -d -i -F ${load_image}
+
+# switch LED off
+busybox echo 0 > $BOOTREC_LED_RED
+busybox echo 0 > $BOOTREC_LED_GREEN
+busybox echo 0 > $BOOTREC_LED_BLUE
 
 #busybox cp /boot.log /cache/boot_last.log
 
