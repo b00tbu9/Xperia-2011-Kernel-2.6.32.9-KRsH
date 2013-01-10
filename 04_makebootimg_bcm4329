@@ -11,6 +11,8 @@ echo "[i] aroma-res.zip built"
 cd ..
 ./mkbootfs ./ramdisk-jb > ramdisk/sbin/ramdisk-jb.cpio
 echo "[i] ramdisk-jb.cpio built"
+./mkbootfs ./ramdisk-ics > ramdisk/sbin/ramdisk-ics.cpio
+echo "[i] ramdisk-ics.cpio built"
 ./mkbootfs ./ramdisk-recovery > ramdisk/sbin/ramdisk-recovery.cpio
 echo "[i] ramdisk-recovery.cpio built"
 ./mkbootfs ./ramdisk-cwm > ramdisk/sbin/ramdisk-cwm.cpio
