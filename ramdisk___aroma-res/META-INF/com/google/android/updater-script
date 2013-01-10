@@ -14,7 +14,7 @@ if file_getprop("/tmp/aroma/doslot.prop","slot") == "2" then
     ui_print(" ");
     set_progress(0.20);
     ui_print("Generating userdata image...");
-    run_program("/sbin/sh", "/sbin/multiboot_helper.sh", "makeimage", "2", "userdata" file_getprop("/tmp/aroma/userdatasize.prop","size"));
+    run_program("/sbin/sh", "/sbin/multiboot_helper.sh", "makeimage", "2", "userdata", file_getprop("/tmp/aroma/userdatasize.prop","size"));
     ui_print(" ");
     set_progress(0.40);
     if file_getprop("/tmp/aroma/copysystem.prop","do") == "yes" then
