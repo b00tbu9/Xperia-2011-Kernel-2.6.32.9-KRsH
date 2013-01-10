@@ -544,8 +544,8 @@ endif;
                 "Delete Slot " + prop("slotcustomizeentry.prop","selected"),
                 "Are you sure you wish to delete Slot " + prop("slotcustomizeentry.prop","selected") + "?\n\n"+
                     "These files will be <b>deleted</b> from the SDCard:\n"+
-                    " - system" + prop("slotcustomizeentry.prop","selected") + ".ext2.img\n"+
-                    " - userdata" + prop("slotcustomizeentry.prop","selected") + ".ext2.img\n\n"+
+                    " - /turbo/system" + prop("slotcustomizeentry.prop","selected") + ".ext2.img\n"+
+                    " - /turbo/userdata" + prop("slotcustomizeentry.prop","selected") + ".ext2.img\n\n"+
                     "Additionally, Boot Menu settings will be set back to defaults. This includes the custom icon/text and the Mode.",
                 "@warning"
             );
