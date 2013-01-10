@@ -526,7 +526,6 @@ endif;
     ##########
     # Delete Slot
     if prop("toolselect.prop","selected")=="5" then
-        exec("/res/aromapreinstall/multiboot_helper.sh", "checkslot", "2");
         menubox("Delete Slot",
             "Select the Slot to delete. The delete will remove both system and userdata images from SDCard and clear all settings for it. In the case of Slot 1, it will just remove Boot settings.",
             "@warning",
@@ -539,30 +538,30 @@ endif;
         
         ini_set("text_next", "Delete");
         
-        if prop("slotcustomizeentry.prop","selected")!="1" then
+        if prop("slotdelete.prop","selected")!="1" then
             viewbox(
-                "Delete Slot " + prop("slotcustomizeentry.prop","selected"),
-                "Are you sure you wish to delete Slot " + prop("slotcustomizeentry.prop","selected") + "?\n\n"+
+                "Delete Slot " + prop("slotdelete.prop","selected"),
+                "Are you sure you wish to delete Slot " + prop("slotdelete.prop","selected") + "?\n\n"+
                     "These files will be <b>deleted</b> from the SDCard:\n"+
-                    " - /turbo/system" + prop("slotcustomizeentry.prop","selected") + ".ext2.img\n"+
-                    " - /turbo/userdata" + prop("slotcustomizeentry.prop","selected") + ".ext2.img\n\n"+
+                    " - /turbo/system" + prop("slotdelete.prop","selected") + ".ext2.img\n"+
+                    " - /turbo/userdata" + prop("slotdelete.prop","selected") + ".ext2.img\n\n"+
                     "Additionally, Boot Menu settings will be set back to defaults. This includes the custom icon/text and the Mode.",
                 "@warning"
             );
         endif;
         
-        if prop("slotcustomizeentry.prop","selected")=="1" then
+        if prop("slotdelete.prop","selected")=="1" then
             viewbox(
-                "Clear settings for Slot 1 (Internal)",
+                "Clear Slot 1 (Internal)",
                 "Are you sure you wish to clear Boot Menu settings for the Internal ROM (Slot 1) and return to defaults?\n\n"+
                     "This includes the custom icon/text and the Mode.",
                 "@warning"
             );
         endif;
         
-        exec("/sbin/busybox", "rm", "-f", "/turbo/system" + prop("slotcustomizeentry.prop","selected") + ".ext2.img");
-        exec("/sbin/busybox", "rm", "-f", "/turbo/userdata" + prop("slotcustomizeentry.prop","selected") + ".ext2.img");
-        exec("/res/aromapreinstall/multiboot_helper.sh", "clearslot", prop("slotcustomizeentry.prop","selected"));
+        exec("/sbin/busybox", "rm", "-f", "/turbo/system" + prop("slotdelete.prop","selected") + ".ext2.img");
+        exec("/sbin/busybox", "rm", "-f", "/turbo/userdata" + prop("slotdelete.prop","selected") + ".ext2.img");
+        exec("/sbin/multiboot_helper.sh", "clearslot", prop("slotdelete.prop","selected"));
         
         setvar("slot1icon",    file_getprop("/turbo/slot1.prop","icon"));
         setvar("slot1text",    file_getprop("/turbo/slot1.prop","text"));
@@ -735,7 +734,7 @@ then
         "<b>If you are not installing a Jellybean ROM in this Slot, be *sure* to change the Mode in the Slot Menu.</b>\n\n\n"+
         "REMEMBER: *Never* unmount the SDCard when in this Slot or you may corrupt the images and your SDCard."
     );
-    pleasewait("Synchronizing filesystem... do NOT pull battery!");
+    pleasewait("Synchronizing... WAIT!");
     exec("/sbin/busybox", "sync");
     exit("");
 endif;
