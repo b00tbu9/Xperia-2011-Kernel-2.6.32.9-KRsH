@@ -1,4 +1,4 @@
-
+#CWM
 import /init.semc.usb.rc
 
 on early-init

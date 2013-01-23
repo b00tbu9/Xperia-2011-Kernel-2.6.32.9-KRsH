@@ -21,12 +21,10 @@ on fs
    #mount_all /fstab.semc
 
 on early-init
-    export EXTERNAL_STORAGE /storage/sdcard0
+    #export EXTERNAL_STORAGE /storage/sdcard0
     mkdir /storage 0050 system sdcard_r
     mkdir /storage/sdcard0 0000 system system
-    # for backwards compatibility
-    symlink /storage/sdcard0 /sdcard
-    symlink /storage/sdcard0 /mnt/sdcard
+    mkdir /mnt/sdcard 0000 system system
 
 on boot
     #radio fix
@@ -164,4 +162,4 @@ service hw_config /sbin/sh /system/etc/hw_config.sh
 
 service lidswitchd /system/bin/lidswitchd
 
-service slidercounter /system/bin/slidercounter keypad-zeus
+#service slidercounter /system/bin/slidercounter keypad-zeus

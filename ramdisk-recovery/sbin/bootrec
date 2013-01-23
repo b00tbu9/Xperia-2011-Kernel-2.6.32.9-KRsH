@@ -1,0 +1,49 @@
+#!/sbin/sh
+#setprop service.adb.root 1
+if [ -e /sbin/bootrec-device ]
+then
+  /sbin/bootrec-device
+fi
+
+if [ -e /cache/recovery/boot -o -s /dev/keycheck ]
+then
+  mount -o remount,rw rootfs /
+  umount -l /system
+  umount -l /data
+  umount -l /mnt/sdcard
+  umount -l /sdcard
+  rm -r /sdcard
+  rm -r /mnt/sdcard
+  mkdir /sdcard
+  mkdir /tmp
+  rm /etc
+  mkdir /etc
+  #umount -l /cache
+  mount /dev/block/mmcblk0p1 /sdcard
+  chmod 755 /res/aromapreinstall/aroma-installer
+  chmod 755 /res/aromapreinstall/*.sh
+  setprop sys.usb.config=mass_storage,adb
+  /res/aromapreinstall/aroma-installer 1 0 "/res/aromapreinstall/aroma-installer-res.zip"
+  #touch /tmp/bootrec
+  if [ -e /cache/turbo_repair.ready2copy ]
+  then
+    rm /cache/turbo_repair.ready2copy
+    mv /cache/turbo_repair.log /sdcard/turbo_repair.log
+  fi
+  if [ ! -e /tmp/bootrec ]
+  then
+    reboot
+  fi
+fi
+
+if [ -e /tmp/bootrec ]
+then
+  rm /cache/recovery/boot
+  rm /tmp/bootrec
+  umount -l /cache
+  mount /dev/block/mmcblk0p1 /sdcard
+  echo 0 > /sys/module/msm_fb/parameters/align_buffer
+  /sbin/adbd&/sbin/recovery
+fi
+
+#continue booting
