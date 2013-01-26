@@ -1,7 +1,7 @@
 #!/sbin/sh
 # App2SD Fix (thanks to LSS4181)
 
-if [ $(/sbin/ics-or-jb) == "jb" ]
+if [ $(/sbin/ics-or-jb.sh) == "jb" ]
 then
     mount -o remount,rw /
     rm -r /mnt/secure/asec
