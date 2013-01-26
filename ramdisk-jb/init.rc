@@ -521,9 +521,6 @@ service mdnsd /system/bin/mdnsd
 service seeder /sbin/seeder
     class main
     user root
-ervice seeder /sbin/seeder
-    class main
-    user root
 
 service shelld /system/xbin/shelld
 	class main
